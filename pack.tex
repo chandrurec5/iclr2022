@@ -1,0 +1,265 @@
+%!TEX root =  autocontgrlp.tex
+\usepackage{savesym}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{dsfont}
+\usepackage{tabularx}
+%\setlength{\marginparwidth}{13mm}
+\usepackage[textsize=tiny]{todonotes}
+%\usepackage[disable]{todonotes}
+\newcommand{\todoch}[2][]{\todo[color=blue!20!white,#1]{C: #2}}
+%\usepackage{enumitem}
+%\usepackage[fleqn]{amsmath}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\usepackage{paralist}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage[all]{xy}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{nccmath} % mfrac
+\usepackage{wrapfig}
+\usepackage{comment}
+%\usepackage{enumitem}
+\usepackage{paralist}
+\usepackage{xcolor}
+%\usepackage[colorlinks=true,linkcolor=blue,citecolor=purple]{hyperref}
+%\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{pifont}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage{pseudocode}
+%\usepackage{algpseudocode}
+\usepackage{savesym}
+\savesymbol{AND}
+\usepackage{xspace}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgf}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xspace}
+\usepackage{comment}
+\usepackage{placeins}
+\usepackage{cancel}
+\usepackage{changepage}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\setcounter{MaxMatrixCols}{32}
+\usepackage{placeins}
+\usepackage{esvect}
+
+\defcitealias{ch2020neural}{LS2020}
+\definecolor{electricpurple}{rgb}{0.75, 0.0, 1.0}
+\definecolor{darkbrown}{rgb}{0.4, 0.26, 0.13}
+\definecolor{cocoabrown}{rgb}{0.82, 0.41, 0.12}
+\definecolor{copper}{rgb}{0.72, 0.45, 0.2}
+\definecolor{chocolate}{rgb}{0.82, 0.41, 0.12}
+\usepackage{bm}
+
+\usepackage[capitalize]{cleveref}
+%\usepackage{caption}
+
+%\usepackage{style/ssltr}
+%\usepackage{style/macros}
+\if0
+\usetikzlibrary{intersections}
+\usetikzlibrary{arrows,calc,fit,patterns,plotmarks,shapes.geometric,shapes.misc,shapes.symbols,   shapes.arrows,   shapes.callouts,   shapes.multipart,   shapes.gates.logic.US,   shapes.gates.logic.IEC,   er,   automata,   backgrounds,   chains,   topaths,   trees,   petri,   mindmap,   matrix,   calendar,   folding, fadings,   through,   positioning,   scopes,   decorations.fractals,   decorations.shapes,   decorations.text,   decorations.pathmorphing,   decorations.pathreplacing,   decorations.footprints,   decorations.markings, shadows,circuits}
+\tikzstyle{decision}=[diamond,draw]
+\tikzstyle{line}=[draw]
+\tikzstyle{elli}=[draw,ellipse]
+\tikzstyle{arrow} = [thick]
+\fi
+%\usepackage{subfig}
+
+\newcommand{\mb}{\mbox{ }}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\nn}{\nonumber}
+
+
+\newcommand{\rsa}{\rightsquigarrow}
+\newcommand{\ra}{\rightarrow}
+
+\newcommand{\inrdnet}{\in\R^{d_{\text{net}}}}
+\newcommand{\inrdin}{\in\R^{d_{\text{in}}}}
+\newcommand{\lmin}[1]{\lambda_{\min}\left(#1\right)}
+
+%VTK
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\F}{\mathcal{F}}
+%Indices
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\Ifeat}{\mathcal{I}^{\text{f}}}
+\newcommand{\Iker}{\mathcal{I}^{\text{ker}}}
+\newcommand{\Iconv}{\mathcal{I}^{\text{cv}}}
+\newcommand{\Ifc}{\mathcal{I}^{\text{fc}}}
+\newcommand{\Iwidth}{\mathcal{I}^{\text{w}}}
+
+
+%Features
+\newcommand{\psiv}{\psi^{\text{v}}}
+\newcommand{\psif}{\psi^{\text{f}}}
+
+
+%Kernel
+\newcommand{\kv}{K^{\text{v}}}
+\newcommand{\kf}{K^{\text{f}}}
+\newcommand{\kc}{K^{\text{cross}}}
+
+
+\newcommand{\yc}{y^{\text{conv}}}
+\newcommand{\din}{d_{\text{in}}}
+\newcommand{\dnet}{d_{\text{net}}}
+\newcommand{\dfnet}{d^{\text{f}}_{\text{net}}}
+\newcommand{\dvnet}{d^{\text{v}}_{\text{net}}}
+
+%Expectation
+%\newcommand{\E}{\mathbb{E}}
+%\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}
+
+%Weights
+\newcommand{\tv}{{\theta^{\text{V}}}}
+
+\newcommand{\Tdgn}{\Theta^{\text{DGN}}}
+\newcommand{\Tb}{{\Theta}}
+\newcommand{\Tv}{{\Theta}^{\text{v}}}
+\newcommand{\Tg}{{\Theta}^{\text{f}}}
+\newcommand{\tg}{\theta^{\text{f}}}
+\newcommand{\Tt}{\Theta}
+\newcommand{\Tf}{\Theta^{\textrm{f}}}
+
+%Gates
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\relu}{\gamma_{\text{r}}}
+\newcommand{\softrelu}{\gamma_{\text{sr}}}
+\newcommand{\ut}{U_{\text{tot}}}
+
+%Norms
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\inorm}[1]{\|#1\|_{\infty}}
+\newcommand{\snorm}[1]{\left\|#1\right\|}
+\newcommand{\sinorm}[1]{\left\|#1\right\|_{\infty}}
+
+
+%Layers
+\newcommand{\dc}{d_{\text{cv}}}
+\newcommand{\dconv}{d_{\text{cv}}}
+
+\newcommand{\dfc}{d_{\text{fc}}}
+\newcommand{\dres}{d_{\text{rs}}}
+\newcommand{\dblock}{d_{\text{blk}}}
+\newcommand{\wc}{w_{\text{cv}}}
+\newcommand{\wfc}{w_{\text{fc}}}
+\newcommand{\wker}{w_{\text{ker}}}
+\newcommand{\wconv}{w_{\text{cv}}}
+
+
+\newcommand{\ifin}{i_{\text{fin}}}
+\newcommand{\ifout}{i_{\text{fout}}}
+\newcommand{\icin}{i_{\text{cv}}}
+\newcommand{\iin}{i_{\text{in}}}
+\newcommand{\iout}{i_{\text{out}}}
+\newcommand{\iker}{i_{\text{ker}}}
+\newcommand{\iu}{i_{\text{u}}}
+\newcommand{\dgate}{d_{\text{gt}}}
+\newcommand{\dnorm}{d_{\text{nrm}}}
+\newcommand{\dweight}{d_{\text{wt}}}
+
+
+\newcommand{\Igate}{\mathcal{I}_{\text{gt}}}
+\newcommand{\Inorm}{\mathcal{I}_{\text{nrm}}}
+\newcommand{\Iweight}{\mathcal{I}_{\text{wt}}}
+
+\newcommand{\xv}{x^{\text{v}}}
+\newcommand{\xf}{x^{\text{f}}}
+
+\newcommand{\nt}{\nabla_{\Theta}}
+
+\newcommand{\Pres}{P^{\text{res}}}
+\newcommand{\Pfc}{P^{\text{fc}}}
+\newcommand{\Pcnn}{P^{\text{cnn}}}
+
+\newcommand{\eqdef}{\stackrel{\Delta}{=}}
+
+%Constants
+\newcommand{\cfc}{C_{\text{fc}}}
+\newcommand{\ccnn}{C_{\text{cv}}}
+\newcommand{\cres}{C_{\text{rs}}}
+\newcommand{\cscale}{c_{\text{scale}}}
+\newcommand{\sigfc}{\sigma_{\text{fc}}}
+\newcommand{\sigcnn}{\sigma_{\text{cv}}}
+
+\newcommand{\bfc}{\beta_{\text{fc}}}
+\newcommand{\bcnn}{\beta_{\text{cv}}}
+\newcommand{\bres}{\beta_{\text{res}}}
+
+\newcommand{\keywords}[1]{{\bf Keywords: } #1\par}
+%\newenvironment{proof}{{\bf Proof:} }{}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{identity}{Identity}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{note}{Note}[section]
+\newtheorem{notation}{Notation}[section]
+\newcommand{\alert}[1]{\textcolor{red}{#1}} 
+\newcommand{\J}{\mathcal{J}}
+\newcommand{\ip}[1]{\langle #1\rangle}
+
+\def\v{\mathbf{v}}
+\def\r{\mathbf{r}}
+\def\p{\mathbf{p}}
+\def\q{\mathbf{q}}
+%\def\R{\mathbb{R}}
+\def\Re{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+\def\P{\mathcal{P}}
+\def\S{\mathcal{S}}
+\def\A{\mathcal{A}}
+\def\X{\mathcal{X}}
+\def\U{\mathcal{U}}
+
+%\newcommand{\B}{\mathcal{B}}
+
+
+\newcommand{\ith}[2][th]{$#2^{\text{#1}}$}
+\newcommand{\us}[2]{\underset{#2}{#1}~}
+\newcounter{subequation}[equation]
+\newcommand{\thesubequationonly}{\alph{subequation}}
+\renewcommand{\thesubequation}{\text{\theequation(\thesubequationonly)}}
+\newcommand{\subequationitem}{\refstepcounter{subequation}(\thesubequationonly)\thinspace}
+
+\def\mathdisplay#1{%
+  \ifmmode \@badmath
+  \else
+    $\def\@currenvir{#1}%
+    \let\dspbrk@context\z@
+    \let\tag\tag@in@display \SK@equationtrue %\let\label\label@in@display
+    \global\let\df@label\@empty \global\let\df@tag\@empty
+    \global\tag@false
+    \let\mathdisplay@push\mathdisplay@@push
+    \let\mathdisplay@pop\mathdisplay@@pop
+    \if@fleqn
+      \edef\restore@hfuzz{\hfuzz\the\hfuzz\relax}%
+      \hfuzz\maxdimen
+      \setbox\z@\hbox to\displaywidth\bgroup
+        \let\split@warning\relax \restore@hfuzz
+        \everymath\@emptytoks \m@th $\displaystyle
+    \fi
+%   \fi
+}
+

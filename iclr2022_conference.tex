@@ -1,0 +1,144 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2022_conference,times}
+\usepackage{hyperref}
+\usepackage{url}
+\input{pack}
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+
+
+
+
+\title{Duality simplifies deep neural networks with rectified linear units}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+
+\author{Antiquus S.~Hippocampus, Natalia Cerebro \& Amelie P. Amygdale \thanks{ Use footnote for providing further information
+about author (webpage, alternative address)---\emph{not} for acknowledging
+funding agencies.  Funding acknowledgements go at the end of the paper.} \\
+Department of Computer Science\\
+Cranberry-Lemon University\\
+Pittsburgh, PA 15213, USA \\
+\texttt{\{hippo,brain,jen\}@cs.cranberry-lemon.edu} \\
+\And
+Ji Q. Ren \& Yevgeny LeNet \\
+Department of Computational Neuroscience \\
+University of the Witwatersrand \\
+Joburg, South Africa \\
+\texttt{\{robot,net\}@wits.ac.za} \\
+\AND
+Coauthor \\
+Affiliation \\
+Address \\
+\texttt{email}
+}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\begin{document}
+
+
+
+\maketitle
+
+\input{abstract}
+%Despite their success deep neural networks (DNNs) are still largely considered as black boxes. In this paper, we present a simplified and improved understanding of DNNs with rectified linear units (ReLUs). Unlike several methods which ‘explain’ the inner workings of DNNs by building simpler local models, our approach is to ‘dismantle’ the DNN with ReLU into separate components. In particular, we focus on the gating property (i.e., on/off states) of the ReLUs. We build on the prior work by Lakshminarayanan & Singh (2020), who developed a novel dual view, wherein the gates are dismantled from the weights. In this paper, we carry forward this dismantling, where the gates in a DNN are dismantled layer-by-layer, and finally the gates in a layer are dismantled unit-by-unit. The key simplification is in our main claim that gates are indeed the most fundamental entities in DNNs with ReLUs. We provide theoretical basis for this claim and justify the same in experiments. Based on our theory and experiments, we argue that a DNN with ReLU into three functionalities namely (i) gating (ii) pre-activation generation and (iii) weights. While a standard DNN with ReLU is such that these three functionalities are shared/entangled between its weights and activation, we propose a novel modification wherein we disentangle the three components.
+
+
+
+\section{Introduction}
+
+Despite their success deep neural networks (DNNs) are still largely considered as black boxes. In this paper, we present a simplified and improved understanding of DNNs with rectified linear units (ReLUs). Our approach is to \emph{dismantle} a DNN with ReLUs in a step by step manner to identify its \emph{functional components} and understand their role. This is in contrast to approaches that \emph{explain} the \emph{decisions} of a DNN by building simpler local models. Based on our understanding of such functional components, we finally propose a novel way to put them together in an entirely interpretable way thereby removing the `black box'-ness. Our work builds on top of prior work by \cite{npk} who developed a \emph{dual view} for fully connected DNNs with ReLUs.
+
+
+\subsection{Dual View: First step in understanding the role of gates}
+
+The dual view exploits the gating property of ReLU, that is, the \emph{on/off} or \emph{active/inactive} states of the ReLUs. It is natural to think that depending on the input, some subset of the gates get activated, and computation from input to output is restricted to the `active' subnetwork consisting of such active gates and the weight through such gates. Thus, the gates are input dependent and the weights remain the same across inputs. However, weights are triggering the gates in the first place. So, in order to separately the understand of their roles, the gates are also physically separated from the weights by generating the input dependent gates in a so called \emph{feature network} (the sole purpose of whose weights is to trigger the gates) and then applying gating signals from the feature network as external masks to a so called \emph{value network} which carries out the input to output computation. Having separated the gates and the weights, the role of gates was investigates in theory and experiments.
+
+\textbf{Theory (Neural Path Kernel).} A \emph{neural path kernel} (NPK) is defined and is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the various input pairs. Prior results  \cite{arora2019exact,cao2019generalization,ntk} have shown the equivalence of an infinite width DNN trained using gradient descent and its corresponding \emph{neural tangent kernel} (NTK) matrix, the Gram matrix of the gradient of the network output with respect to the weights. It was shown that when the gates and weights are separated, with the gates being fixed and only the weights trained, under randomised initialisation, in the limit of infinite width, the NTK becomes equal to (but for a scalar term) the NPK. This equivalence between NTK and NPK analytically characterises the role of gates in terms of the active subnetworks.
+
+
+\textbf{Experiments (Gate Learning).}  It was shown that by using the gates from a pre-trained DNN as external masks one can retrain the weights and match the test accuracy of the original pre-trained DNN with ReLU. 
+This implies that most useful input dependent information is in the gates. It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. This implies that gates are learnt when a DNN with ReLU is trained and such learning improves generalisation.
+
+\textbf{Significance of Duality.} 
+
+\subsection{Contribution and Organisation}
+ 
+In this paper, we first build on the dual view,
+
+\textbf{\Cref{sec:fc} : Theory (Simplified NPK).}  We understand the roles of the various functional components. First, significant results is \Cref{th:} a simple kernel expression (for the fully connected case) which the roles of (i) activations, (ii) weight, (ii) width, (ii) depth. 
+ (iii) convolutions with pooling and (iv) skip connections. Firstly, we 
+
+In the fully connected case, the key message is that each layer has an associated base kernel which measures the \emph{average} 
+we show that the NPK is a \emph{Hadamard} product of the input Gram matrix and $$
+
+talk about functional components
+
+
+\textbf{Experiments (Gate Learning).} 
+
+Based on our improved understanding we finally identify three functional components namely (i) pre-activation generation to trigger the gates (ii) gating to select the input dependent sub-network and (iii) output computation using weights in the sub-network. We propose a deep gated network architecture wherein these three are physically separated. 
+
+
+
+
+In this paper, we carry forward this dismantling, where the gates in a DNN are dismantled layer-by-layer, and finally the gates in a layer are dismantled unit-by-unit. The key simplification is in our main claim that gates are indeed the most fundamental entities in DNNs with ReLUs. We provide theoretical basis for this claim and justify the same in experiments. Based on our theory and experiments, we argue that a DNN with ReLU into three functionalities namely (i) gating (ii) pre-activation generation and (iii) weights. While a standard DNN with ReLU is such that these three functionalities are shared/entangled between its weights and activation,  we propose a novel modification wherein we disentangle the three components. 
+
+ separate the functionalities to dedicated for (i) feature generation (without any hidden units), (ii) gating, and (iii) weights. 
+
+Due to this separation of functionalities network is entirely interpretable by design. Now, we first summarise the main results in the prior work by \cite{npk} who developed a dual view to understand the role of gates in DNNs with ReLUs, followed by the specific contributions in this paper.
+
+
+
+
+
+%Our main claim is that gates are indeed the most fundamental entities in such DNNs. We provide theoretical basis for the claim and justify the same in experiments. Based on this claim, we propose a novel modification wherein the deep network has separate components to dedicated specifically to address (i) feature generation (without any hidden units), (ii) gating, and (iii) the weights in a decoupled manner. Due to this decoupled network is entirely interpretable by design. Now, we first summarise the main results in the prior work by \cite{npk} who developed a dual view to understand the role of gates in DNNs with ReLUs, followed by the specific contributions in this paper.
+
+\subsection{Background: Dual View for DNNs with ReLUs}
+
+A special property of a ReLU is that it is also a gate (i.e., `on/off') which either allows (i.e., multiplies by 1 in ‘on’ state) or blocks (i.e., multiplies by 0 in ‘off’ state) its pre-activation input based on positivity of the same. The gating property naturally gives rise to a ‘sub-network’ based interpretation of DNNs with ReLUs: for each input, there is a corresponding set of ReLUs that are active (in ‘on’ state) and these ReLUs together with the weights that connect them form the ‘active’ sub-network that is responsible for producing the output for that input.
+
+
+We provide theoretical basis for the claim and justify the same in experiments. Based on this claim, we propose a novel modification wherein the deep network has separate components to dedicated specifically to address (i) feature generation (without any hidden units), (ii) gating, and (iii) the weights in a decoupled manner. Due to this decoupled network is entirely interpretable by design. 
+
+In the dual view, \cite{npk} exploited the gating property of ReLU to break the DNN into paths, where each path comprises of gates and weights. This allows for separation of gates from weights, in that, the gates are treated as masks and are decoupled from the weights by storing the gates and weights in two separate networks. The information in the gates is then measured by fixing the gates, training only the weights and looking at the test performance. In this fixed gate setting, their main theoretical result is that the information stored in the gates is characterised by a so called \emph{neural path kernel} which for given inputs $x,x'$: (i) is equal (but for a scaling factor) to the \emph{neural tangent kernel} (NTK), (ii) is equal to product of the inner product of the inputs and the size of the `active' sub-network overlapping/common for both inputs.
+\begin{align}\label{eq:ntk-npk-relation}
+\text{NTK}(x,x')\quad\propto\quad \text{NPK}(x,x')\quad =\quad \ip{x,x'}\cdot {\bf{overlap}}(x,x'),
+\end{align}
+
+%\input{intro}
+
+\subsection{Organisation and Contribution}
+We present the preliminaries of the dual view in \Cref{sec:prior}, followed by the novel contributions of the paper in rest of the sections which we briefly list below.
+
+\begin{itemize}
+\item \Cref{sec:fc} We 
+\end{itemize}
+
+
+
+
+
+\bibliography{refs}
+\bibliographystyle{iclr2022_conference}
+
+\appendix
+\section{Appendix}
+You may include other additional sections here.
+
+\end{document}
+
