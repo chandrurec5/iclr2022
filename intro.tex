@@ -1,61 +1,154 @@
 \section{Introduction}
-Understanding the inner workings of deep neural networks (DNNs) is an important problem in machine learning. Recent works [\citenum{ntk,arora2019exact,cao2019generalization}] have connected the training and generalisation of DNNs to kernel methods. An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
-\begin{align*}
- \text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}, \quad\text{where}
-\end{align*}
-$\hat{y}_\Theta(\cdot)\in\R$ is the DNN output. It was shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$. While these recent results allows us to look at DNNs from the lens of kernels, there are some important issues: (i) \textbf{feature learning:} $\text{NTK}_{\infty}$ being a deterministic matrix does not capture feature learning whereas the success of DNNs is due to feature learning, (ii) \textbf{finite vs infinite width:} finite width convolutional neural network outperforms its corresponding $\text{NTK}_{\infty}$ and (iii)  \textbf{non-interprability:} the NTK is the inner product of gradients and has no physical interpretation. As a result, NTK theory does not fully explain the success of DNNs.
+Despite their success deep neural networks (DNNs) are still largely considered as black boxes. The larger aim of this paper is to argue that, at least in the case of DNNs with rectified linear units (ReLUs), the issue of `black box'-ness can be addresses successfully by simple a change of perspective/viewpoint.  To elaborate, the issue has less to do with the models themselves. Instead the issue is mostly a conceptual one arising from a commonly held, mathematically correct, yet ill-chosen primal view/perspective. The primal view is that as computation in a DONN proceeds from the input to output in a layer-by-layer manner increasingly sophisticated features are learnt in the hidden layers of the DNN and the final layer learns a linear model with the hidden features output by the penultimate layer. The conceptual issue with the primal view is that  while the final layer is linear and amenable to a feature/weight interpretation, however, the hidden features obtained as a result of several non-linear operations on the input are not understandable themselves. Recently \cite{npk} used the \emph{dual view} to investigate the role of gates (i.e., \emph{on/off} state) of the ReLUs. We argue that by switching over to the dual view the `black box'-ness issue vanishes.
 
- \cite{npk} aimed at understanding DNNs with rectified linear units (ReLUs). Such DNNs have a special property in that each ReLU is also a gate which either blocks (multiplies by 0) or allows its pre-activation input (multiplies by 1). 
- Using the \emph{dual view}, they characterised the role of gating analytically and empirically, showing that most useful information is learnt in the gates. The dual view also successfully addresses the issues of \textbf{feature learning, finite vs infinite width and non-interpretability} present in the NTK theory as described below.
 
-$\bullet$ \textbf{Dual View:}  The standard primal way of expressing information flow in a DNN is layer by layer. In the dual view, gating property of ReLU is exploited to break the DNN into paths. A path comprises of gates and weights, and a path is `active' or `on' only if all the gates in the path are `on'. %The output is the sum of the contribution of the individual paths. 
+The dual view decomposes the computation in a DNN into two parts (i) computation in the gates which is input dependent and (ii) computation in the weights which is the same across inputs. Based on this decomposition, the gates are separated from the weights. The information in the gates is then characterised by keeping the gates fixed, applying them as external masks and then training the weights. In this setting, the following interesting results were shown:
 
-$\bullet$ \textbf{Measure of information in the gates:} The gates are treated as masks and are decoupled from the weights by storing the gates and weights in two separate networks. The information in the gates is measured by fixing the gates, training only the weights and looking at the test performance.  
+1. \textbf{ Most information is in the gates}. Using the gates from a pre-trained DNN as external masks one can retrain the weights and match the test accuracy of the original pre-trained DNN with ReLU. 
 
-$\bullet$ \textbf{Gates = Features:} When the gates from a trained DNN are used as masks, and the weights are trained from scratch, there is no significant loss in test performance, i.e., \textbf{features are in the gates}. Also, the performance of $\text{NTK}_{\infty}$ lies between the performance of untrained and trained gates, i.e., \textbf{learning in the gates explains the difference between finite vs infinite} width DNNs with ReLUs.
+2. \textbf{Gate Are Learnt.} It was shown that gates are learnt during training and it improves test accuracy. It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. This implies that gates are learnt when a DNN with ReLU is trained.
+  
+%This implies that most useful input dependent information is in the gates. 
+3. \textbf{Neural Path Kernel For Subnetwork.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths.
+It was show that the information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the input pairs.
 
-$\bullet$ \textbf{Interpretable Kernel:} Each input has a corresponding \emph{active} sub-network (comprising of the gates that are `on' and weights between such gates) which produces the output.  When the gates are decoupled from the weights, the NTK simplifies into a constant times a \emph{neural path kernel} (NPK):
-\begin{align}\label{eq:ntk-npk-relation}
-\text{NTK}(x,x')\quad\propto\quad \text{NPK}(x,x')\quad =\quad \ip{x,x'}\cdot {\bf{overlap}}(x,x'),
-\end{align}
-where ${\bf{overlap}}(x,x')$ is a correlation matrix that measures the overlap of active sub-networks in terms of the  total number of paths that are `active' for both inputs $x$ and $x'$. 
+\subsection{Contribution and Organisation}
 
+In this paper, we show that the dual view serves as a conceptual useful tool to interpret and understand the inner workings of DNNs with ReLU and also it serves as a practical tool that leads to design of white box models. To this end we pursue the following two goals:
+
+\emph{Part I: Componentwise understanding of DNNs with ReLUs.}
+ 
+Using the dual view, we interpret the roles of (i) width, (ii) depth, (iii) convolutions with global pooling and (iv) skip connections. For this, we refine and extend prior work to derive new results on the structure of NPK. We then present two new empirical results that are easily reconciled in the dual view (as opposed to the primal). These results are not meant to be techniques/tricks to improve performance that `beats state of the art'. The significance is that they showcase the power of dual view in resolving novel and unseen scenarios. We now list these contributions section-wise.
+
+$\bullet$ In \Cref{sec:theory}, we refine prior result on NPK (which depended on the correlation subnetworks) to show that NPK depends on the \emph{correlation of gates}. The main highlight is that each layer is associated with a base kernel which measures the average correlation of gates, and the NPK is a \emph{Hadamard} product of the input Gram matrix and the base kernels. This implies that the role of width is averaging and the role of depth is to form a product kernel. In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK.
+
+
+$\bullet$ In \Cref{sec:permute}, we present surprising results that are counter intuitive with respect to the primal view that progressively sophisticated structures are being in a layer by layer manner. Firstly, we show that destroying the layer by layer structure by permuting the gates does not cause performance to degrade at all. Secondly, we show that once the gates are obtained from the input, the network can be provided with a constant $\mathbf{1}$ input without degrading performance. We argue that these counter intuitive results are easily reconciled in the dual view.
+
+\emph{Part II: Open question related to training with random labels.}
+
+ In \Cref{sec:randlabel}, we show that upstream training with random labels followed by downstream training with true labels degrades test accuracy because the random labels affects the gates. This degradation of test accuracy was an open question in \cite{randlabel}.
+
+
+\emph{Part III: Entirely interpretable and white box model.}
+
+In \Cref{sec:whitebox}, we propose a novel model by modifying  DNNs with ReLUs: we generate the pre-activation to the gates without any non-linear activations. Interpreted in the dual view, this novel model is entirely white box. We show white box models obtained by modifying VGG and a ResNet (in the proposed way) achieve greater than $90\%$ and close to $70\%$ on CIFAR-10 and CIFAR-100 respectively. 
+
+
+%we propose a novel architecutre obtained by modifying DNNs with ReLUs, which, is conceptually same as DNNs with ReLUs but is entirely interpretable and white box. We effect the modification on a stardard model namely VGG and a ResNet model, to derive the corresponding white box models. We show these white box models achieve greater than $90\%$ and close to $70\%$ on CIFAR-10 and CIFAR-100 respectively. Here, the aim is to demonstrate that the new white box models improve interpretablity without significant loss in performance with respect to `state of the art'.
+
+
+%We follow up this claim by completely removing the `black box'-n ess: we propose a novel architecutre, which, is conceptually same as DNNs with ReLUs but is entirely interpretable and white box. 
 \begin{comment}
-\begin{center}
-\emph{Duality: DNNs with ReLU are layers as well as paths}
-\end{center}
-The standard primal way of expressing information processing is layer by layer. In the dual view, the DNN is broken into paths. A path comprises of gates and weights, and a path is `active' or `on' only if all the gates in the path are `on'. The output is the sum of the contribution of the individual paths. 
-\begin{center}
-\emph{Most information (i.e., features) is in the gates and gates are learnt during training}
-\end{center}
-The gates are treated as masks and are decoupled from the weights by storing the gates and weights in two separate networks (see \Cref{sec:dgn}). Now, the information in the gates can be measured by fixing the gates and training the weights. It was shown that (i) when the gates from a trained DNN are used as masks, and the weights are trained from scratch, there is no significant loss in test performance, i.e., \textbf{features are stored in the gates} and (ii) gates of a trained network perform better than $\text{NTK}_{\infty}$ and gates from a untrained network performs poorly than $\text{NTK}_{\infty}$, i.e., \textbf{learning in the gates explains the difference between finite vs infinite} width DNNs with ReLUs.
-\begin{center}
-\emph{NTK is interpretable in terms of active sub-networks}
-\end{center}
+\subsection{Dual View}
+In the dual view, the computation in a DNN is broken down into paths, wherein, each path starts from the input node, passes through a weight and a ReLU in each layer and ends at the output node. This gives a subnetwork intepretation: for any given input, computation from input to output happens via the `active subnetwork' consisting of active paths. This active subnetwork is in turn formed by the active gates in each layer. Each gate is a just a  simple `perceptron' which is described by the hyperplane of its incoming weights. As the the input passes through the layers, gates are turned on/off based on the angle between the layer input and the hyperplanes associated with the various gates in that layer. 
+
+
+ The separation is achieved by a \emph{deep gated network} (DGN) setup, wherein, the input dependent gates are generated in a so called \emph{feature network} (which a DNN with ReLU whose sole  is  generation of the gates) and then gating signals are applied as external masks to a so called \emph{value network} which carries out the input to output computation. Having separated the gates and the weights, the role of gates and active subnetworks was investigated in theory and experiments.
+
+%The main result  It was shown that most useful information is in the gates.  
+
+%The dual view (i) gives simpler feature/value decomposition, (ii) gives a subnetwork intepretation and (iii) allows to separate the gates from the weights. We briefly described these below.
+
+%Each path has a signal at its input node, which is gets transmitted to the output if the path is on (i.e., all the gates in the paths are on). On its way to the output, (if path is active) the input signal of a path is scaled by a `value' equal the product of the weights in the path. The input and the on/off of the path is encoded in a so called  and the scaling by the weights is encoded by the \emph{neural path value} (NPV $\in \R^{\text{total-paths}}$). This conceptual separation of computation in the gates encoded in the NPF and the computation in the weights in the NPV has the following favourable points:
+
+%$\bullet$ \textbf{Simplicity.} The input and the gates of a path are  encoded in a \emph{neural path feature} (NPF $\in \R^{\text{total-paths}}$). The weights are encoded in a \emph{neural path value} (NPV $\in \R^{\text{total-paths}}$). The NPF coordinate of a path is $0$ if the path is inactive and is equal to the signal at the input node if the path is active.  The NPV coordinate of a path is the product of the weights in the path. The NPV of a path the scales signal at it input node, and the final DNN output is the inner product of NPF and NPV.
+
+%$\bullet$ \textbf{Interpretability.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths. This active subnetwork is in turn formed by the active gates in each layer. Each gate is a `perceptron' which is described by the hyperplane of its incoming weights. As the the input passes through the layers, gates are turned on/off based on the angle between the layer input and the hyperplanes associated with the various gates in that layer. 
+
+%$\bullet$ \textbf{Separation.} 
+%In a DNN with ReLUs, the weights play a dual role: (i) they decide the on/off activity of the gates, i.e., the NPF and they also dictate the NPV. 
+%To understand the role of gates and weights separately, the gates are also physically separated from the weights in \emph{deep gated network} (DGN) setup, wherein, the input dependent gates are generated in a so called \emph{feature network} (which a DNN with ReLU whose sole  is  generation of the gates) and then gating signals are applied as external masks to a so called \emph{value network} which carries out the input to output computation. Having separated the gates and the weights, the role of gates and active subnetworks was investigated in theory and experiments.
+
+1. \textbf{Gate Learning.} Most information is stored in the gates. Using the gates from a pre-trained DNN as external masks one can retrain the weights of the value network and match the test accuracy of the original pre-trained DNN with ReLU. It was shown that gates are learnt during training and it improves test accuracy.  
+%This implies that most useful input dependent information is in the gates. 
+%It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. 
+%This implies that gates are learnt when a DNN with ReLU is trained and
+
+2. \textbf{Neural Path Kernel.} The information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} 
+\end{comment}
+\begin{comment}
+
+\subsection{Dual View}
+In the dual view, the computation in a DNN is broken down into paths, wherein, each path starts from the input node, passes through a weight and a ReLU in each layer and ends at the output node. This gives a subnetwork intepretation
+
+ and allows to separate information in the gates from the weights. The main result  It was shown that most useful information is in the gates.  
+
+%The dual view (i) gives simpler feature/value decomposition, (ii) gives a subnetwork intepretation and (iii) allows to separate the gates from the weights. We briefly described these below.
+
+%Each path has a signal at its input node, which is gets transmitted to the output if the path is on (i.e., all the gates in the paths are on). On its way to the output, (if path is active) the input signal of a path is scaled by a `value' equal the product of the weights in the path. The input and the on/off of the path is encoded in a so called  and the scaling by the weights is encoded by the \emph{neural path value} (NPV $\in \R^{\text{total-paths}}$). This conceptual separation of computation in the gates encoded in the NPF and the computation in the weights in the NPV has the following favourable points:
+
+%$\bullet$ \textbf{Simplicity.} The input and the gates of a path are  encoded in a \emph{neural path feature} (NPF $\in \R^{\text{total-paths}}$). The weights are encoded in a \emph{neural path value} (NPV $\in \R^{\text{total-paths}}$). The NPF coordinate of a path is $0$ if the path is inactive and is equal to the signal at the input node if the path is active.  The NPV coordinate of a path is the product of the weights in the path. The NPV of a path the scales signal at it input node, and the final DNN output is the inner product of NPF and NPV.
+
+$\bullet$ \textbf{Interpretability.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths. This active subnetwork is in turn formed by the active gates in each layer. Each gate is a `perceptron' which is described by the hyperplane of its incoming weights. As the the input passes through the layers, gates are turned on/off based on the angle between the layer input and the hyperplanes associated with the various gates in that layer. 
+
+$\bullet$ \textbf{Separation.} 
+%In a DNN with ReLUs, the weights play a dual role: (i) they decide the on/off activity of the gates, i.e., the NPF and they also dictate the NPV. 
+To understand the role of gates and weights separately, the gates are also physically separated from the weights in \emph{deep gated network} (DGN) setup, wherein, the input dependent gates are generated in a so called \emph{feature network} (which a DNN with ReLU whose sole  is  generation of the gates) and then gating signals are applied as external masks to a so called \emph{value network} which carries out the input to output computation. Having separated the gates and the weights, the role of gates and active subnetworks was investigated in theory and experiments.
+
+\textbf{Key Results.}  
+
+1. \textbf{Gate Learning.} Most information is stored in the gates. Using the gates from a pre-trained DNN as external masks one can retrain the weights of the value network and match the test accuracy of the original pre-trained DNN with ReLU. It was shown that gates are learnt during training and it improves test accuracy.  
+%This implies that most useful input dependent information is in the gates. 
+%It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. 
+%This implies that gates are learnt when a DNN with ReLU is trained and
+
+2. \textbf{Neural Path Kernel.} The information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the input pairs.
+\end{comment}
+\begin{comment}
+
+\textbf{Neural Path Feature.} In the dual view, the computation in a DNN is broken down into paths, which leads to an alternative feature/value decomposition. Each path has a signal at its input node, which is gets transmitted to the output if the path is on (i.e., all the gates in the paths are on). On its way to the output, (if transmitted) the input signal of a path is scaled by a `value' equal the product of the weights in the path. The input and the on/off of the path is encoded in a so called \emph{neural path feature} (NPF $\in \R^{\text{total-paths}}$) and the scaling by the weights is encoded by the \emph{neural path value} (NPV $\in \R^{\text{total-paths}}$). The DNN output for an input $x\in\R^{\din}$ , and parameter $\Theta\in\R^{\dnet}$ is given by:
+\begin{align}
+\texttt{DNN-OUTPUT(x)=}\ip{\texttt{NPF}_{\Theta}\texttt{(x),NPV}_{\Theta}}
+\end{align}
+
+\textbf{Subnetwork Interpretation.} For any given input, the NPF coordinate is zero for all the inactive paths. This provides a subnetwork based interpretation, that is, computation from input to output happens via the `active subnetwork' consisting of active paths.  
+
+
+
+As as result, the Gram matrix of the NPFs called the \emph{neural path kernel} (NPK) is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the various input pairs. 
+
+
+
+\textbf{Self-Explanation.}
+
+
+For this purpose, the dual view exploits the gating property of ReLU, that is, the \emph{on/off} or \emph{active/inactive} states of the ReLUs. A path starts at an input node, passes through a weight and a ReLU in each layer until it reaches the output node. A path is active all the gates in that path active, and its contribution is equal to the product of the signal at the input node and the weights in the path. In the dual view, it is natural to think that depending on the input, some subset of the paths get activated, and computation from input to output is restricted to the `active' subnetwork consisting of such active paths. Thus, the gates are input dependent and the weights remain the same across inputs. Holwever, weights are triggering the gates in the first place. So, in order to separately the understand of their roles, the gates are also physically separated from the weights in \emph{deep gated network} (DGN) setup, wherein, the input dependent gates are generated in a so called \emph{feature network} (which a DNN with ReLU whose sole  is  generation of the gates) and then gating signals are applied as external masks to a so called \emph{value network} which carries out the input to output computation. Having separated the gates and the weights, the role of gates and active subnetworks was investigated in theory and experiments.
+
+\textbf{Neural Path Kernel (Theory).} A \emph{neural path kernel} (NPK) is defined and is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the various input pairs. Prior results  \cite{arora2019exact,cao2019generalization,ntk} have shown the equivalence of an infinite width DNN trained using gradient descent and its corresponding \emph{neural tangent kernel} (NTK) matrix, the Gram matrix of the gradient of the network output with respect to the weights. It was shown that when the gates and weights are separated, with the gates being fixed and only the weights trained, under randomised initialisation, in the limit of infinite width, the NTK becomes equal to (but for a scalar term) the NPK. This equivalence between NTK and NPK analytically characterises the role of the active subnetworks.
+
+
+\textbf{Gate Learning (Experiments).}  It was shown active subnetworks are learnt during training and it improves test accuracy.  Using the gates from a pre-trained DNN as external masks one can retrain the weights and match the test accuracy of the original pre-trained DNN with ReLU. 
+%This implies that most useful input dependent information is in the gates. 
+It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. 
+%This implies that gates are learnt when a DNN with ReLU is trained and such learning improves generalisation.
 \end{comment}
 
 
-\subsection{Our Contribution}
-In this paper, we present six results (first three are theoretical, followed by experimental) that strengthen the dual view and the importance of gates. The first experimental result verifies the theoretical insights. The second experimental result settles an open problem using the dual view showcasing its usefulness. The final result builds on the insights obtained from the first five results. 
-%In this paper, we present six results that strengthen the dual view and the importance of gates.  The first result is theoretical and is justified by the second result which is experimental.  The final result is empirical and builds on the insights obtained from the first three results. 
 
-\indent\quad$1.$ \textbf{Product Kernel:} Expression in \eqref{eq:ntk-npk-relation} is in terms of the active sub-network overlap. We further simplify this down to the gates to show that the NPK has the following product structure:
-\centerline{$\text{NTK}(x,x') \propto \langle x,x'\rangle\cdot \Pi_{l=1}^{d-1} \frac{\ip{G_l(x),G_l(x')}}w,$}
-
-where $G_l(x)\in\{0,1\}^w$ is the binary feature encoding the gates of layer $l$. The main message is that the \emph{base kernels} $\frac{\ip{G_l(x),G_l(x')}}w$ measuring the \textbf{\emph{correlation of gates} } captures the role of gates.
-
-\indent\quad$2.$ \textbf{Convolutional layers with pooling} makes the NPK \emph{rotationally invariant}.
-
-\indent\quad$3.$ \textbf{Skip connections} endow a \emph{sum of product of base kernels} structure to the NPK.
-
-\indent\quad$4.$ \textbf{Robustness of Gates:} Operations such as permutation of layers, arbitrary tiling cum rotation of the gates and providing a constant $\mathbf{1}$ input, which we design to destroy the traditional layer-by-layer flow, do not degrade performance since the `correlation of gates' is not lost in these operations.
-
-\indent\quad$5.$\textbf{Gates and Random Labels:} Upstream training with random labels followed by downstream training with true labels degrades test performance [\citenum{randlabel}]. We show that this degradation is due to the fact that random labels affect the gates, and gates do resist such degradation to a large extent. Also, if the gates are fixed, upstream training by random labels does not degrade test performance.
-
-\indent\quad$6.$ \textbf{No Hidden Features:} We modify standard architectures (VGG19 and a ResNet) to yield two deep gated networks in which feature extractor is free of activations and is separate from the gates and the weights -- these achieve greater than $90\%$ test accuracy on CIFAR-10. Since the feature extractor uses only standard `image processing' operations, the features are interpretable and no longer hidden.
-
-%\item Adversarial examples can attack the model solely via the linear component.
+%In all results above, the gates were generated by a feature network which was a DNN with ReLUs.  Based on our understanding, we propose to replace the ReLUs with identity activations giving rise to a white box architecture called \texttt{DGN-NO-ACT}. Once the ReLU non-linearity is removed, the other operations such as convolution (which is  linear), pooling and batch norm (bias and scaling) are well understood and interpretable in `image processing' terms. 
 
 
-%\textbf{Notation.} In what follows, $[n]$ denotes the set $\{1,\ldots,n\}$.
-% (this property has already been noted to hold for the NTK). We also consider a residual network (ResNet) architecture with $(b+2)$ blocks of fully connected networks with `$b$' skip connections between them. Within this ResNet there are $i=1,\ldots,2^b$ possible fully connect networks, and then $\text{NPK}^{\text{residual}}=\sum_{i=1}^{2^b} C_i \text{NPK}^{\text{dense}}_i$, where $C_i>0$ are positive constants.
+%We pursue two goals (i) pedagogical: here the pursuit is not propose new methods to beat the state of the art, but to improve our understanding of basic functional components namely weights, activation, depth, width, convolutions with global pooling  and skip connection (ii) practical: here the pursuit is to build a white box model without significance performance loss with respect to state of the art. The pedagogical goal is to drive home the message that, even though the primal and dual views are mathematically equivalent, when compared to the primal, the dual view is a natural and simple way to interpret and understand the inner workings of DNNs with ReLUs. The pedagogical goal is achieved in the following two steps. 
+
+
+
+
+
+%In this paper, we carry forward this dismantling, where the gates in a DNN are dismantled layer-by-layer, and finally the gates in a layer are dismantled unit-by-unit. The key simplification is in our main claim that gates are indeed the most fundamental entities in DNNs with ReLUs. We provide theoretical basis for this claim and justify the same in experiments. Based on our theory and experiments, we argue that a DNN with ReLU into three functionalities namely (i) gating (ii) pre-activation generation and (iii) weights. While a standard DNN with ReLU is such that these three functionalities are shared/entangled between its weights and activation,  we propose a novel modification wherein we disentangle the three components. 
+
+% separate the functionalities to dedicated for (i) feature generation (without any hidden units), (ii) gating, and (iii) weights. 
+
+%Due to this separation of functionalities network is entirely interpretable by design. Now, we first summarise the main results in the prior work by \cite{npk} who developed a dual view to understand the role of gates in DNNs with ReLUs, followed by the specific contributions in this paper.
+
+
+
+
+
+%Our main claim is that gates are indeed the most fundamental entities in such DNNs. We provide theoretical basis for the claim and justify the same in experiments. Based on this claim, we propose a novel modification wherein the deep network has separate components to dedicated specifically to address (i) feature generation (without any hidden units), (ii) gating, and (iii) the weights in a decoupled manner. Due to this decoupled network is entirely interpretable by design. Now, we first summarise the main results in the prior work by \cite{npk} who developed a dual view to understand the role of gates in DNNs with ReLUs, followed by the specific contributions in this paper.
+
+
+
+
+ %Recent past has seen two paradigms namely `explainability' and `interpretabilty' to addres the issue of `black box'-ness. In the  `explaniablity' paradigm, one accepts as a fact that complex machine learning tasks might require complex black box models, however, resorts to \emph{post-hoc} \emph{explaination} of the \emph{decisions} of a DNN by building simpler local models. In the `interpretability' paradigm, one builds entirely interpretable white box models in the first place, thereby eliminating the need for \emph{post-hoc} explanations. 
+
