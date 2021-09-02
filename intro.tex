@@ -1,23 +1,59 @@
 \section{Introduction}
-Despite their success deep neural networks (DNNs) are still largely considered as black boxes. The larger aim of this paper is to argue that, at least in the case of DNNs with rectified linear units (ReLUs), the issue of `black box'-ness can be addresses successfully by simple a change of perspective/viewpoint.  To elaborate, the issue has less to do with the models themselves. Instead the issue is mostly a conceptual one arising from a commonly held, mathematically correct, yet ill-chosen primal view/perspective. The primal view is that as computation in a DONN proceeds from the input to output in a layer-by-layer manner increasingly sophisticated features are learnt in the hidden layers of the DNN and the final layer learns a linear model with the hidden features output by the penultimate layer. The conceptual issue with the primal view is that  while the final layer is linear and amenable to a feature/weight interpretation, however, the hidden features obtained as a result of several non-linear operations on the input are not understandable themselves. Recently \cite{npk} used the \emph{dual view} to investigate the role of gates (i.e., \emph{on/off} state) of the ReLUs. We argue that by switching over to the dual view the `black box'-ness issue vanishes.
+Despite their success deep neural networks (DNNs) are still largely considered as black boxes. The larger aim of this paper is to argue that, at least in the case of DNNs with rectified linear units (ReLUs), the issue of `black box'-ness can be addresses successfully by simple a change of perspective/viewpoint.  To elaborate, the issue has less to do with the models themselves. Instead the issue is mostly a conceptual one arising from the primal view which is partial and incomplete. The primal view is that, as computation in a DNN proceeds from the input to the output, in a layer-by-layer manner, increasingly sophisticated features are learnt in the hidden layers of the DNN, and the final layer learns a linear model with the hidden features output by the penultimate layer. The conceptual issue with the primal view is that, only the final layer is linear and amenable to a feature/weight interpretation, and even then, the hidden features i.e., the penultimate layer outputs, obtained as a result of several non-linear operations on the input are not interpretable themselves in a straightforward and intuitive manner. Recently \cite{npk} used the \emph{dual view} to investigate the role of gates (i.e., \emph{on/off} state) of the ReLUs. In this paper, we argue that the dual view complements the primal view, and both views considered together in the right order and proportion, helps us to resolve the `black box'-ness issue successfully, and culminating in an entirely interpretable white box model.
+
+We first briefly describe the dual view. In the dual view, computations are projected onto the space of paths, wherein, each path starts from the input node, passes through a weight and a ReLU in each layer and ends at an output node. A path is `active' (i.e., `on') if all the gates in the path are `active' (i.e. `on). Now, each active path has a signal at its input node, which it transmits to the output. If the path is active, on its way to the output, the input signal of a path is scaled by a `value' which is equal the product of the weights in the path. If we are to draw an analogy to the standard feature weight decomposition, the product of signal at the input node and the path activity is conceptually akin to feature, and the `value' (which here is a product of the weights in the path) is conceputally akin to weight: the feature as well as the `value' here reside in $\R^{\text{total.no.paths}}$.
 
 
-The dual view decomposes the computation in a DNN into two parts (i) computation in the gates which is input dependent and (ii) computation in the weights which is the same across inputs. Based on this decomposition, the gates are separated from the weights. The information in the gates is then characterised by keeping the gates fixed, applying them as external masks and then training the weights. In this setting, the following interesting results were shown:
+We now discuss how to mix and match the primal and the dual views, what are the natural questions that arise in this context. The gating pattern (which we call gating features for now) dictates the path activity, and is obtained in a layer-by-layer fashion; this is the only place where we need the primal view. Once we have the gating features, we can switch over to the dual view, because, we now know the path activations entirely, and the weights are to be seen as producing the scaling `values' for each path. This brings us to the following natural questions, some of which was answered in the prior work by \cite{npk} (which we review in \Cref{sec:prelim}), and some of which will be answered in this paper.
 
-1. \textbf{ Most information is in the gates}. Using the gates from a pre-trained DNN as external masks one can retrain the weights and match the test accuracy of the original pre-trained DNN with ReLU. 
+\emph{Q1: The gating features as well the `values' are produced by the weights. How to separate the two?}
 
-2. \textbf{Gate Are Learnt.} It was shown that gates are learnt during training and it improves test accuracy. It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. This implies that gates are learnt when a DNN with ReLU is trained.
+A1: This is achieved by a deep gated network (DGN) which has two networks, a \emph{feature network} to produce the gating features and a value network which uses the gates are external masks to the weights. 
+
+\emph{Q2: Are gating features actually features? or How much information is there in these?}
+
+A2: In a linear model, all input dependent information is in the feature and once we have the features, we can train the weights. Gating features indeed perform a similar functional role akin to the features in a linear model. Using a pre-trained DNN with ReLUs as the feature network and training the value network recovers the performance of the pre-trained feature network. So, almost all information is in the gating features.
+
+\emph{Q3: Are gating features being learnt during training?}
+
+A3: Yes, the gating features obtained from a pre-trained DNN performs much better than gating features obtained from a randomly initialised DNN. It was shown that the learning in the gating features is the difference between finite and infinite width DNNs.
+
+\emph{Q4: Can we learn gating features?}
+
+A4: Yes. By training the feature and value network together, we can learn the weights and gates separately, without significant drop in performance.
+
+\emph{Q5: Do we have an analytical characterisation of gating features?}
+
+A5: The gating features are formally characterised by the so called \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks of paths active for the various input pairs.
+
+%The dual view decomposes the computation in a DNN into two parts (i) computation in the gates which is input dependent and (ii) computation in the weights which is the same across inputs. Based on this decomposition, the gates are separated from the weights. The information in the gates is then characterised by keeping the gates fixed, applying them as external masks and then training the weights. In this setting, the following interesting results were shown:
+
+%1. \textbf{ Most information is in the gates}. Using the gates from a pre-trained DNN as external masks one can retrain the weights and match the test accuracy of the original pre-trained DNN with ReLU. 
+
+%2. \textbf{Gate Are Learnt.} It was shown that gates are learnt during training and it improves test accuracy. It was shown that if gates from a randomly initialised (instead of pre-trained) DNN are used as external masks, and the weights are trained, the test accuracy drops significantly. This implies that gates are learnt when a DNN with ReLU is trained.
   
 %This implies that most useful input dependent information is in the gates. 
-3. \textbf{Neural Path Kernel For Subnetwork.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths.
-It was show that the information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the input pairs.
+
+%3. \textbf{Neural Path Kernel For Subnetwork.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths.
+%It was show that the information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the input pairs.
 
 \subsection{Contribution and Organisation}
 
-In this paper, we show that the dual view serves as a conceptual useful tool to interpret and understand the inner workings of DNNs with ReLU and also it serves as a practical tool that leads to design of white box models. To this end we pursue the following two goals:
+\emph{Q6: What more structure is there to the gating features? Do architectures such as convolution with pooling and skip connection add more structure?}
 
-\emph{Part I: Componentwise understanding of DNNs with ReLUs.}
- 
+\textbf{Contribution I:} 
+
+\emph{Q7: How far can we strech the dual view? Or Out of the two views which one is more dominant? }
+
+\textbf{Contribution II:} 
+
+\emph{Q8: How far can we strech the dual view? Or Out of the two views which one is more dominant? }
+
+\textbf{Contribution III:} 
+
+
+
+
 Using the dual view, we interpret the roles of (i) width, (ii) depth, (iii) convolutions with global pooling and (iv) skip connections. For this, we refine and extend prior work to derive new results on the structure of NPK. We then present two new empirical results that are easily reconciled in the dual view (as opposed to the primal). These results are not meant to be techniques/tricks to improve performance that `beats state of the art'. The significance is that they showcase the power of dual view in resolving novel and unseen scenarios. We now list these contributions section-wise.
 
 $\bullet$ In \Cref{sec:theory}, we refine prior result on NPK (which depended on the correlation subnetworks) to show that NPK depends on the \emph{correlation of gates}. The main highlight is that each layer is associated with a base kernel which measures the average correlation of gates, and the NPK is a \emph{Hadamard} product of the input Gram matrix and the base kernels. This implies that the role of width is averaging and the role of depth is to form a product kernel. In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK.
