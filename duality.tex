@@ -1,14 +1,22 @@
 \documentclass{article} % For LaTeX2e
 \usepackage{iclr2022_conference,times}
-\usepackage{hyperref}
-\usepackage{url}
+
+\usepackage{colortbl}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
 \input{pack}
+\usepackage{cleveref}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 % Optional math commands from https://github.com/goodfeli/dlbook_notation.
 \input{math_commands.tex}
-
-
-
-
 
 \title{Duality simplifies deep neural networks with rectified linear units}
 
@@ -59,9 +67,10 @@ Address \\
 \input{prelim}
 \input{theory}
 \input{exp}
+\input{randlabel}
 \input{whitebox}
-
-
+\input{related}
+\input{concl}
 \bibliography{refs}
 \bibliographystyle{iclr2022_conference}
 

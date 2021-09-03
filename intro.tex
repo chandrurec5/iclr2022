@@ -8,11 +8,13 @@ We now discuss how to mix and match the primal and the dual views, what are the 
 
 \emph{Q1: The gating features as well the `values' are produced by the weights. How to separate the two?}
 
-A1: This is achieved by a deep gated network (DGN) which has two networks, a \emph{feature network} to produce the gating features and a value network which uses the gates are external masks to the weights. 
+A1: This is achieved by a deep gated network (DGN) which has two networks, one to produce the gates and the other to carry out input to output computation using the gates as external masks.
+%a \emph{feature network} to produce the gating features and a value network which uses the gates are external masks to the weights. %\todoch{elaborate; say ReLU and GaLU}
 
 \emph{Q2: Are gating features actually features? or How much information is there in these?}
 
-A2: In a linear model, all input dependent information is in the feature and once we have the features, we can train the weights. Gating features indeed perform a similar functional role akin to the features in a linear model. Using a pre-trained DNN with ReLUs as the feature network and training the value network recovers the performance of the pre-trained feature network. So, almost all information is in the gating features.
+A2: %In a linear model, all input dependent information is in the feature and once we have the features, we can train the weights. 
+Gating features indeed perform a similar functional role akin to the features in a linear model. Using the gates of pre-trained DNN as external masks and training the weights recovers the performance of the pre-trained DNN. So, almost all information is in the gating features.
 
 \emph{Q3: Are gating features being learnt during training?}
 
@@ -37,38 +39,39 @@ A5: The gating features are formally characterised by the so called \emph{neural
 %3. \textbf{Neural Path Kernel For Subnetwork.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths.
 %It was show that the information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the input pairs.
 
-\subsection{Contribution and Organisation}
-
+%\subsection{Contribution and Organisation}
 \emph{Q6: What more structure is there to the gating features? Do architectures such as convolution with pooling and skip connection add more structure?}
 
-\textbf{Contribution I:} 
+\textbf{Contribution I:} In \Cref{sec:theory}, we refine the result of \cite{npk} for fully connected case, and extend the dual view to cover convolutions with global pooling and skip connections. Firstly, we notice that the NPK in prior work (see Q5 and A5) it is invariant to layer permutations. This permutation invariance was unnoticed in prior work, and is a key property of the gating features that has surprising and counter intuitive implications (see Q7 and A7 below). In \Cref{th:fc}, we essentially rewrite the prior NPK expression in a way that explicitly reveals this permutation invariance. The main highlight is that each layer is associated with a base kernel which measures the average correlation of gates, and the NPK is a \emph{Hadamard} product of the input Gram matrix and the base kernels. Here, the role of width is averaging and the role of depth is endowing the product structure from which the permutation invaraince ensues. In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK. 
 
-\emph{Q7: How far can we strech the dual view? Or Out of the two views which one is more dominant? }
+\emph{Q7: How indispensable is the dual view for understanding the inner workings of DNNs? }
 
-\textbf{Contribution II:} 
+\textbf{Contribution II:} Once we have the gates, we show that destroying the layer by layer structure by permuting the gates does not cause performance to degrade at all. It could be argued that the network still manages to recover in a layer by layer manner despite such layer permutations. In order to eliminate this argument, we shut off input by using a constant $\mathbf{1}$ input, i.e., each path starts with $1$ at its input nodes, only the path activity is input dependent (since it is directly controlled by the gates). Using a constant $\mathbf{1}$ input does not degrade the performance either. From the primal viewpoint, these are surprising and counter intuitive results, however, in the dual view these are readily reconciled. In short, dual view is the right way to interpret the computations in the weights.
+  
+\emph{Q8: What happens when we train with random labels? }
 
-\emph{Q8: How far can we strech the dual view? Or Out of the two views which one is more dominant? }
+\textbf{Contribution III:} In \Cref{sec:randlabel}, we show that upstream training with random labels followed by downstream training with true labels degrades the test performance because the upstream random labels degrade the gating features. The degradation in  the test performance in this setting was a question left open by \cite{randlabel}.
 
-\textbf{Contribution III:} 
+\emph{Q9: How to interpret the gating features which are obtained in a layer by layer manner involving non-linear activations? or Since the gating features have non-linear activations do we not have the `black box'-ness issue left unaddressed?}
 
-
-
-
-Using the dual view, we interpret the roles of (i) width, (ii) depth, (iii) convolutions with global pooling and (iv) skip connections. For this, we refine and extend prior work to derive new results on the structure of NPK. We then present two new empirical results that are easily reconciled in the dual view (as opposed to the primal). These results are not meant to be techniques/tricks to improve performance that `beats state of the art'. The significance is that they showcase the power of dual view in resolving novel and unseen scenarios. We now list these contributions section-wise.
-
-$\bullet$ In \Cref{sec:theory}, we refine prior result on NPK (which depended on the correlation subnetworks) to show that NPK depends on the \emph{correlation of gates}. The main highlight is that each layer is associated with a base kernel which measures the average correlation of gates, and the NPK is a \emph{Hadamard} product of the input Gram matrix and the base kernels. This implies that the role of width is averaging and the role of depth is to form a product kernel. In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK.
+\textbf{Contribution IV:} Having established that indespensiblity of the dual view, we turn to the gating features themselves. We answer Q9 by proposing a white box model in which information flows is as follows: (i) pre-activations are generated without non-linear activation, (ii) gating features are obtained from pre-activations, (iii) gates are applied as external masks and dictate the path activity (iv) all paths start with $1$ at their input node, i.e., the only way input affects the network is via the gates. We call this white box model \texttt{DGN-NO-ACT}, and we show that \texttt{DGN-NO-ACT}s based on VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
 
 
-$\bullet$ In \Cref{sec:permute}, we present surprising results that are counter intuitive with respect to the primal view that progressively sophisticated structures are being in a layer by layer manner. Firstly, we show that destroying the layer by layer structure by permuting the gates does not cause performance to degrade at all. Secondly, we show that once the gates are obtained from the input, the network can be provided with a constant $\mathbf{1}$ input without degrading performance. We argue that these counter intuitive results are easily reconciled in the dual view.
+%Using the dual view, we interpret the roles of (i) width, (ii) depth, (iii) convolutions with global pooling and (iv) skip connections. For this, we refine and extend prior work to derive new results on the structure of NPK. We then present two new empirical results that are easily reconciled in the dual view (as opposed to the primal). These results are not meant to be techniques/tricks to improve performance that `beats state of the art'. The significance is that they showcase the power of dual view in resolving novel and unseen scenarios. We now list these contributions section-wise.
 
-\emph{Part II: Open question related to training with random labels.}
-
- In \Cref{sec:randlabel}, we show that upstream training with random labels followed by downstream training with true labels degrades test accuracy because the random labels affects the gates. This degradation of test accuracy was an open question in \cite{randlabel}.
+%$\bullet$ In \Cref{sec:theory}, we refine prior result on NPK (which depended on the correlation subnetworks) to show that NPK depends on the \emph{correlation of gates}. The main highlight is that each layer is associated with a base kernel which measures the average correlation of gates, and the NPK is a \emph{Hadamard} product of the input Gram matrix and the base kernels. This implies that the role of width is averaging and the role of depth is to form a product kernel. In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK.
 
 
-\emph{Part III: Entirely interpretable and white box model.}
+%$\bullet$ In \Cref{sec:permute}, we present surprising results that are counter intuitive with respect to the primal view that progressively sophisticated structures are being in a layer by layer manner. Firstly, we show that destroying the layer by layer structure by permuting the gates does not cause performance to degrade at all. Secondly, we show that once the gates are obtained from the input, the network can be provided with a constant $\mathbf{1}$ input without degrading performance. We argue that these counter intuitive results are easily reconciled in the dual view.
 
-In \Cref{sec:whitebox}, we propose a novel model by modifying  DNNs with ReLUs: we generate the pre-activation to the gates without any non-linear activations. Interpreted in the dual view, this novel model is entirely white box. We show white box models obtained by modifying VGG and a ResNet (in the proposed way) achieve greater than $90\%$ and close to $70\%$ on CIFAR-10 and CIFAR-100 respectively. 
+%\emph{Part II: Open question related to training with random labels.}
+
+% In \Cref{sec:randlabel}, we show that upstream training with random labels followed by downstream training with true labels degrades test accuracy because the random labels affects the gates. This degradation of test accuracy was an open question in \cite{randlabel}.
+
+
+%\emph{Part III: Entirely interpretable and white box model.}
+
+%In \Cref{sec:whitebox}, we propose a novel model by modifying  DNNs with ReLUs: we generate the pre-activation to the gates without any non-linear activations. Interpreted in the dual view, this novel model is entirely white box. We show white box models obtained by modifying VGG and a ResNet (in the proposed way) achieve greater than $90\%$ and close to $70\%$ on CIFAR-10 and CIFAR-100 respectively. 
 
 
 %we propose a novel architecutre obtained by modifying DNNs with ReLUs, which, is conceptually same as DNNs with ReLUs but is entirely interpretable and white box. We effect the modification on a stardard model namely VGG and a ResNet model, to derive the corresponding white box models. We show these white box models achieve greater than $90\%$ and close to $70\%$ on CIFAR-10 and CIFAR-100 respectively. Here, the aim is to demonstrate that the new white box models improve interpretablity without significant loss in performance with respect to `state of the art'.
