@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 
-\node []  (fntext)at (3.5,1.5) {\textbf{WHITE BOX:} \texttt{DGN-NO-ACT}};
+\node []  (fntext)at (3.5,1.5) {\textbf{WHITE BOX:} \texttt{DGN-NO-ACT} (this paper)};
 %Feature Network
 \node [draw,
 	minimum width=6cm,
@@ -17,9 +17,9 @@
 \draw[-stealth, thick] (fin.center) -- (fnbox.west);
 
 %Feature Network Output
-\node (fout) [right of=fnbox,node distance=3.5cm, coordinate] {};
-\node[right=-1pt] at (fout.west){$\hat{y}_{\text{f}}$};
-\draw[-stealth, thick]  (fnbox.east)--(fout.center);
+%\node (fout) [right of=fnbox,node distance=3.5cm, coordinate] {};
+%\node[right=-1pt] at (fout.west){$\hat{y}_{\text{f}}$};
+%\draw[-stealth, thick]  (fnbox.east)--(fout.center);
 
 
 %ReLU Circle
@@ -56,7 +56,7 @@
 \node[left=-1pt] at (vin.west){{\color{red}$\mathbf{1}$}};
 \draw[-stealth, thick] (vin.center) -- (vnbox.west);
 
-%Feature Network Output
+%Value Network Output
 \node (vout) [right of=vnbox,node distance=3.5cm, coordinate] {};
 \node[right=-1pt] at (vout.west){$\hat{y}_{\text{DGN}}$};
 \draw[-stealth, thick]  (vnbox.east)--(vout.center);
@@ -67,7 +67,7 @@
 	circle,
 	minimum size=0.0625cm,thick,
 ] (gating) at (3,-1.25){\tiny{G}};
-
+\node[right=6pt] at (3.25,-1.25){Soft : $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$};
 
 %GaLU Circle
 \node[draw,

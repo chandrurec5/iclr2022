@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 
-\node []  (fntext)at (3.5,1.5) {\textbf{BLACK BOX:} DGN};
+\node []  (fntext)at (3.5,1.5) {\textbf{BLACK BOX:} DGN (prior work)};
 %Feature Network
 \node [draw,
 	minimum width=6cm,
@@ -44,6 +44,11 @@
 	circle,
 	minimum size=0.0625cm,thick,
 ] (gating) at (3,-1.25){\tiny{G}};
+%\node[right=6pt] at (gating.north){Hard : $G(q)=\mathbbm{1}_{\{q>0\}} $};
+%\node[below right=6pt] at (gating.north){Soft : $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$};
+
+\node[right=6pt] at (3.25,-0.925){Hard : $G(q)=\mathbbm{1}_{\{q>0\}} $};
+\node[right=6pt] at (3.25,-1.375){Soft : $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$};
 
 
 %Value Network
@@ -74,7 +79,7 @@
 	minimum size=0.75cm,thick,
 ] (galu) at (3,-2.5){\tiny{GaLU}};
 
-\draw [-stealth,thick]   (b) to[out=-10,in=120] (gating.north);
+\draw [-stealth,thick]   (b) to[out=-20,in=120] (gating.north);
 \draw [-stealth,thick]   (gating.south) -- (galu.north);
 
 
