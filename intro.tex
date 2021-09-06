@@ -68,19 +68,22 @@ In a DNN with ReLUs, both the `path feature' and `path value' are dictated by th
 
 \textbf{Our Contributions.} In the first part of the paper, we modify the DGN \citep{npk} into a white box model which we show performs \emph{only marginally poorly} compared to state of the art. As mentioned earlier, the issue of `black box'-ness is a conceptual. The primal-dual view of the DGN is that, the feature network computes the gates layer-by-layer (primal), and the vaulue network computes the output path-by-path (dual). The two fundamental conceptual issues with the primal-dual view of the DGN and our novel contributions to address them are disccused below.
 
-\emph{How to ensure that the value network is computing path-by-path, and not learning sophisticated structures layer-by-layer. Even if the path-by-path view holds, what is the implication/interpretation?}
+\emph{\textbf{Issue 1}: How to ensure that the value network is computing path-by-path, and not learning sophisticated structures layer-by-layer. Even if the path-by-path view holds, what is the interpretation?}
 
 \textbf{Prior Work.} The path-by-path dual view gives subnetwork interpretation. For each input, only a subset of gates are active, and correspondingly only a subnetwork of the paths are active (the `path feature' of the inactive paths is $0$). The Gram matrix of the `path features' is the so called the \emph{neural path kernel} (NPK) and is equal to the \emph{Hadamard} product of input Gram matrix and a correlation matrix which measures the overlap between the active subnetworks active for the various input pairs. \cite{npk} also showed that training the infinite width DGN (with gates fixed) is equivalent to a kernel method with the NPK.
 
-\textbf{Contribution I.} An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting, the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK. 
+\textbf{Contribution I.} An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK. 
 
-\textbf{Contribution II.} Once we have the gates, we show that destroying the layer by layer structure by permuting the gates does not cause performance to degrade at all. It could be argued that the network still manages to recover in a layer by layer manner despite such layer permutations. In order to eliminate this argument, we shut off input by using a constant $\mathbf{1}$ input, i.e., each path starts with $1$ at its input nodes, only the path activity is input dependent (since it is directly controlled by the gates). Using a constant $\mathbf{1}$ input does not degrade the performance either. From the primal viewpoint, these are surprising and counter intuitive results, however, in the dual view these are readily reconciled. In short, dual view is the right way to interpret the computations in the value network.
+\textbf{Contribution II.} Once we have the gates from feature network, we show that destroying the layer-by-layer structure by permuting the layers before applying to the value network does not degrade the performance. It could be argued that the value network still manages to recover in a layer-by-layer manner despite such layer permutations. In order to eliminate this argument, we provide a constant $\mathbf{1}$ input to the value network, and observe that even this does not degrade performance. From the primal viewpoint, these are surprising and counter intuitive results. However, in the dual view these are readily reconciled. We know from \Cref{th:fc}, that a constant $\mathbf{1}$ input to the value network sets the input Gram matrix to be a constant, and the NPK is then simply the product of base kernels, which is invariant to layer permutations. In short, the value network indeed computes path-by-path.
 
-\emph{The feature network which is a DNN with ReLUs is a `black box'.}
+%i.e., each path starts with $1$ at its input nodes, only the path activity is input dependent (since it is directly controlled by the gates). Using a constant $\mathbf{1}$ input does not degrade the performance either. 
+
+
+\emph{\textbf{Issue 2:} The feature network which is a DNN with ReLUs is a `black box'.}
 
 \textbf{Contribution III.} We modify the feature network of the DGN by replacing the ReLUs with identity activations. That said, the pre-activations (which are now equal to the layer outputs) still trigger the gates, which are then provided to the value network. We call this modified DGN as \texttt{DGN-NO-ACT}, and we show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
 
-
+\textbf{White Box.} The \texttt{DGN-NO-ACT} is entirely intrepretable and white box. The feature network generates the pre-activations to the gates without use of non-linear activations, the gates then switch the paths `on/off' to realise the `path features' in the value network which the just computes the inner product between the `path feature' and `path value'.
 
 %In this paper, we improve and simplilfy the DGN to build an entirely interpretable white box DNN. The DGN serves as a good starting point,  in that, it combines the primal view: feature network generating the gates (i.e, `path features') in a layer by layer manner, and the dual view: the value network specifying the `path values' and computing the output (i.e., inner product). We remove the `black box'ness by (i) interpreting the  `path features', (ii) interpreting the  `path value' and (iii) removing non-linear activations in the feature network. 
 
@@ -91,12 +94,9 @@ In a DNN with ReLUs, both the `path feature' and `path value' are dictated by th
 
 %\textbf{Interpreting `Path Value'.}  As per the dual view, all that is there to the value network is `path value', \emph{can we rule out the possibility that the value network is learning sophisticated structures in a layer by layer manner?}. Since `path value' is akin to a weight vector it is interpretable in a straightforward manner, which means we only have the feature network to interpret.
 
+In the second part of the paper, we look at the following open question in \citep{randlabel}: \emph{when trained upstream with random labels followed by downstream training with true labels, the test accuracy degrades, why?}
 
-\textbf{Contribution IV:} In \Cref{sec:randlabel}, we show that upstream training with random labels followed by downstream training with true labels degrades the test performance because the upstream random labels degrade the gating features. The degradation in  the test performance in this setting was a question left open by \cite{randlabel}.
-
-
-
-
+\textbf{Contribution IV:} We show that the degradation in the test performance is because the gates, i.e., the `path feautres' degrade.
 
 %Using the dual view, we interpret the roles of (i) width, (ii) depth, (iii) convolutions with global pooling and (iv) skip connections. For this, we refine and extend prior work to derive new results on the structure of NPK. We then present two new empirical results that are easily reconciled in the dual view (as opposed to the primal). These results are not meant to be techniques/tricks to improve performance that `beats state of the art'. The significance is that they showcase the power of dual view in resolving novel and unseen scenarios. We now list these contributions section-wise.
 

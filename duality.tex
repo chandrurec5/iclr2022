@@ -1,6 +1,5 @@
 \documentclass{article} % For LaTeX2e
 \usepackage{iclr2022_conference,times}
-
 \usepackage{colortbl}
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -61,16 +60,29 @@ Address \\
 
 
 \maketitle
+\begin{figure}
+\centering
+\begin{minipage}{0.49\columnwidth}
+\resizebox{0.99\columnwidth}{!}{
+\input{dgn}
+}
+\end{minipage}
+\begin{minipage}{0.49\columnwidth}
+\resizebox{0.99\columnwidth}{!}{
+\input{dgn-no-act}
+}
+\end{minipage}
 
-\input{abstract}
-\input{intro}
-\input{prelim}
-\input{theory}
-\input{exp}
-\input{randlabel}
-\input{whitebox}
-\input{related}
-\input{concl}
+\end{figure}
+%\input{abstract}
+%\input{intro}
+%\input{prelim}
+%\input{theory}
+%\input{exp}
+%\input{randlabel}
+%\input{whitebox}
+%\input{related}
+%\input{concl}
 \bibliography{refs}
 \bibliographystyle{iclr2022_conference}
 
