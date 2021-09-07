@@ -1,69 +1,41 @@
-\section{Preliminaries on the Dual View for DNN with ReLUs}\label{sec:prelim}
-In this section, we make a brief presentation of the preliminaries dual view formulation for a fully connected (FC) DNN with ReLUs in \citep{npk}. We consider a FC-DNN with `$d$' layers and  $w$  hidden units in each layer. The quantites `path feature' and `path value' in \Cref{sec:intro} will henceforth be called as \emph{neural path feature}(NPF) and \emph{neural path value} (NPV); these are defined in \Cref{def:npf-npv}. \Cref{prop:npf-npv} show that the output is the inner product of the NPF and NPV. \Cref{lm:npk} shows the relationship between the \emph{neural path kernel} (NPK), the Gram matrix of the NPFs, and a correlation matrix capturing subnetwork overlaps. %We end the section with the deep gated network setup. 
-
-\begin{comment}
-\subsection{Input Output Relationship in Fully Connected DNN: Primal View }
-We consider fully-connected DNNs with `$w$' hidden units per layer and `$d-1$' hidden layers. $\Theta\in\R^{\dnet}$ are the network weights, where $\dnet=\din w+(d-2)w^2+w$. The information flow is shown in \Cref{tb:basic}, where
-$\Theta(i,j,l)$ is the weight connecting the $j^{th}$ hidden unit of layer $l-1$ to the $i^{th}$ hidden unit of layer $l$. Further, $\Theta(\cdot,\cdot,1)\in\R^{w\times \din}, \Theta(\cdot,\cdot,l)\in\R^{w\times w},\forall l\in\{2,\ldots,d-1\}, \Theta(\cdot,\cdot,d)\in\R^{1\times w}$.
-\begin{table}[h]
+\section{Deep Gated Network : Prior Black Box vs Our White Box}\label{sec:dgn}
+\begin{figure}
 \centering
-\begin{tabular}{|l l lll|}\hline
-Input Layer&: &$z_{x,\Theta}(0)$ &$=$ &$x$ \\
-Pre-Activation Input&: & $q_{x,\Theta}(i,l)$& $=$ & $\sum_{j} \Theta(i,j,l)\cdot z_{x,\Theta}(j,l-1)$\\
-Gating Values&: &$G_{x,\Theta}(i,l)$& $=$ & $\mathbbm{1}_{\{q_{x,\Theta}(i,l)>0\}}$\\
-Hidden Layer Output&: &$z_{x,\Theta}(i,l)$ & $=$ & $q_{x,\Theta}(i,l)\cdot G_{x,\Theta}(i,l)$ \\
-Final Output&: & $\hat{y}_{\Theta}(x)$ & $=$ & $\sum_{j\in[w]} \Theta(1,j,d-1)\cdot z_{x,\Theta}(j,d-1)$\\\hline
-\end{tabular}
-\caption{Here, $l\in[d-1],i\in[w]$, $j\in[\din]$ for $l=1$ and $j\in[w]$ for $l=2,\ldots,d-1$.} 
-\label{tb:basic}
-\end{table}
-\end{comment}
-
-\begin{definition}\label{def:npf-npv}
-A path starts from an input node, passes through a weight and a hidden unit in each layer and ends at the output node. We define the following quantities for a path $p$:
-\emph{
-\begin{tabular}{lcl}
- Activity&:& $A_{\Theta}(x,p)$ is the product of the `$d-1$' gates in the path. \\
-Value&:& $v_{\Theta}(p)$ is the product of the `$d$' weights in the path.\\
-Feature&:&   $\phi_{x,\Theta}(p)$ is the product of the signal at the input node of the path and $A_{\Theta}(x,p)$.\\
-\end{tabular}
+\begin{minipage}{0.8\columnwidth}
+\begin{minipage}{0.49\columnwidth}
+\resizebox{0.99\columnwidth}{!}{
+\input{dgn}
 }
-
-The \emph{neural path feature} (NPF) given by $\phi_{x,\Theta}=\left(\phi_{x,\Theta}(p),p=1,\ldots, \Pfc\right),\in\R^{\Pfc}$ and the \emph{neural path value} (NPV) given by $v_{\Theta}=\left(v_{\Theta}(p),p=1,\ldots,\Pfc\right),\in\R^{\Pfc}$.
-\end{definition}
-
-\begin{proposition}\label{prop:npf-npv}
-The output of the DNN is then the inner product of the NPF and NPV: 
-\begin{align}\label{eq:inner}
-\hat{y}_{\Theta}(x)=\ip{\phi_{x,\Theta},v_{\Theta}}=\sum_{p\in[P]}  \phi_{x,\Theta}(p) v_{\Theta}(p)
-\end{align}
-\end{proposition}
-\begin{figure}[t]
-\centering
-\resizebox{0.9\columnwidth}{!}{
-\includegraphics[scale=0.5]{figs/paths.pdf}
+\end{minipage}
+\begin{minipage}{0.49\columnwidth}
+\resizebox{0.99\columnwidth}{!}{
+\input{dgn-no-act}
 }
-\caption{Illustration of \Cref{def:npf-npv} and \Cref{prop:npf-npv} in a  toy network with $2$ layers, $2$ gates per layer and $4$ paths. Paths $p_1$ and $p_2$ are `on' and paths $p_3$ and $p_4$ are `off'. The value, activity and feature of the individual paths are shown. $\hat{y}$ is the summation of the individual path contributions.}
-\label{fig:paths}
+\end{minipage}
+\end{minipage}
+\caption{DGN}
+\label{fig:dgn}
 \end{figure}
 
-%\subsection{Overlap of Sub-Networks and Neural Path Kernel}
-\begin{definition}[Overlap of active sub-networks]\label{def:overlap} 
-The total number of `active' paths for both $x$ and $x'$ that pass through input node $i$ is defined to be:\\
-{\centering{\centering{$\textbf{overlap}_{\Theta}(i,x,x') = \Lambda_{\Theta}(i,x,x') \eqdef \left|\{p \colon  A_{\Theta}(x,p)= A_{\Theta}(x',p)=1\}\right|/\din$}}}
-\end{definition}
-%\subsection{NPK of FC-DNN: Product Kernel }
-%\input{cnpkexample}
-%\subsection{Neural Path Kernel : Similarity based on active sub-networks}
-\begin{lemma}[Neural Path Kernel (NPK)]\label{lm:npk}
-Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\din}$ , let $\ip{u,u'}_{D}=\sum_{i=1}^{\din}D(i)u(i)u'(i)$. Let $H_{\Theta}(x,x')\eqdef\langle\phi_{x,\Theta},\phi_{x',\Theta} \rangle$ be the neural path kernel (NPK). Then  
-\begin{align*} 
-\text{NPK}_{\Theta}(x,x')= H_{\Theta}(x,x')=\ip{x,x'}_{\Lambda_{\Theta}(\cdot,x,x')} 
-\end{align*}
-\end{lemma}
-\textbf{Remark.} In the case of fully connected networks, $\textbf{overlap}_{\Theta}(i,x,x')$ is equal for all $i\in[\din]$, and hence $\text{NPK}_{\Theta}(x,x')=\ip{x,x'}\cdot\textbf{overlap}_{\Theta}(x,x')$.
+As mentioned in \Cref{sec:intro}, a deep gated network(DGN) setup is an alternative way to compute path-by-path, that is, the to compute the inner product of the neural path feature and neural path value. In this section, we first describe DGN in prior work \citep{npk}:  consitituent parts, information flow, purpose and training. We then discuss the two fundamental conceptual issues that make this DGN `black box'. We then present our modified \texttt{DGN-NO-ACT} with an intutitve explanation of how the conceptual issues are overcome and  why it is an entirely interpretatble white box model. These intuitive explanations will be justified in theory and experiments in \Cref{sec:main}.
 
-\subsection{Deep Gated Network : Decoupling Gates (NPF) and Weights (NPV) }\label{sec:dgn}
+\textbf{DGN (prior work).} Consider a DNN with ReLUs with weights $\Theta\in\R^{\dnet}$. The DGN \emph{corresponding} to this DNN (see the left diagram in \Cref{fig:dgn}) has two networks of \emph{identical archicture} (to the DNN) namely the feature network and value network with distinct weights $\Tf\in\R^{\dnet}$ and $\Tv\in\R^{\dnet}$ respectively. The main difference between the feature and value networks is in the activations. The feature network has ReLUs which turn `on/off' based on their pre-activation signal, and the value  network has gated linear units (GaLUs) \citep{sss,npk}. Each GaLU multiplies its pre-activation input by an external gating signal. Since the feature and value networks have identical architecture, there is an one-to-one correspondance between the ReLUs and GaLUs in the respective networks.
+In the DGN, the external gating signal to the GaLU is derived from the pre-activation input of the corresponding ReLU. The feature network deals with the primal layer-by-layer computations, the pre-activations from the feature network generate the gates, which are then used to switch `on/off' the corresponding GaLUs in the value network: this realises $\phi_{\Tf}(x)$. The value network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.
+
+The primary use of the DGN was to measure the information in the gates of a DNN with ReLU. For this, the gating is set to be `hard', where for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. It is interesting to compare the gates from a learnt DNN to those from a randomly initialised DNN.
+
+$1.$ \textbf{Fixed Learnt (FL):} We \emph{pre-train} the feature network (which is a DNN with ReLUs), then \emph{freeze} the weights of the feature network, and then train the value network. This way we can measure information in the gates of a trained DNN.
+
+$2.$ \textbf{Fixed Random (FR):} We initialise the feature network at random, and then \emph{freeze} its weights and then train the value network. This way we can measure information in the gates of a DNN at initialisation. Here, the feature and value network can be either initialised with the same weights i.e., dependent initialisation (DI) or statistically independent weights  i.e., independent initialisation (II). 
+
+The secondary use of DGN is \textbf{decoupled learning} (DL) $\phi_{\Tf}(x)$ and $v_{\Tv}$ which is a comptetive proposal for DNN. For this, the gating is set to be `soft', $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ (we used $\beta=10$ in our experiments). This allows the gradient to flow through the feature network. Here, $\Tf$ and $\Tv$ are initialiased statistically independent and then train both of them.
+
+To summarise the primal and secondary uses, one can say that the DGN operates in four modes namely FL, FR-II, FR-DI and DL.
+
+\textbf{Issues.} The feature network is a DNN with ReLUs which is a `black box'. The value network, starting from input $x$, might still be learning sophisticated structures layer-by-layer.
+
+\textbf{DGN-NO-ACT(our model)}(see right diagram in \Cref{fig:dgn}). We replace the ReLUs in the feature network with \emph{identity} maps, i.e., $I(q) = q$. Thus, in the \texttt{DGN-NO-ACT}, the transformation from input to the pre-activations is entirely linear and is amenable to interpertation via standard spectral analysis using linear algebraic tools. The pre-activations trigger the gates, which then dictates the path activity. The value network is given only given $\mathbf{1}$ as input and the doubt as to whether or not it learns sophisticated structures layer-by-layer from the input is quashed. Note that here $\phi_{\Tf}(x)\in(0,1)^{\text{total\,paths}}$ is a very simple feature vector.
+
 \begin{comment}
 \begin{wrapfigure}{r}{0.2\textwidth}
 \centering
@@ -73,68 +45,5 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 \end{wrapfigure}
 \end{comment}
 
-Since $\hat{y}_{\Theta}(x)=\ip{\phi_{x,\Theta},v_{\Theta}}$, during training, as $\Theta$ is learnt, both the NPFs and NPV are also learnt. To understand their roles better, $\phi_{x,\Theta}$ and $v_{\Theta}$ have to be separated.  This is achieved by the deep gated network (DGN) setup (see \Cref{fig:dgn}), which has two networks of \emph{identical architecture} namely the \emph{feature network} ($\Tf\in\R^{d^{\text{f}}_{\text{net}}}$) which holds the NPFs (i.e., the gating information) and the \emph{value network} ($\Tv\in\R^{d^{\text{v}}_{\text{net}}}$) which holds the NPV.  The combined parameterisation is denoted by $\Theta^{\text{DGN}}=(\Tf,\Tv)\in \R^{d^{\text{f}}_{\text{net}}+d^{\text{v}}_{\text{net}}}$.  The feature network is a DNN with ReLUs and the value network is a DNN with \emph{Gated Linear Units (GaLUs)} (terminology used in [\citenum{sss}]) whose output is the product of its pre-activation input $q^{\text{v}}(x)$and the external gating signal $G^{\text{f}}(x)$ (see \Cref{fig:dgn}). In \Cref{fig:dgn}, the main output of the DGN is $\hat{y}_{\text{DGN}}(x)$, while the other output $\hat{y}_{\text{f}}(x)$ is used to \emph{pre-train} the gates (see \Cref{sec:exp}).
+%Since $\hat{y}_{\Theta}(x)=\ip{\phi_{x,\Theta},v_{\Theta}}$, during training, as $\Theta$ is learnt, both the NPFs and NPV are also learnt. To understand their roles better, $\phi_{x,\Theta}$ and $v_{\Theta}$ have to be separated.  This is achieved by the deep gated network (DGN) setup (see \Cref{fig:dgn}), which has two networks of \emph{identical architecture} namely the \emph{feature network} ($\Tf\in\R^{d^{\text{f}}_{\text{net}}}$) which holds the NPFs (i.e., the gating information) and the \emph{value network} ($\Tv\in\R^{d^{\text{v}}_{\text{net}}}$) which holds the NPV.  The combined parameterisation is denoted by $\Theta^{\text{DGN}}=(\Tf,\Tv)\in \R^{d^{\text{f}}_{\text{net}}+d^{\text{v}}_{\text{net}}}$.  The feature network is a DNN with ReLUs and the value network is a DNN with \emph{Gated Linear Units (GaLUs)} (terminology used in [\citenum{sss}]) whose output is the product of its pre-activation input $q^{\text{v}}(x)$and the external gating signal $G^{\text{f}}(x)$ (see \Cref{fig:dgn}). In \Cref{fig:dgn}, the main output of the DGN is $\hat{y}_{\text{DGN}}(x)$, while the other output $\hat{y}_{\text{f}}(x)$ is used to \emph{pre-train} the gates (see \Cref{sec:exp}).
 
-\begin{figure}[h]
-\begin{minipage}{0.38\columnwidth}
-\resizebox{0.8\columnwidth}{!}{
-\includegraphics[scale=0.4]{figs/dgn-nips.pdf}
-}
-\caption{\small{Shows a DGN and interaction between two corresponding units, one in the feature and other in value network.}}
-\label{fig:dgn}
-\end{minipage}
-\hfill
-%\begin{flushright}
-\begin{minipage}{0.55\columnwidth}
-\begin{proposition}[{[\citenum{npk}]}]\label{prop:ntks} Let $\kv_{\Tdgn}(x,x')=\ip{ \nabla_{\Tv}\hat{y}_{\text{DGN}}(x), \nabla_{\Tv}\hat{y}_{\text{DGN}}(x')}$, and  $\kf_{\Tdgn}(x,x')=\ip{ \nabla_{\Tf}\hat{y}_{\text{DGN}}(x), \nabla_{\Tf}\hat{y}_{\text{DGN}}(x') }$ and $K_{\Tdgn}(x,x')$ be the NTK of the DGN. Then 
-\begin{align*}
-K_{\Tdgn}(x,x')=\kv_{\Tdgn}(x,x')+\kf_{\Tdgn}(x,x')
-\end{align*}
-\textbf{Remarks.} $\nabla_{\Tf}\hat{y}_{\text{DGN}}(x)$ flows via the feature network and $\nabla_{\Tv}\hat{y}_{\text{DGN}}(x)$ via the value network. Correspondingly there are two NTKs, i.e., $\kf$ and $\kv$. If the gates are fixed then, $\nabla_{\Tf}\hat{y}_{\text{DGN}}(x)=\mathbf{0}$ and $\kf_{\Tdgn}(x,x')=0$. 
-\end{proposition}
-%The deep gated network (DGN) setup (see \Cref{fig:dgn}), which has two networks namely the \emph{feature network} parameterised by $\Tf\in\R^{d^{\text{f}}_{\text{net}}}$ which holds the NPFs (i.e., the gating information) and a \emph{value network} parameterised by $\Tv\in\R^{d^{\text{v}}_{\text{net}}}$ which holds the NPV.  The combined parameterisation is denoted by $\Theta^{\text{DGN}}=(\Tf,\Tv)\in \R^{d^{\text{f}}_{\text{net}}+d^{\text{v}}_{\text{net}}}$.  
-\end{minipage}
-%\end{flushright}
-\begin{comment}
-\begin{minipage}{0.73\columnwidth}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|ll|}\hline
-Feature Network & Value Network\\
-$z_{x,\Theta}(0)=x$& $z_{x,\Theta}(0)=x$ \\
-$q_{x,\Theta}(i,l)=\sum_{j} \Theta(i,j,l)\cdot z_{x,\Theta}(j,l-1)$& $q_{x,\Theta}(i,l)=\sum_{j} \Theta(i,j,l)\cdot z_{x,\Theta}(j,l-1)$\\
-$G_{x,\Theta}(i,l)=\mathbbm{1}_{\{q_{x,\Theta}(i,l)>0\}}$& $G_{x,\Theta}(i,l)=\mathbbm{1}_{\{q_{x,\Theta}(i,l)>0\}}$\\
-$z_{x,\Theta}(i,l)=q_{x,\Theta}(i,l)\cdot G_{x,\Theta}(i,l)$ & $z_{x,\Theta}(i,l)=q_{x,\Theta}(i,l)\cdot G_{x,\Theta}(i,l)$ \\
- $\hat{y}_{\Theta}(x)=\sum_{j\in[w]} \Theta(1,j,d-1)\cdot z_{x,\Theta}(j,d-1)$ & $\hat{y}_{\Theta}(x)=\sum_{j\in[w]} \Theta(1,j,d-1)\cdot z_{x,\Theta}(j,d-1)$\\\hline
-\end{tabular}
-}
-\end{minipage}
-\end{comment}
-\end{figure}
-
-\begin{comment}
-\subsection{NTK $\propto$ NPK}
-\begin{assumption}\label{assmp:main}
-(i) $\Tv_0$ is statistically independent of $\Tf_0$ (ii) $\Tv_0$ are i.i.d symmetric Bernoulli over $\{-{\sigma},+{\sigma}\}$. 
-\end{assumption}
-
-\begin{theorem}\label{th:main} Let $\sigma=\frac{\cscale}{\sqrt{w}}$. Under \Cref{assmp:main}, a $w\ra\infty$, for FC-DGN we have: 
-\begin{align*}
-\kv_{\Tdgn_0}(x,x') &\ra d\cdot \sigma^{d-1}\cdot H_{\Tf_0}(x,x')= d\cdot \sigma^{d-1}\cdot \ip{x,x'}_{\Lambda_{\Tf_0}(\cdot,x,x')}  \\
-\end{align*}
-\end{theorem}
-\begin{figure}[h]
-\begin{minipage}{0.49\columnwidth}
-\centering
-\resizebox{\columnwidth}{!}{
-\includegraphics[scale=0.5]{figs/overlap.pdf}
-}
-\end{minipage}
-\begin{minipage}{0.49\columnwidth}
-\resizebox{\columnwidth}{!}{
-\includegraphics[scale=0.5]{figs/gating-features.pdf}
-}
-\end{minipage}
-\caption{Shows a toy illustration of active sub-networks for two inputs $x$ and $x'$ and the common overlapping sub-network. The total number of active paths from any input node $i$, $\Lambda(i,x,')=\Pi_{i=1}^{3} \ip{G_l(x),G_l(x'}=1\cdot 2\cdot 1 =2$.}
-\label{fig:overlap}
-\end{figure}
-\end{comment}
