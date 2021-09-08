@@ -66,24 +66,60 @@ In a DNN with ReLUs, both the `path feature' and `path value' are dictated by th
 %3. \textbf{Neural Path Kernel For Subnetwork.} For any given input, computation from input to output happens via the `active subnetwork' consisting of active paths.
 %It was show that the information stored in the gates is analytically characterised by \emph{neural path kernel} (NPK) which is equal to the \emph{Hadamard} product of the input Gram matrix and a correlation matrix which measures the overlap between the sub-networks active for the input pairs.
 
-\textbf{Our Contributions.} In the first part of the paper, we modify the DGN \citep{npk} into a white box model which we show performs \emph{only marginally poorly} compared to state of the art. As mentioned earlier, the issue of `black box'-ness is a conceptual. The primal-dual view of the DGN is that, the feature network computes the gates layer-by-layer (primal), and the vaulue network computes the output path-by-path (dual). The two fundamental conceptual issues with the primal-dual view of the DGN and our novel contributions to address them are disccused below.
+%\textbf{Our Contributions.} In the first part of the paper, we look at the issue of `black box'-ness. As mentioned earlier, this issue is conceptual. The main misconception is that \emph{starting from the input each layer performs a non-linear transformation via activations and sophisticated structures are learnt layer-by-layer}. The two things, i.e., `layer-by-layer' and `non-linear activations' are separately correct; the misconception is the need for the two to be entangled. DGN \citep{npk} takes the first step in the disentanglement, by separating the primal and the dual: the feature network computes the gates layer-by-layer (primal) and the value network computes the output path-by-path (dual). We identify two issues with the DGN and rectify it to obtain the novel \texttt{DGN-NO-ACT} which is a white box model. We discuss the issue and our proposals to address them.
 
-\emph{\textbf{Issue 1}: How to ensure that the value network is computing path-by-path, and not learning sophisticated structures layer-by-layer. Even if the path-by-path view holds, what is the interpretation?}
+%\emph{\textbf{Issue 1:} The feature network which is a DNN with ReLUs is a `black box'.}
 
-\textbf{Prior Work.} The path-by-path dual view gives subnetwork interpretation. For each input, only a subset of gates are active, and correspondingly only a subnetwork of the paths are active (the `path feature' of the inactive paths is $0$). The Gram matrix of the `path features' is the so called the \emph{neural path kernel} (NPK) and is equal to the \emph{Hadamard} product of input Gram matrix and a correlation matrix which measures the overlap between the active subnetworks active for the various input pairs. \cite{npk} also showed that training the infinite width DGN (with gates fixed) is equivalent to a kernel method with the NPK.
+%\emph{\textbf{Our Solution:}} We replace the ReLUs with identity activations, and use the pre-activations to trigger the gates, which are then provided to the value network. The transformation from the input to pre-activation has no non-linear activations and interpretable via linear algebraic tools.
 
-\textbf{Contribution I.} An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK. 
+%\emph{\textbf{Issue 2}: The value network might be learning sophisticated structures from the input in a layer-by-layer manner, and hence the value network is also a `black box'.}
 
-\textbf{Contribution II.} Once we have the gates from feature network, we show that destroying the layer-by-layer structure by permuting the layers before applying to the value network does not degrade the performance. It could be argued that the value network still manages to recover in a layer-by-layer manner despite such layer permutations. In order to eliminate this argument, we provide a constant $\mathbf{1}$ input to the value network, and observe that even this does not degrade performance. From the primal viewpoint, these are surprising and counter intuitive results. However, in the dual view these are readily reconciled. We know from \Cref{th:fc}, that a constant $\mathbf{1}$ input to the value network sets the input Gram matrix to be a constant, and the NPK is then simply the product of base kernels, which is invariant to layer permutations. In short, the value network indeed computes path-by-path.
+%\emph{\textbf{Our Solution:}} We give a constant $\mathbf{1}$ as input to the value network, thereby removing any misconception that perhaps sophisticated structures are learnt layer-by-layer in the value network.
+
+
+%\emph{\textbf{Issue 3:} Are we not impeding the layer-by-layer learning ability by providing a $\mathbf{1}$ input?}
+
+%\emph{\textbf{Our Answer:}} No. All the layer-by-layer learning from input happens in the feature network (without use of non-linear activations), so we are not doing way with this aspect.
+
+
+\textbf{Our Contributions.} In the first part of the paper, we look at the issue of `black box'-ness. As mentioned earlier, this issue is conceptual. The main misconception is that \emph{starting from the input each layer performs a non-linear transformation via activations and sophisticated structures are learnt layer-by-layer}. The two things, i.e., `layer-by-layer' and `non-linear activations' are separately correct; the misconception is in the need for these two to be entangled. DGN \citep{npk} takes the first step in the disentanglement, by separating the primal and the dual: the feature network computes the gates layer-by-layer (primal) and the value network computes the output path-by-path (dual). We propose a novel white box model \texttt{DGN-NO-ACT} by modifying the DGN. The hightlights are:
+
+$\bullet$ In our novel \texttt{DGN-NO-ACT}, we achieve complete disentanglement of feature network, gating and value network. In the feature network, we replace the ReLUs with identity activations, and use the pre-activations to trigger the gates which are now external to the feature network. The gates are then provided to the value network. We give a constant $\mathbf{1}$ as input to the value network, and hence the `path value' is a vector inin $\R^\text{{total\,paths}}$ and contains no input dependent information. The `path feature' is a vector in $[0,1]^\text{{total\,paths}}$ which specifies the activation levels of each path. In simple terms,
+
+{\centering \emph{\textbf{The output is a summation of `path value' weighted by the `path activations'.}}\par}
+
+More importantly, the path activations are dictated by the gates, and transformation from the input to  pre-activation of the gates has no non-linear activations and interpretable via linear algebraic tools.
+
+$\bullet$ We show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
+
+$\bullet$ Prior work \citep{npk} showed that training an infinite width fully connected DGN with its gates fixed is equivalent to a kernel method with the so called \emph{neural path kernel}(NPK) (which is same as the Gram matrix of the `path features). An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). The expression also reveals that the role of depth is to provide the product structure and the role of width is averaging. Thus, thanks to the primal dual separation, \Cref{th:fc} captures the roles of gates, depth and width in a single NPK expression.
+
+
+$\bullet$ In \Cref{th:conv,th:res}, we extend the dual view to show that the NPK is rotationally invariant in the presence of convolutions with global pooling, and NPK is an ensemble in the presence of skip connections respectively. 
+%The rotational invariance property is something that we would naturally expect based on our primal view based intuition. 
+%While prior results \cite{} have also noted the ensemble nature, we believe \Cref{th:res} is more fundamental due to the fact that it is simply based on the presence of combinatorially many architectures caused as a direct consequnce of the skip connections. 
+
+%$\bullet$ In \Cref{sec:theory}, we also revisit prior result for the full connected case. 
+
+$\bullet$ In \Cref{sec:exp}, we demonstrate that the value network does not learn in a layer-by-layer manner. There are two sources via which the input affects the value network, and we destroy both of these sources. Firstly, we provide the value network with a constant $\mathbf{1}$, ensuring that the only way input dependent information affects the value networks is via the other source namely the gates. Here, we destroy the layer-by-layer structure by permuting the gates, tiling cum arbitrary rotation of the gates. We show that these does not cause a degradation in performance. While this looks counter intuitive and surprising from the primal view, \Cref{sec:fc} easily explains these.%the dual view easily explains these. %From the expression of \Cref{th:fc}, we know that the input Gram matrix will be a constant. However, the product of the base kernels still contain information about the input. Also, the permutation invariance of the product structure of the NPK allows us to destroy the layer-by-layer structure of the gates.
+
+%\textbf{Simplifed Interpretation.} As we said, the main misconception is entangling the `layer-by-layer' and the non-linear activations. What we achieve is disentanglement: in our novel \texttt{DGN-NO-ACT} the feature network learns layer-by-layer, and the value network learns path-by-path, and the non-linerity, i.e., gating uses pre-activation from feature network and switches the paths `on/off' in the value network. The proposed \texttt{DGN-NO-ACT} has the following simple interpretation: `path value' is a vector in $\R^\text{{total\,paths}}$ and the `path feature' is a vector in $[0,1]^\text{{total\,paths}}$ which specifies the activation levels of each coordinate in `path value to produce the final output.
+
+
+%\textbf{Prior Work.} The path-by-path dual view gives subnetwork interpretation. For each input, only a subset of gates are active, and correspondingly only a subnetwork of the paths are active (the `path feature' of the inactive paths is $0$). The Gram matrix of the `path features' is the so called the \emph{neural path kernel} (NPK) and is equal to the \emph{Hadamard} product of input Gram matrix and a correlation matrix which measures the overlap between the active subnetworks active for the various input pairs. \cite{npk} also showed that training the infinite width DGN (with gates fixed) is equivalent to a kernel method with the NPK.
+
+%\textbf{Contribution I.} An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). In \Cref{th:conv} we show that the role of convolutions with global pooling is to provide rotational invariance to the NPK. In \Cref{th:res} we show that the role of skip connections is to provide an ensemble structure to NPK. 
+
+%\textbf{Contribution II.} Once we have the gates from feature network, we show that destroying the layer-by-layer structure by permuting the layers before applying to the value network does not degrade the performance. It could be argued that the value network still manages to recover in a layer-by-layer manner despite such layer permutations. In order to eliminate this argument, we provide a constant $\mathbf{1}$ input to the value network, and observe that even this does not degrade performance. From the primal viewpoint, these are surprising and counter intuitive results. However, in the dual view these are readily reconciled. We know from \Cref{th:fc}, that a constant $\mathbf{1}$ input to the value network sets the input Gram matrix to be a constant, and the NPK is then simply the product of base kernels, which is invariant to layer permutations. In short, the value network indeed computes path-by-path.
 
 %i.e., each path starts with $1$ at its input nodes, only the path activity is input dependent (since it is directly controlled by the gates). Using a constant $\mathbf{1}$ input does not degrade the performance either. 
 
 
-\emph{\textbf{Issue 2:} The feature network which is a DNN with ReLUs is a `black box'.}
+%\emph{\textbf{Issue 2:} The feature network which is a DNN with ReLUs is a `black box'.}
 
-\textbf{Contribution III.} We modify the feature network of the DGN by replacing the ReLUs with identity activations. That said, the pre-activations (which are now equal to the layer outputs) still trigger the gates, which are then provided to the value network. We call this modified DGN as \texttt{DGN-NO-ACT}, and we show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
+%\textbf{Contribution III.}  We call this modified DGN as \texttt{DGN-NO-ACT}, and we show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
 
-\textbf{White Box.} The \texttt{DGN-NO-ACT} is entirely intrepretable and white box. The feature network generates the pre-activations to the gates without use of non-linear activations, the gates then switch the paths `on/off' to realise the `path features' in the value network which the just computes the inner product between the `path feature' and `path value'.
+%\textbf{White Box.} The \texttt{DGN-NO-ACT} is entirely intrepretable and white box. The feature network generates the pre-activations to the gates without use of non-linear activations, the gates then switch the paths `on/off' to realise the `path features' in the value network which the just computes the inner product between the `path feature' and `path value'.
 
 %In this paper, we improve and simplilfy the DGN to build an entirely interpretable white box DNN. The DGN serves as a good starting point,  in that, it combines the primal view: feature network generating the gates (i.e, `path features') in a layer by layer manner, and the dual view: the value network specifying the `path values' and computing the output (i.e., inner product). We remove the `black box'ness by (i) interpreting the  `path features', (ii) interpreting the  `path value' and (iii) removing non-linear activations in the feature network. 
 
@@ -94,9 +130,7 @@ In a DNN with ReLUs, both the `path feature' and `path value' are dictated by th
 
 %\textbf{Interpreting `Path Value'.}  As per the dual view, all that is there to the value network is `path value', \emph{can we rule out the possibility that the value network is learning sophisticated structures in a layer by layer manner?}. Since `path value' is akin to a weight vector it is interpretable in a straightforward manner, which means we only have the feature network to interpret.
 
-In the second part of the paper, we look at the following open question in \citep{randlabel}: \emph{when trained upstream with random labels followed by downstream training with true labels, the test accuracy degrades, why?}
-
-\textbf{Contribution IV:} We show that the degradation in the test performance is because the gates, i.e., the `path feautres' degrade.
+In the second part of the paper (see \Cref{sec:randlabel}), we look at the following open question in \citep{randlabel}: \emph{when trained upstream with random labels followed by downstream training with true labels, the test accuracy degrades, why?} We show that the degradation in the test performance is because the gates, i.e., the `path feautres' degrade.
 
 %Using the dual view, we interpret the roles of (i) width, (ii) depth, (iii) convolutions with global pooling and (iv) skip connections. For this, we refine and extend prior work to derive new results on the structure of NPK. We then present two new empirical results that are easily reconciled in the dual view (as opposed to the primal). These results are not meant to be techniques/tricks to improve performance that `beats state of the art'. The significance is that they showcase the power of dual view in resolving novel and unseen scenarios. We now list these contributions section-wise.
 
@@ -231,4 +265,10 @@ It was shown that if gates from a randomly initialised (instead of pre-trained) 
 
 
  %Recent past has seen two paradigms namely `explainability' and `interpretabilty' to addres the issue of `black box'-ness. In the  `explaniablity' paradigm, one accepts as a fact that complex machine learning tasks might require complex black box models, however, resorts to \emph{post-hoc} \emph{explaination} of the \emph{decisions} of a DNN by building simpler local models. In the `interpretability' paradigm, one builds entirely interpretable white box models in the first place, thereby eliminating the need for \emph{post-hoc} explanations. 
+
+
+
+
+
+
 
