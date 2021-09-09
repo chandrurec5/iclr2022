@@ -1,7 +1,7 @@
 \section{Introduction}\label{sec:intro}
 Despite their success deep neural networks (DNNs) are still largely considered as black boxes. In this paper, we focus on DNNs with rectified linear units (ReLUs). For such networks, we argue that the `black box'-ness issue is mostly conceptual one arising from the primal view which is partial and incomplete. The primal view is that, increasingly sophisticated features are learnt in a layer-by-layer manner. The conceptual issue here is that, only the final layer is linear and amenable to a feature/weight interpretation, and yet the hidden features i.e., the penultimate layer outputs are not interpretable themselves. 
 %The conceptual issue with the primal view is that, only the final layer is linear and amenable to a feature/weight interpretation, and even then, the hidden features i.e., the penultimate layer outputs, obtained as a result of several non-linear operations on the input are not interpretable themselves. 
-Recently \cite{npk} used the \emph{dual view} to investigate the role of gates (i.e., \emph{on/off} state) of the ReLUs. In this paper, we combine the primal dual views to resolve the `black box'-ness issue successfully.
+Recently \cite{npk} used the \emph{dual view} to investigate the role of gates (i.e., \emph{on/off} state) of the ReLUs. In this paper, we combine the primal dual views to reduce `black box'-ness issue to that of understanding a two linear structure (one each for primal and dual) and a gating mechanism that is sandwidched between the two.
 
 %The dual view proposes an alternative feature decomposition, by projecting the computation onto the dimnesion of the paths. A path starts from an input node, passes through a weight and a ReLU in each layer and ends at an output node. A path is `active' (i.e., `on') if all the gates in the path are `active' (i.e. `on). Each path, if active, transmits the signal at its input node, which on its way to the output is scaled by a `neural path value' (NPV) which is equal the product of the weights in the path. For a given input, a `neural path feature' (NPF) is defined to be the product of signal at the input node and the path activity. The NPF and NPV are vectors in $\R^{\text{total.no.paths}}$, and the ouput is the inner product of these NPF and NPV. Note that the gates dictate the path activity -- the NPFs are known if the input and the gates are known. So, there is no need for any extra procedure to compute the NPFs. 
 
@@ -25,7 +25,9 @@ It was shown a DGN train from scratch (i.e., randomised initialisation of both f
 
 \emph{What is the use of DGN?}
 
-The primary use of a DGN was to characterise the information in the gates of a DNN. They showed that gates contain the most useful information: training the value network of a DGN with pre-trained DNN as its feature network, matches the performance of the pre-trained DNN. The secondary use is that a DGN serves as an approximation (to a DNN) which is amenable to theoretical analysis.  %In other words, if we have the `path feature' (via the gates of feature network) then we can train `path value' (in the value network). This implies, in practice, `path feature' is akin to feature and `path value' is akin to weights in a standard linear model, wherein, if the feature is known the weigths can be trained. 
+The primary use of a DGN was to characterise the information in the gates of a DNN. They showed that \emph{gates contain the most useful information}: training the value network of a DGN with pre-trained DNN as its feature network, matches the performance of the pre-trained DNN. It was also shown that \emph{gates are learnt during training} and that it improves test accuracy.
+
+%The secondary use is that a DGN serves as an approximation (to a DNN) which is amenable to theoretical analysis.  %In other words, if we have the `path feature' (via the gates of feature network) then we can train `path value' (in the value network). This implies, in practice, `path feature' is akin to feature and `path value' is akin to weights in a standard linear model, wherein, if the feature is known the weigths can be trained. 
 
 
 %Using the DGN, \cite{npk} confirmed the non-vacuousness of the dual view by asking (i) \emph{Q1: suppose we have the `path features' in hand, is it possible to learn the %path value' separately?} and (ii) \emph{Q2: can the DGN learn the `path features' and `path value' as good as the DNN}.
@@ -84,24 +86,45 @@ In a DNN with ReLUs, both the `path feature' and `path value' are dictated by th
 
 \textbf{Our Contributions.} In the first part of the paper, we look at the issue of `black box'-ness. As mentioned earlier, this issue is conceptual. The main misconception is that \emph{starting from the input each layer performs a non-linear transformation via activations and sophisticated structures are learnt layer-by-layer}. The two things, i.e., `layer-by-layer' and `non-linear activations' are separately correct; the misconception is in the need for these two to be entangled. DGN \citep{npk} takes the first step in the disentanglement, by separating the primal and the dual: the feature network computes the gates layer-by-layer (primal) and the value network computes the output path-by-path (dual). We propose a novel white box model \texttt{DGN-NO-ACT} by modifying the DGN. The hightlights are:
 
-$\bullet$ In our novel \texttt{DGN-NO-ACT}, we achieve complete disentanglement of feature network, gating and value network. In the feature network, we replace the ReLUs with identity activations, and use the pre-activations to trigger the gates which are now external to the feature network. The gates are then provided to the value network. We give a constant $\mathbf{1}$ as input to the value network, and hence the `path value' is a vector inin $\R^\text{{total\,paths}}$ and contains no input dependent information. The `path feature' is a vector in $[0,1]^\text{{total\,paths}}$ which specifies the activation levels of each path. In simple terms,
 
-{\centering \emph{\textbf{The output is a summation of `path value' weighted by the `path activations'.}}\par}
+1. In \Cref{sec:dgn-no-act}, we present our novel \texttt{DGN-NO-ACT} where we achieve complete disentanglement, into a primal linear stucture, gating and then a dual linear structure. 
 
-More importantly, the path activations are dictated by the gates, and transformation from the input to  pre-activation of the gates has no non-linear activations and interpretable via linear algebraic tools.
+$\bullet$ \textbf{Primal Linearity:} We replace the ReLUs in the feature network with identity activations. This makes the feature network free of activations and entirely linearly.  
 
-$\bullet$ We show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
+$\bullet$ \textbf{Gating:} The preactivations from the feature network are used to trigger the gates. The gates here are seen to play the role of handing off the computations from the primal to the dual.
 
-$\bullet$ Prior work \citep{npk} showed that training an infinite width fully connected DGN with its gates fixed is equivalent to a kernel method with the so called \emph{neural path kernel}(NPK) (which is same as the Gram matrix of the `path features). An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). The expression also reveals that the role of depth is to provide the product structure and the role of width is averaging. Thus, thanks to the primal dual separation, \Cref{th:fc} captures the roles of gates, depth and width in a single NPK expression.
+$\bullet$ \textbf{Dual Linearity:} We set the input to the value network, so that the `path value' has no input dependence. The value network can be described in simpled terms as:
+
+{\centering \emph{\textbf{The output is the summation of `path value' weighted by the `path activations'.}}\par}
 
 
-$\bullet$ In \Cref{th:conv,th:res}, we extend the dual view to show that the NPK is rotationally invariant in the presence of convolutions with global pooling, and NPK is an ensemble in the presence of skip connections respectively. 
-%The rotational invariance property is something that we would naturally expect based on our primal view based intuition. 
+$\bullet$ It is known from prior work that gates are learnt, and we observe the same in our experiments. However, we defer a formal analysis of how the feature network learns useful gating patterns to future work. Instead, in \Cref{sec:primal}, we informally argue via standard linear algebra that the feature network might be looking at all possible spectral components of the input.
+
+
+$\bullet$ The value network is linear in the `path' variables. However, it is non-linear in the network weights. Here, we progress by turning to the \emph{infinite width regime}. Prior work \citep{npk} showed that training an infinite width fully connected DGN with its gates fixed is equivalent to a kernel method with the so called \emph{neural path kernel}(NPK) (which is same as the Gram matrix of the `path features). An important property of the NPK which was unnoticed is that the NPK is invaraint to permutation of layers. In \Cref{th:fc}, we remedy this by rewriting the NPK as a \emph{Hadamard} product of the input Gram matrix and the base kernels (one per layer) which measures the average correlation of gates (in that layer). The expression also reveals that the role of depth is to provide the product structure and the role of width is averaging. Thus, thanks to the primal dual separation, \Cref{th:fc} captures the roles of gates, depth and width in a single NPK expression. In \Cref{th:conv,th:res}, we extend the dual view to show that the NPK is rotationally invariant in the presence of convolutions with global pooling, and NPK is an ensemble in the presence of skip connections respectively. 
+
+$\bullet$ In \Cref{sec:exp}, we demonstrate that the value network does not learn in a layer-by-layer manner; this is important to convince ourselves that the value network is indeed linear in the dual `path' variables and computes path-by-path. There are two sources via which the input affects the value network, and we destroy both of these sources. Firstly, we provide the value network with a constant $\mathbf{1}$, ensuring that the only way input dependent information affects the value networks is via the other source namely the gates. Here, we destroy the layer-by-layer structure by permuting the gates, tiling cum arbitrary rotation of the gates. We show that these does not cause a degradation in performance. While this looks counter intuitive and surprising from the primal view, \Cref{sec:fc} easily explains these.%the dual view easily explains these. %From the expression of \Cref{th:fc}, we know that the input Gram matrix will be a constant. However, the product of the base kernels still contain information about the input. Also, the permutation invariance of the product structure of the NPK allows us to destroy the layer-by-layer structure of the gates.
+
+$\bullet$ In \Cref{sec:dgn-no-act-cifar}, we show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
+
+
+
+
+
+
+
+
+
+%$\bullet$ In our novel \texttt{DGN-NO-ACT}, we achieve complete disentanglement of feature network, gating and value network. In the feature network, we replace the ReLUs with identity activations, and use the pre-activations to trigger the gates which are now external to the feature network. The gates are then provided to the value network. We give a constant $\mathbf{1}$ as input to the value network, and hence the `path value' is a vector inin $\R^\text{{total\,paths}}$ and contains no input dependent information. The `path feature' is a vector in $[0,1]^\text{{total\,paths}}$ which specifies the activation levels of each path. In simple terms,
+
+%More importantly, the path activations are dictated by the gates, and transformation from the input to  pre-activation of the gates has no non-linear activations and interpretable via linear algebraic tools.
+
+%$\bullet$ We show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
+
 %While prior results \cite{} have also noted the ensemble nature, we believe \Cref{th:res} is more fundamental due to the fact that it is simply based on the presence of combinatorially many architectures caused as a direct consequnce of the skip connections. 
 
 %$\bullet$ In \Cref{sec:theory}, we also revisit prior result for the full connected case. 
 
-$\bullet$ In \Cref{sec:exp}, we demonstrate that the value network does not learn in a layer-by-layer manner. There are two sources via which the input affects the value network, and we destroy both of these sources. Firstly, we provide the value network with a constant $\mathbf{1}$, ensuring that the only way input dependent information affects the value networks is via the other source namely the gates. Here, we destroy the layer-by-layer structure by permuting the gates, tiling cum arbitrary rotation of the gates. We show that these does not cause a degradation in performance. While this looks counter intuitive and surprising from the primal view, \Cref{sec:fc} easily explains these.%the dual view easily explains these. %From the expression of \Cref{th:fc}, we know that the input Gram matrix will be a constant. However, the product of the base kernels still contain information about the input. Also, the permutation invariance of the product structure of the NPK allows us to destroy the layer-by-layer structure of the gates.
 
 %\textbf{Simplifed Interpretation.} As we said, the main misconception is entangling the `layer-by-layer' and the non-linear activations. What we achieve is disentanglement: in our novel \texttt{DGN-NO-ACT} the feature network learns layer-by-layer, and the value network learns path-by-path, and the non-linerity, i.e., gating uses pre-activation from feature network and switches the paths `on/off' in the value network. The proposed \texttt{DGN-NO-ACT} has the following simple interpretation: `path value' is a vector in $\R^\text{{total\,paths}}$ and the `path feature' is a vector in $[0,1]^\text{{total\,paths}}$ which specifies the activation levels of each coordinate in `path value to produce the final output.
 
@@ -117,8 +140,7 @@ $\bullet$ In \Cref{sec:exp}, we demonstrate that the value network does not lear
 
 %\emph{\textbf{Issue 2:} The feature network which is a DNN with ReLUs is a `black box'.}
 
-%\textbf{Contribution III.}  We call this modified DGN as \texttt{DGN-NO-ACT}, and we show that \texttt{DGN-NO-ACT}s corresponding to VGG and a ResNet model achieve greater than $90\%$ and close to $70\%$ accuracy on CIFAR-10 and CIFAR-100 respectively. 
-
+%\textbf{Contribution III.}  We call this modified DGN as \texttt{DGN-NO-ACT}, and 
 %\textbf{White Box.} The \texttt{DGN-NO-ACT} is entirely intrepretable and white box. The feature network generates the pre-activations to the gates without use of non-linear activations, the gates then switch the paths `on/off' to realise the `path features' in the value network which the just computes the inner product between the `path feature' and `path value'.
 
 %In this paper, we improve and simplilfy the DGN to build an entirely interpretable white box DNN. The DGN serves as a good starting point,  in that, it combines the primal view: feature network generating the gates (i.e, `path features') in a layer by layer manner, and the dual view: the value network specifying the `path values' and computing the output (i.e., inner product). We remove the `black box'ness by (i) interpreting the  `path features', (ii) interpreting the  `path value' and (iii) removing non-linear activations in the feature network. 
