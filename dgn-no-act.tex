@@ -1,4 +1,34 @@
-\section{Deep Gated Network : Prior Black Box vs Our White Box}\label{sec:dgn}
+\section{Deep Gated Network and Deep Gated Network Without Activations}\label{sec:dgn-no-act}
+In this section, we make a brief presentation of the preliminaries dual view formulation for a fully connected (FC) DNN with ReLUs in \citep{npk}. We consider a FC-DNN with `$d$' layers and  $w$  hidden units in each layer. The quantites `path feature' and `path value' in \Cref{sec:intro} will henceforth be called as \emph{neural path feature}(NPF) and \emph{neural path value} (NPV); these are defined in \Cref{def:npf-npv}. \Cref{prop:npf-npv} show that the output is the inner product of the NPF and NPV. \Cref{lm:npk} shows the relationship between the \emph{neural path kernel} (NPK), the Gram matrix of the NPFs, and a correlation matrix capturing subnetwork overlaps. 
+
+\begin{definition}\label{def:npf-npv}
+A path starts from an input node, passes through a weight and a hidden unit in each layer and ends at the output node. We define the following quantities for a path $p$:
+\emph{
+\begin{tabular}{lcl}
+ Activity&:& $A_{\Theta}(x,p)$ is the product of the `$d-1$' gates in the path. \\
+Value&:& $v_{\Theta}(p)$ is the product of the `$d$' weights in the path.\\
+Feature&:&   $\phi_{\Theta}(x,p)$ is the product of the signal at the input node of the path and $A_{\Theta}(x,p)$.\\
+\end{tabular}
+}
+
+The \emph{neural path feature} (NPF) given by $\phi_{\Theta}(x)=\left(\phi_{\Theta}(x,p),p=1,\ldots, \Pfc\right),\in\R^{\Pfc}$ and the \emph{neural path value} (NPV) given by $v_{\Theta}=\left(v_{\Theta}(p),p=1,\ldots,\Pfc\right),\in\R^{\Pfc}$.
+\end{definition}
+
+\begin{proposition}\label{prop:npf-npv}
+The output of the DNN is then the inner product of the NPF and NPV: 
+\begin{align}\label{eq:inner}
+\hat{y}_{\Theta}(x)=\ip{\phi_{\Theta}(x),v_{\Theta}}=\sum_{p\in[P]}  \phi_{\Theta}(x,p) v_{\Theta}(p)
+\end{align}
+\end{proposition}
+\begin{figure}[t]
+\centering
+\resizebox{0.9\columnwidth}{!}{
+\includegraphics[scale=0.5]{figs/paths.pdf}
+}
+\caption{Illustration of \Cref{def:npf-npv} and \Cref{prop:npf-npv} in a  toy network with $2$ layers, $2$ gates per layer and $4$ paths. Paths $p_1$ and $p_2$ are `on' and paths $p_3$ and $p_4$ are `off'. The value, activity and feature of the individual paths are shown. $\hat{y}$ is the summation of the individual path contributions.}
+\label{fig:paths}
+\end{figure}
+
 \begin{figure}
 \centering
 \begin{minipage}{0.8\columnwidth}
@@ -22,19 +52,23 @@ As mentioned in \Cref{sec:intro}, a deep gated network(DGN) setup is an alternat
 \textbf{DGN (prior work).} Consider a DNN with ReLUs with weights $\Theta\in\R^{\dnet}$. The DGN \emph{corresponding} to this DNN (see the left diagram in \Cref{fig:dgn}) has two networks of \emph{identical archicture} (to the DNN) namely the feature network and value network with distinct weights $\Tf\in\R^{\dnet}$ and $\Tv\in\R^{\dnet}$ respectively. The main difference between the feature and value networks is in the activations. The feature network has ReLUs which turn `on/off' based on their pre-activation signal, and the value  network has gated linear units (GaLUs) \citep{sss,npk}. Each GaLU multiplies its pre-activation input by an external gating signal. Since the feature and value networks have identical architecture, there is an one-to-one correspondance between the ReLUs and GaLUs in the respective networks.
 In the DGN, the external gating signal to the GaLU is derived from the pre-activation input of the corresponding ReLU. The feature network deals with the primal layer-by-layer computations, the pre-activations from the feature network generate the gates, which are then used to switch `on/off' the corresponding GaLUs in the value network: this realises $\phi_{\Tf}(x)$. The value network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.
 
-The primary use of the DGN was to measure the information in the gates of a DNN with ReLU. For this, the gating is set to be `hard', where for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. It is interesting to compare the gates from a learnt DNN to those from a randomly initialised DNN.
+\textbf{DGN Training.} The primary use of the DGN was to measure the information in the gates of a DNN with ReLU. For this, the feature network (which is a DNN with ReLU) is \emph{pre-trained} with $\hat{y}_f$ as the output. Then the feature network is frozen and the value network is trained, i.e., in $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, $\phi_{\Tf}(x)$ is fixed and only $v_{\Tv}$ is learnt. Here, `hard'-gating is used: for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. The secondary use of DGN is as an alternative/competetive model (for DNN) that learns  $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, by separately learning $\Tf$ and $\Tv$ starting from randomised initialisation.Here, `soft'-gating is used, where, $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ ($\beta=10$ is a typical choice): this enables gradient to flow via the feature network. 
+  
+%$1.$ \textbf{Fixed Learnt (FL):} We \emph{pre-train} the feature network (which is a DNN with ReLUs), then \emph{freeze} the weights of the feature network, and then train the value network. This way we can measure information in the gates of a trained DNN.
 
-$1.$ \textbf{Fixed Learnt (FL):} We \emph{pre-train} the feature network (which is a DNN with ReLUs), then \emph{freeze} the weights of the feature network, and then train the value network. This way we can measure information in the gates of a trained DNN.
+%$2.$ \textbf{Fixed Random (FR):} We initialise the feature network at random, and then \emph{freeze} its weights and then train the value network. This way we can measure information in the gates of a DNN at initialisation. Here, the feature and value network can be either initialised with the same weights i.e., dependent initialisation (DI) or statistically independent weights  i.e., independent initialisation (II). 
 
-$2.$ \textbf{Fixed Random (FR):} We initialise the feature network at random, and then \emph{freeze} its weights and then train the value network. This way we can measure information in the gates of a DNN at initialisation. Here, the feature and value network can be either initialised with the same weights i.e., dependent initialisation (DI) or statistically independent weights  i.e., independent initialisation (II). 
+%The secondary use of DGN is \textbf{decoupled learning} (DL) $\phi_{\Tf}(x)$ and $v_{\Tv}$ which is a comptetive proposal for DNN. For this, the gating is set to be `soft', $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ (we used $\beta=10$ in our experiments). This allows the gradient to flow through the feature network. Here, $\Tf$ and $\Tv$ are initialiased statistically independent and then train both of them.
 
-The secondary use of DGN is \textbf{decoupled learning} (DL) $\phi_{\Tf}(x)$ and $v_{\Tv}$ which is a comptetive proposal for DNN. For this, the gating is set to be `soft', $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ (we used $\beta=10$ in our experiments). This allows the gradient to flow through the feature network. Here, $\Tf$ and $\Tv$ are initialiased statistically independent and then train both of them.
+%To summarise the primal and secondary uses, one can say that the DGN operates in four modes namely FL, FR-II, FR-DI and DL.
 
-To summarise the primal and secondary uses, one can say that the DGN operates in four modes namely FL, FR-II, FR-DI and DL.
 
-\textbf{Issues.} The feature network is a DNN with ReLUs which is a `black box'. The value network, starting from input $x$, might still be learning sophisticated structures layer-by-layer.
+\textbf{DGN-NO-ACT(our model)}(see right diagram in \Cref{fig:dgn}). We replace the ReLUs in the feature network with \emph{identity} maps, i.e., $I(q) = q$. Thus, in the \texttt{DGN-NO-ACT}, the transformation from input to the pre-activations is entirely linear and is amenable to interpertation via standard spectral analysis using linear algebraic tools. The pre-activations trigger the gates, which then dictates the path activity. The value network is given only given $\mathbf{1}$ as input and hence $v_{\Tv}\in \R^{\text{total\,paths}}$ is a vector that does not depend on the input, and $\phi_{\Tf}(x)\in(0,1)^{\text{total\,paths}}$ is a very simple feature vector. % and the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}=\sum_{p}\phi_\Tf(x,p)v_\Tv(p)$ is equal to \emph{\textbf{the summation of `path value' weighted by the `path activations'}}. 
+Thus, the \texttt{DGN-NO-ACT} can be seen to disentangle the `primal linear' feature network which generates the gates, which in turn activate the paths in the value network which is the `dual linear'.
 
-\textbf{DGN-NO-ACT(our model)}(see right diagram in \Cref{fig:dgn}). We replace the ReLUs in the feature network with \emph{identity} maps, i.e., $I(q) = q$. Thus, in the \texttt{DGN-NO-ACT}, the transformation from input to the pre-activations is entirely linear and is amenable to interpertation via standard spectral analysis using linear algebraic tools. The pre-activations trigger the gates, which then dictates the path activity. The value network is given only given $\mathbf{1}$ as input and the doubt as to whether or not it learns sophisticated structures layer-by-layer from the input is quashed. Note that here $\phi_{\Tf}(x)\in(0,1)^{\text{total\,paths}}$ is a very simple feature vector.
+\textbf{Remark.} Presenting the value network with $\mathbf{1}$ is very counter intutive, which will get justfied in theory as well as experiments in the next section. As a quick check, we the test accuracies of a DNN $4$ with convolutional layers and global-average-pooling (GAP), its corresponding DGN and \texttt{DGN-NO-ACT} on CIFAR-10 are {\bf{DNN: $80.4\%$,  DNG: $79.4\%$, \texttt{DGN-NO-ACT} : $74.5\%$}}.
+
+
 
 \begin{comment}
 \begin{wrapfigure}{r}{0.2\textwidth}
