@@ -20,6 +20,13 @@ The output of the DNN is then the inner product of the NPF and NPV:
 \hat{y}_{\Theta}(x)=\ip{\phi_{\Theta}(x),v_{\Theta}}=\sum_{p\in[P]}  \phi_{\Theta}(x,p) v_{\Theta}(p)
 \end{align}
 \end{proposition}
+
+\begin{figure}
+\resizebox{1.0\columnwidth}{!}{
+\input{fig-paths-straight}
+}
+\end{figure}
+\begin{comment}
 \begin{figure}[t]
 \centering
 \resizebox{0.9\columnwidth}{!}{
@@ -29,7 +36,33 @@ The output of the DNN is then the inner product of the NPF and NPV:
 \label{fig:paths}
 \end{figure}
 
-%\subsection{Overlap of Sub-Networks and Neural Path Kernel}
+\begin{figure}
+\centering
+\begin{minipage}{0.8\columnwidth}
+\begin{minipage}{0.49\columnwidth}
+\resizebox{0.85\columnwidth}{!}{
+\input{fig-paths-new}
+}
+\end{minipage}
+\begin{minipage}{0.49\columnwidth}
+\resizebox{0.99\columnwidth}{!}{
+\input{fig-dgn}
+}
+\end{minipage}
+\end{minipage}
+\caption{DGN}
+\label{fig:dgn}
+\end{figure}
+\end{comment}
+As mentioned in \Cref{sec:intro}, a deep gated network(DGN) setup is an alternative way to compute path-by-path, that is, the to compute the inner product of the neural path feature and neural path value. In this section, we first describe DGN in prior work \citep{npk}:  consitituent parts, information flow, purpose and training. We then discuss the two fundamental conceptual issues that make this DGN `black box'. We then present our modified \texttt{DGN-NO-ACT} with an intutitve explanation of how the conceptual issues are overcome and  why it is an entirely interpretatble white box model. These intuitive explanations will be justified in theory and experiments in \Cref{sec:main}.
+
+\textbf{DGN (prior work).} Consider a DNN with ReLUs with weights $\Theta\in\R^{\dnet}$. The DGN \emph{corresponding} to this DNN (see the left diagram in \Cref{fig:dgn}) has two networks of \emph{identical archicture} (to the DNN) namely the feature network and value network with distinct weights $\Tf\in\R^{\dnet}$ and $\Tv\in\R^{\dnet}$ respectively. The main difference between the feature and value networks is in the activations. The feature network has ReLUs which turn `on/off' based on their pre-activation signal, and the value  network has gated linear units (GaLUs) \citep{sss,npk}. Each GaLU multiplies its pre-activation input by an external gating signal. Since the feature and value networks have identical architecture, there is an one-to-one correspondance between the ReLUs and GaLUs in the respective networks.
+In the DGN, the external gating signal to the GaLU is derived from the pre-activation input of the corresponding ReLU. The feature network deals with the primal layer-by-layer computations, the pre-activations from the feature network generate the gates, which are then used to switch `on/off' the corresponding GaLUs in the value network: this realises $\phi_{\Tf}(x)$. The value network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.
+
+\textbf{DGN Training.} The primary use of the DGN was to measure the information in the gates of a DNN with ReLU. For this, the feature network (which is a DNN with ReLU) is \emph{pre-trained} with $\hat{y}_f$ as the output. Then the feature network is frozen and the value network is trained, i.e., in $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, $\phi_{\Tf}(x)$ is fixed and only $v_{\Tv}$ is learnt. Here, `hard'-gating is used: for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. The secondary use of DGN is as an alternative/competetive model (for DNN) that learns  $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, by separately learning $\Tf$ and $\Tv$ starting from randomised initialisation.Here, `soft'-gating is used, where, $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ ($\beta=10$ is a typical choice): this enables gradient to flow via the feature network. 
+
+
+\begin{comment}
 \begin{definition}[Overlap of active sub-networks]\label{def:overlap} 
 The total number of `active' paths for both $x$ and $x'$ that pass through input node $i$ is defined to be:\\
 {\centering{\centering{$\textbf{overlap}_{\Theta}(i,x,x') = \Lambda_{\Theta}(i,x,x') \eqdef \left|\{p \colon  A_{\Theta}(x,p)= A_{\Theta}(x',p)=1\}\right|/\din$}}}
@@ -44,4 +77,4 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 \end{align*}
 \end{lemma}
 \textbf{Remark.} In the case of fully connected networks, $\textbf{overlap}_{\Theta}(i,x,x')$ is equal for all $i\in[\din]$, and hence $\text{NPK}_{\Theta}(x,x')=\ip{x,x'}\cdot\textbf{overlap}_{\Theta}(x,x')$.
-
+\end{comment}

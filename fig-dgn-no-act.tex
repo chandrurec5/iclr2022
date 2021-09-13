@@ -1,6 +1,5 @@
 \begin{tikzpicture}
-
-\node []  (fntext)at (3.5,1.5) {\textbf{WHITE BOX:} \texttt{DGN-NO-ACT} (this paper)};
+\node []  (fntext)at (3.5,1.5) {DGN-NO-ACT (our work)};
 %Feature Network
 \node [draw,
 	minimum width=6cm,
@@ -8,7 +7,7 @@
 	thick
 ]  (fnbox)at (3.5,0.25) {};
 \node []  (fntext)at (3.5,0.75) {Feature Network: $\Tf$};
-\node []  (fnnote)at (5.0,-0.5) {\tiny{\color{red}\textbf{No Non-Linear Activations}}};
+%\node []  (fnnote)at (5.0,-0.5) {\tiny{\color{red}\textbf{No Non-Linear Activations}}};
 
 
 %Feature Network Input
@@ -49,7 +48,7 @@
 ]  (vnbox)at (3.5,-2.625) {};
 
 \node []  (vntext)at (3.5,-3.25) {Value Network: $\Tv$};
-\node []  (vnnote)at (5.25,-2) {\tiny{\color{red}\textbf{Input Only Via Gates}}};
+%\node []  (vnnote)at (5.25,-2) {\tiny{\color{red}\textbf{Input Only Via Gates}}};
 
 %Value Network Input
 \node (vin) [left of=vnbox,node distance=3.5cm, coordinate] {};
