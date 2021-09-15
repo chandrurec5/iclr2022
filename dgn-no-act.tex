@@ -1,14 +1,15 @@
-\section{DGN-NO-ACT:  Interpretability and Performance}\label{sec:dgn-no-act}
+\section{DGN-NO-ACT:  Towards Interpretability and Performance}\label{sec:dgn-no-act}
 \begin{figure}
 \centering
 \begin{minipage}{0.8\columnwidth}
+\centering
 \begin{minipage}{0.49\columnwidth}
-\resizebox{0.99\columnwidth}{!}{
+\resizebox{1.0\columnwidth}{!}{
 \input{fig-dgn}
 }
 \end{minipage}
 \begin{minipage}{0.49\columnwidth}
-\resizebox{0.99\columnwidth}{!}{
+\resizebox{1.0\columnwidth}{!}{
 \input{fig-dgn-no-act}
 }
 \end{minipage}
@@ -16,35 +17,22 @@
 \caption{DGN}
 \label{fig:dgn}
 \end{figure}
-We looked at the preliminaries of the dual view in the previous section. In this section, we focus on the issues of entanglement and `black box'-ness. We start from where we left in the previous section, i.e., 
 
+The DGN performs only marginally poor compared to the DNN, and by successfully addressing the `black box'-ness issue in a DGN we will have both performance and interpretability. We now propose our novel \texttt{DGN-NO-ACT}  which disentangles the computations into (i) primal linear layer-by-layer computation, (ii) dual linear path-by-path computation and (iii) gating non-linearity which \emph{lifts} the computations from the primal to the dual. \texttt{DGN-NO-ACT} (right diagram in \Cref{fig:dgn}) is obtained by making a novel modification to the DGN (left diagram in \Cref{fig:dgn}) as follows:
 
-We now discuss the \texttt{DGN-NO-ACT} (right diagram in \Cref{fig:dgn}) which is obtained by making a novel modification to the DGN (left diagram in \Cref{fig:dgn}). The signification of the newly proposed \texttt{DGN-NO-ACT} is that it decomposes into simpler structures (which are `mathematically interpretable'). The modification and the consequent simplified `mathematical' interpretations are:
+1. We replace the ReLUs in the feature network with \emph{identity} maps, i.e., $I(q) = q$. Thus, in the \texttt{DGN-NO-ACT}, the transformation from input to the pre-activations is entirely linear. We call this \textbf{primal linearity}. The disentanglement happens because the ReLU  is completely removed.  
 
-1. We replace the ReLUs in the feature network with \emph{identity} maps, i.e., $I(q) = q$. Thus, in the \texttt{DGN-NO-ACT}, the transformation from input to the pre-activations is entirely linear. We call this \textbf{primal linearity}. Note that the DGN is not primal linear.
+2. The value network of the DGN is linear in dual `path' variables. We call this \textbf{dual linearity} which stands for the fact that the value network computes path-by-path, and not layer-by-layer. As a result, presenting a $\mathbf{1}$ as input to the value network in \texttt{DGN-NO-ACT} does not degrade performance. The simplifications are : (i) $v_{\Tv}\in \R^{\text{total\,paths}}$ is a vector that does not depend on the input, and (ii) $\phi_{\Tf}(x)\in(0,1)^{\text{total\,paths}}$ is a  simple feature vector. In other words, the value network  learns the paths, and the feature network learns the activations of paths for each input.  While in each layer of the value network GaLUs and the linear operations are entangled, disentanglement happens in the path variables, and we do not have to worry about how learning happens layer-by-layer.
 
-2. The value network of the DGN is linear in dual `path' variables. We call this \textbf{dual linearity}. In other words, dual linearity stands for the fact that the value network computes path-by-path, and not layer-by-layer, a fact we verify experimentally in \Cref{sec:exp}. As a result, presenting a $\mathbf{1}$ as input to the value network it does not degrade performance. In the \texttt{DGN-NO-ACT},  we indeed present the value network with $\mathbf{1}$ as input. The simplifications are : (i) 
-$v_{\Tv}\in \R^{\text{total\,paths}}$ is a vector that does not depend on the input, and (ii) $\phi_{\Tf}(x)\in(0,1)^{\text{total\,paths}}$ is a very simple feature vector. In other words, the value network stores learns the paths, and the feature network learns the right subset of paths for each input. Note that \texttt{DGN-NO-ACT} is also dual linear.
+%3. The gates themselves serve the functionality of \emph{lifting} the computations from the primal to the dual, i.e., pre-activations trigger the gates which in turn activate the paths.
 
-3. The gates themselves serve the functionality of \emph{lifting} the computations from the primal to the dual, i.e., pre-activations trigger the gates which in turn activate the paths.
-
-\textbf{Significance.} The salient importance of the \texttt{DGN-NO-ACT} is that it clearly separates the layer-by-layer computations in the feature network and path-by-path computation in the value network. The importance of primal linearity is that we can now use standard linear algebra to `mathematically' interpret the linear transformations from the input to the pre-activations. Also, in the case of specific application domains such as `image classification', these transformations are `filter banks' which have been extensively studied with well known interpretations. The `mathematical' as well as domain specific interpretabilities obviate the need for `locally linear explanation using simpler models': the feature network is entirely linear and is itself simple. The importance of dual linearity is that it gives us a \emph{kernel} based `mathematical' interpretation in the \emph{infinite width regime}. 
+%\textbf{Significance.} The salient importance of the \texttt{DGN-NO-ACT} is that it clearly separates the layer-by-layer computations in the feature network and path-by-path computation in the value network. The importance of primal linearity is that we can now use standard linear algebra to `mathematically' interpret the linear transformations from the input to the pre-activations. Also, in the case of specific application domains such as `image classification', these transformations are `filter banks' which have been extensively studied with well known interpretations. The `mathematical' as well as domain specific interpretabilities obviate the need for `locally linear explanation using simpler models': the feature network is entirely linear and is itself simple. The importance of dual linearity is that it gives us a \emph{kernel} based `mathematical' interpretation in the \emph{infinite width regime}. 
 
 
 %\textbf{DGN-NO-ACT(our model)}(see right diagram in \Cref{fig:dgn}). We replace the ReLUs in the feature network with \emph{identity} maps, i.e., $I(q) = q$. Thus, in the \texttt{DGN-NO-ACT}, the transformation from input to the pre-activations is entirely linear and is amenable to interpertation via standard spectral analysis using linear algebraic tools. The pre-activations trigger the gates, which then dictates the path activity. The value network is given only given $\mathbf{1}$ as input and hence $v_{\Tv}\in \R^{\text{total\,paths}}$ is a vector that does not depend on the input, and $\phi_{\Tf}(x)\in(0,1)^{\text{total\,paths}}$ is a very simple feature vector. % and the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}=\sum_{p}\phi_\Tf(x,p)v_\Tv(p)$ is equal to \emph{\textbf{the summation of `path value' weighted by the `path activations'}}. 
 %Thus, the \texttt{DGN-NO-ACT} can be seen to disentangle the `primal linear' feature network which generates the gates, which in turn activate the paths in the value network which is the `dual linear'.
 
 %\textbf{Remark.} Presenting the value network with $\mathbf{1}$ is very counter intutive, which will get justfied in theory as well as experiments in the next section. As a quick check, we the test accuracies of a DNN $4$ with convolutional layers and global-average-pooling (GAP), its corresponding DGN and \texttt{DGN-NO-ACT} on CIFAR-10 are {\bf{DNN: $80.4\%$,  DGN: $77.4\%$, \texttt{DGN-NO-ACT} : $74.5\%$}}.
-
-
-\begin{comment}
-\begin{wrapfigure}{r}{0.2\textwidth}
-\centering
-\includegraphics[scale=0.1]{figs/dgn-nips.pdf}
-\caption{DGN}
-\label{fig:dgn}
-\end{wrapfigure}
-\end{comment}
 
 %Since $\hat{y}_{\Theta}(x)=\ip{\phi_{x,\Theta},v_{\Theta}}$, during training, as $\Theta$ is learnt, both the NPFs and NPV are also learnt. To understand their roles better, $\phi_{x,\Theta}$ and $v_{\Theta}$ have to be separated.  This is achieved by the deep gated network (DGN) setup (see \Cref{fig:dgn}), which has two networks of \emph{identical architecture} namely the \emph{feature network} ($\Tf\in\R^{d^{\text{f}}_{\text{net}}}$) which holds the NPFs (i.e., the gating information) and the \emph{value network} ($\Tv\in\R^{d^{\text{v}}_{\text{net}}}$) which holds the NPV.  The combined parameterisation is denoted by $\Theta^{\text{DGN}}=(\Tf,\Tv)\in \R^{d^{\text{f}}_{\text{net}}+d^{\text{v}}_{\text{net}}}$.  The feature network is a DNN with ReLUs and the value network is a DNN with \emph{Gated Linear Units (GaLUs)} (terminology used in [\citenum{sss}]) whose output is the product of its pre-activation input $q^{\text{v}}(x)$and the external gating signal $G^{\text{f}}(x)$ (see \Cref{fig:dgn}). In \Cref{fig:dgn}, the main output of the DGN is $\hat{y}_{\text{DGN}}(x)$, while the other output $\hat{y}_{\text{f}}(x)$ is used to \emph{pre-train} the gates (see \Cref{sec:exp}).
 

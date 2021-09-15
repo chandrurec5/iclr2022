@@ -1,4 +1,4 @@
-\subsubsection{Numerical Experiments}\label{sec:exp} 
+\subsection{Dual Linearity: Experiments}\label{sec:exp} 
 In what follows, \Cref{sec:exp1} is themed around the key insight obtained from \Cref{th:main}, i.e., the correlation of the gates lies at the heart of `what is learnt in a DNN with ReLUs'. In particular, we show that operations (such as permuting the layers, tiling cum rotation of the gates, and giving a constant `all-ones' input to the value network) that destroy the layer by layer computational structure do not degrade test performance. These operations lead to combinatorially many models and in all of them the test performance remains the same. In \Cref{sec:exp2} we throw light on the open question in [\citenum{randlabel}] on why test performance degrades due to upstream training with random labels. 
 \subsection{Robustness of Gates: Destroying layer-by-layer structure does not affect performance}\label{sec:exp1}
 In this experiment we show that information in the gates is invariant even if we destroy the layer-by-layer structure. We consider the three kinds of gates (or gating regimes) described below.\\
