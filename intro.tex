@@ -1,5 +1,27 @@
 \section{Introduction}\label{sec:intro}
-Despite their success deep neural networks (DNNs) are still largely considered as black boxes.  The main issue is that in each layer of a DNN the linear computation, i.e., multiplication by the weight matrix  and the non-linear activations are entangled. Such entanglement has its \emph{pros} and \emph{cons}. The commonly held view  is that such entanglement is the key to success of DNNs, in that, it allows the DNN to learn sophisticated structures in a layer-by-layer manner (we call this the primal view). However, in terms of interpretability, such entanglement has an adverse effect: only the final layer is linear and amenable to a feature/weight interpretation, and neither the feature, i.e., the penultimate layer output, nor the outputs of the intermediate hidden layers are interpretable due to the presence of non-linear activations. In this paper, we focus on DNNs with rectified linear units (ReLUs), and specifically the gating property (i.e., `on/off') of ReLUs. For such DNNs, we address the issues of entanglement and `black box'-ness using the dual view of \cite{npk}.
+Despite their success deep neural networks (DNNs) are still largely considered as black boxes.  The main issue is that in each layer of a DNN the linear computation, i.e., multiplication by the weight matrix  and the non-linear activations are entangled. Such entanglement has its \emph{pros} and \emph{cons}. The commonly held view  is that such entanglement is the key to success of DNNs, in that, it allows the DNN to learn sophisticated structures in a layer-by-layer manner. However, in terms of interpretability, such entanglement has an adverse effect: only the final layer is linear and amenable to a feature/weight interpretation, and the hidden layers are non-interpretable due to the presence of non-linear activations. In this paper, we focus on DNNs with rectified linear units (ReLUs), and specifically the gating property (i.e., `on/off') of ReLUs. For such DNNs, we address the issues of entanglement and `black box'-ness using the dual view of \cite{npk}.
+
+
+The dual view breaks down the computations path-by-path. Consider as simple toy network (\Cref{}) with an input node, $2$ layer and $2$ hidden units in each layer and an output node. Let the input be $x\in\R$ and the output be $\hat{y}$. This network has $4$ gates (i.e., ReLUs) and $4$ paths. Let us say for this particular input $x$, the bottom ReLU/gate in the first layer is `off' and rest of the ReLUs are `on'. In this case, paths $p_1$ and $p_2$ are `on' and paths $p_3$ and $p_4$ are `off'.  The product of the weights in each path is encoded in the so called neural path value $v=(0.1 \cdot 0.2 \cdot 0.7,0.1 \cdot 0.3 \cdot 0.6,-0.1 \cdot 0.4 \cdot 0.7,-0.1 \cdot 0.5 \cdot 0.6)$.  The input dependent information is encoded in the so called neural path feature $\phi(x)= (x\cdot 1, x\cdot 1, x\cdot 0, x\codt 0)= (x,x,0,0)$, wherein, the coordinates corresponding to `on' paths $p_1$ and $p_2$ the signal $x$ at the input node and the coordinates corresponding to `off' paths $p_3$ and $p_4$ are $0$. The output is then the inner product of the neural path feature and neural path value, i.e., $\hat{y}=\ip{\phi(x),v}$.
+
+
+% and expresses the output as the inner product of a `path feature' and a `path value' (both vectors in $\R^{\text{total\,paths}}$).
+%A path starts from an input node, passes through a weight and a ReLU in each layer and ends at an output node. 
+%A path is `active'  if all the gates in the path are `active' (i.e. `on'). Each path, if active, transmits the signal at its input node, which on its way to the output is scaled by a `path value' which is equal the product of the weights in the path. The `path feature' is the product of signal at the input node and the path activity. 
+
+
+\begin{figure}
+\resizebox{1.0\columnwidth}{!}{
+\input{fig-paths-straight}
+}
+\caption{Illustration of the dual `path-by-path' view of computations.}
+\end{figure}
+
+\begin{figure}
+\resizebox{1.0\columnwidth}{!}{
+\input{fig-lglnn}
+}
+\end{figure}
 %{\centering \emph{\textbf{How critical is the entanglement for the success of DNNs? or Can we disentangle? }}\par}
 
 %Note that we are not suggesting that we do away with the non-linearity altogether; we are just asking for the disentanglement. In this paper, we focus on DNNs with rectified linear units (ReLUs). For such DNNs, using the dual view of \cite{npk}, we propose a novel way to disentangle the computations into two linear structures. The `black box'-ness issue is resolved because the two linear structures have simple `mathematical' interpretations.  We also show that entanglement is not critical, i.e., our new proposal achieves results comparable to the state of the art.% on standard dataset and at the same time improves interpretability. 
@@ -24,8 +46,10 @@ A path is `active'  if all the gates in the path are `active' (i.e. `on'). Each 
 %If the path-by-path conceptualisation of the dual view were to be non-vacuous, then any alternative setup that achives this should be good enough. 
 An alternative way to compute path-by-path  is via the deep gated network (DGN) setup \citep{npk}. A DGN has two networks, a feature network which is a DNN with ReLUs, and a value network with gated linear units (GaLUs) \citep{sss}, which need external gating signals. The gates are generated in feature network, and are used as external gating signals to switch `on/off' the GaLUs (and hence the paths) in the value network  which computes the output from input. In other words, the input and the gates of the feature network realises the `path feature', and the value network realises the `path value' and the inner product of the `path feature' and `path value'. %DGN being an alternative to DNN, the following were answered by \cite{npk}.
 
-As an alternative model, a DGN performs \emph{only marginally} worse than its corresponding DNN. However, the primary use of a DGN was to characterise the information in the gates of a DNN. It was shown that \emph{gates contain the most useful information}: training the value network of a DGN with a pre-trained DNN as its feature network, matches the performance of the pre-trained DNN. It was also shown that \emph{gates are learnt during training} and that it improves test accuracy.
+The primary use of a DGN was to characterise the information in the gates of a DNN. It was shown that \emph{gates contain the most useful information}: training the value network of a DGN with a pre-trained DNN as its feature network, matches the performance of the pre-trained DNN. It was also shown that \emph{gates are learnt during training} and that it improves test accuracy.
 
+
+\textbf{Motivation.} As an alternative model, a DGN performs \emph{only marginally} worse than its corresponding DNN.  By successfully addressing the `black box'-ness issue in a DGN we will have both performance and interpretability. 
 %\emph{Is DGN better than DNN?}
 %%
 %It was shown a DGN train from scratch (i.e., randomised initialisation of both feature and value network) performs \emph{only marginally} worse than DNN. DGN approximated DNN empirically.
@@ -94,7 +118,7 @@ In a DNN with ReLUs, both the `path feature' and `path value' are dictated by th
 %\textbf{Our Contributions.} In the first part of the paper, we look at the issue of `black box'-ness. As mentioned earlier, this issue is conceptual. The main misconception is that \emph{starting from the input each layer performs a non-linear transformation via activations and sophisticated structures are learnt layer-by-layer}. The two things, i.e., `layer-by-layer' and `non-linear activations' are separately correct; the misconception is in the need for these two to be entangled. DGN \citep{npk} takes the first step in the disentanglement, by separating the primal and the dual: the feature network computes the gates layer-by-layer (primal) and the value network computes the output path-by-path (dual). We propose a novel white box model \texttt{DGN-NO-ACT} by modifying the DGN. The hightlights are:
 
 
-\textbf{Contribution I.} In the first part of the paper, we look at the issues of entanglement and `black box'-ness. For this, we turn towards the DGN, since it is only marginally poor compared to the DNN; by successfully addressing the `black box'-ness issue in a DGN we will have both performance and interpretability. In a DGN, there are two sources of entanglements, one in the feature network and the other in the value network. We propose a novel \texttt{DGN-NO-ACT} obtained by modifying the feature network of the DGN to address the issues of entanglement and `black box'-ness. The key points are:
+\textbf{Contribution I.} In a DGN, there are two sources of entanglements, one in the feature network and the other in the value network. We propose a novel \texttt{DGN-NO-ACT} obtained by modifying the feature network of the DGN to address the issues of entanglement and `black box'-ness. The key points are:
 
 $\bullet$ \textbf{Disentangling Feature Network.} In the feature network of \texttt{DGN-NO-ACT}, we replace the ReLU activations by identity activations. Thus, the computations in the feature network are not entangled with non-linearities. Since the feature network is entirely linear, we do not need additional `local linearised' interpretation. We call the linearity of feature network as \textbf{primal linearity}.
 

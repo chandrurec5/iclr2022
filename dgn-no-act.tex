@@ -1,22 +1,24 @@
 \section{DGN-NO-ACT:  Towards Interpretability and Performance}\label{sec:dgn-no-act}
+
 \begin{figure}
 \centering
 \begin{minipage}{0.8\columnwidth}
 \centering
 \begin{minipage}{0.49\columnwidth}
 \resizebox{1.0\columnwidth}{!}{
-\input{fig-dgn}
+\input{fig-c4gap}
 }
 \end{minipage}
 \begin{minipage}{0.49\columnwidth}
 \resizebox{1.0\columnwidth}{!}{
-\input{fig-dgn-no-act}
+\input{fig-c4gap-no-act}
 }
 \end{minipage}
 \end{minipage}
 \caption{DGN}
 \label{fig:dgn}
 \end{figure}
+
 
 The DGN performs only marginally poor compared to the DNN, and by successfully addressing the `black box'-ness issue in a DGN we will have both performance and interpretability. We now propose our novel \texttt{DGN-NO-ACT}  which disentangles the computations into (i) primal linear layer-by-layer computation, (ii) dual linear path-by-path computation and (iii) gating non-linearity which \emph{lifts} the computations from the primal to the dual. \texttt{DGN-NO-ACT} (right diagram in \Cref{fig:dgn}) is obtained by making a novel modification to the DGN (left diagram in \Cref{fig:dgn}) as follows:
 
