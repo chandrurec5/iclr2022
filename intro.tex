@@ -155,6 +155,7 @@ $\bullet$ \textbf{Disentangling Learning in Weights Given Gates.} Even though th
 
 Thus we disentangle the computations into two  `mathematically' interpretable linearities (i) the `primal' linearity between the input and the pre-activations, and (ii) the `dual' linearity in the path space, and the role of gating is to \emph{lift} the primal to the dual. Dual linearity is characterised by the NPK which has a product of base kernels structure wherein the base kernels correspond to the gating features. In order to complete the picture, in \Cref{th:conv,th:res}, we extend the dual view to show that the NPK is rotationally invariant in the presence of convolutions with global pooling, and NPK is an ensemble of many kernels in the presence of skip connections respectively.  We show that LGNLs of standard DNNs achieve greater than $90\%$ on CIFAR-10 and close to $70\%$ accuracy on CIFAR-100. 
 
+\textbf{Remark:} LGLN is not an alternative architecture per se, but a disentanglement and an interpretable re-arrangement of the computations in a DNN with ReLUs.
 
 %as a possible reason for success, and show that once the gates are triggered the path-by-path view is the right way to interpret.
 

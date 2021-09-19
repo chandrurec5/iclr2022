@@ -1,24 +1,25 @@
-\section{Prior Work : Dual View For DNNs with ReLUs}\label{sec:prelim}
-
+\section{Prior Work : Dual View And Role of Gating In DNNs With ReLUs}\label{sec:prelim}
+In this section, we look review the prior work of \cite{npk}. We start with describing the encoding of gates and weights, followed by a description of deep gated network setup which separates the gates from the weights, and then we present theoretical results on learning the weights given the gates and then present the experimental results on learning in the gates.
+\begin{comment}
 \begin{figure}[t]
 \resizebox{.95\columnwidth}{!}{
 \input{fig-paths-straight}
 }
-\caption{Illustration of the dual `path-by-path' view of computations.}
+\caption{\small{Illustration of the dual `path-by-path' view of computations in a toy network with an input node, $2$ layer and $2$ hidden units in each layer and an output node. . Let us say for this particular input $x$, the bottom ReLU/gate in the first layer is `off/inactive' and rest of the ReLUs are `on/active'. In this case , paths $p_1$ and $p_2$ are active and paths $p_3$ and $p_4$ are inactive. }}
 \label{fig:paths}
 \end{figure}
+\end{comment}
 
-
-%We consider a fully-DNN with `$d$' layers and  $w$  hidden units in each layer. The quantities `path feature' and `path value' in \Cref{sec:intro} will henceforth be called as \emph{neural path feature} (NPF) and \emph{neural path value} (NPV); these are defined in \Cref{def:npf-npv}. \Cref{prop:npf-npv} show that the output is the inner product of the NPF and NPV.
+\subsection{Dual View: Encoding Gates and Weights}
+Consider a fully connected DNN with `$d$' layers and `$w$' hidden units in each layer. Let the DNN accept input $x\in \R^{\din}$ and produce an output $\hat{y}_{\Theta}(x)\in\R$. Let a path be defined to be one that starts from an input node, passes through a weight and a hidden unit in each layer and ends at the output node. There are $\Pfc= \din w^{(d-1)}$ paths, let them be enumerable as $p=1,\ldots, \Pfc$. Let the index of the hidden unit in layer $l$ through which a path $p$ passes be denoted by $\I_l(p), l=0,1,\ldots,d$, where $l=0$ means the input layer. Let $\Theta\in\R^{\dnet}$ be the weights of network, with $\Theta(l,i,j)$ denoting the weight connecting the $i^{th}$ unit in layer $l$ and the $j^{th}$ unit in layer $l-1$. Let $G_l(x,I_l(p))$ denote the gate in the $l^{th}$ layer in path $p$. The neural path feature encoding the input and gates, and the neural path value encoding the weights is defined as below.
 \begin{definition}\label{def:npf-npv}
-A path starts from an input node, passes through a weight and a hidden unit in each layer and ends at the output node. We define the following quantities for a path $p$:
-\emph{
-\begin{tabular}{lcl}
- Activity&:& $A_{\Theta}(x,p)$ is the product of the `$d-1$' gates in the path. \\
-Value&:& $v_{\Theta}(p)$ is the product of the `$d$' weights in the path.\\
-Feature&:&   $\phi_{\Theta}(x,p)$ is the product of the signal at the input node of the path and $A_{\Theta}(x,p)$.\\
+We define the following quantities for a path $p$:
+
+\begin{tabular}{lccl}
+ Activity&:& $A_{\Theta}(x,p)$&=$\quad\Pi_{l=1}^{d-1} G_l(x,p)$.\\
+Value&:& $v_{\Theta}(p)$&=$\quad\Pi_{l=1}^d\Theta\left(l,\I_{l-1}(p),\I_{l}(p)\right)$.\\
+Feature&:&   $\phi_{\Theta}(x,p)$&=$\quad x\left(\I_0(p)\right)A_{\Theta}(x,p)$.
 \end{tabular}
-}
 
 The \emph{neural path feature} (NPF) given by $\phi_{\Theta}(x)=\left(\phi_{\Theta}(x,p),p=1,\ldots, \Pfc\right),\in\R^{\Pfc}$ and the \emph{neural path value} (NPV) given by $v_{\Theta}=\left(v_{\Theta}(p),p=1,\ldots,\Pfc\right),\in\R^{\Pfc}$.
 \end{definition}
@@ -29,7 +30,6 @@ The output of the DNN is then the inner product of the NPF and NPV:
 \hat{y}_{\Theta}(x)=\ip{\phi_{\Theta}(x),v_{\Theta}}=\sum_{p\in[P]}  \phi_{\Theta}(x,p) v_{\Theta}(p)
 \end{align}
 \end{proposition}
-
 
 \begin{comment}
 \begin{figure}[t]
@@ -60,11 +60,25 @@ The output of the DNN is then the inner product of the NPF and NPV:
 \end{figure}
 \end{comment}
 %As mentioned in \Cref{sec:intro}, a deep gated network(DGN) setup is an alternative way to compute path-by-path, that is, the to compute the inner product of the neural path feature and neural path value. In this section, we first describe DGN in prior work \citep{npk}:  consitituent parts, information flow, purpose and training. We then discuss the two fundamental conceptual issues that make this DGN `black box'. We then present our modified \texttt{DGN-NO-ACT} with an intutitve explanation of how the conceptual issues are overcome and  why it is an entirely interpretatble white box model. These intuitive explanations will be justified in theory and experiments in \Cref{sec:main}.
+\subsection{Deep Gated Network: Separating the Gates and the Weights}
 
 \textbf{Deep Gated Network (DGN)} is an alternative way to compute the inner product of the neural path feature and neural path value. Consider a DNN with ReLUs with weights $\Theta\in\R^{\dnet}$. The DGN \emph{corresponding} to this DNN (see the left diagram in \Cref{fig:dgn}) has two networks of \emph{identical archicture} (to the DNN) namely the feature network and value network with distinct weights $\Tf\in\R^{\dnet}$ and $\Tv\in\R^{\dnet}$ respectively. The main difference between the feature and value networks is in the activations. The feature network has ReLUs which turn `on/off' based on their pre-activation signal, and the value  network has gated linear units (GaLUs) \citep{sss,npk}. Each GaLU multiplies its pre-activation input by an external gating signal. Since the feature and value networks have identical architecture, there is an one-to-one correspondance between the ReLUs and GaLUs in the respective networks.
-In the DGN, the external gating signal to the GaLU is derived from the pre-activation input of the corresponding ReLU. The feature network deals with the primal layer-by-layer computations, the pre-activations from the feature network generate the gates, which are then used to switch `on/off' the corresponding GaLUs in the value network: this realises $\phi_{\Tf}(x)$. The value network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.
+In the DGN, the external gating signal to the GaLU is derived from the pre-activation input of the corresponding ReLU. The feature network computes the pre-activations in a layer-by-layer manner, the pre-activations from the feature network generate the gates, which are then used to switch `on/off' the corresponding GaLUs in the value network: this realises $\phi_{\Tf}(x)$. The value network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.
 
-\subsection{Experimental Results: External Gating Fixed and Learnable}
+\subsection{Theoretical Result: Learning the Weights given the Gates}
+
+In a DNN with ReLUs, both the gates (encoded in the neural path features) and the weights (encoded in the neural path value) are learnt by the DNN itself. The DGN setup helps to separate out the learning in the gates (which are learnt in the feature network) and  from the learning in the weights (which are learnt in the value network). Using the DGN, the information in the gates can be measured, by keeping the gates fixed and then training the weights alone. This is equivalent to asking `how good are the neural path features?' and answering it by keeping $\phi_{\Tf}(x)$ fixed and training $v_{\Tv}$ to learn the relation $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$. We now briefly main result in \citep{npk} on fixing gates and learning weights.
+
+%{\centering \emph{{What is the analysis for fixing the gates, i.e., $\phi_{\Tf}(x)$ and learning the weights, i.e., $v_{\Tv}$?}}\par}
+
+Recent works \citep{ntk,arora2019exact,cao2019generalization} have connected the training and generalisation of DNNs to kernel methods. An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
+\begin{align*}
+ \text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}
+ \end{align*}
+It was shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$. Theorem 5.1 in \citep{npk} showed that, when the gates are fixed,  at randomised initialisation, the NTK of an  infinitely wide DGN is equal to (but for a constant factor) the neural path kernel (NPK) which is the Gram matrix of the neural path features. 
+
+\textbf{Remark:} A previously unnoticed property of the NPK was that it is invariant to layer permutations. Theorem 5.1 in \citep{npk} is not presented here, it is restated in \Cref{th:fc} in which the invariance property is made explicit. 
+
 \begin{figure}
 \centering
 \begin{minipage}{0.8\columnwidth}
@@ -85,8 +99,7 @@ In the DGN, the external gating signal to the GaLU is derived from the pre-activ
 \end{figure}
 
 %\cite{npk} addressed these issues by measuring the performance of the fixed gates. For this, they considered a DGN setup, wherein, the feature network is frozen so as to fix the gates and only the value network is trained. In other words, the gates are fixed the `path features' are fixed, only the `path value' is learnt in the value network. 
-As mention in \Cref{sec:intro}, the key insight in \cite{npk} is that gates play an important role in DNNs with ReLUs. The DGN has external gating, i.e., gates are generated in the feature network and are external to the value network which learns the weights. Note that the neural path features encode the input and the gates, and in the context of DGN, we will be using neural path features as a synonym for the gates. Also the neural path value is learnt in the value network, and in the context of the DGN, we will use neural path value as a synonym for weights. The following question related to learning with external gating lead to the conclusion that gates are key.
-
+%As mention in \Cref{sec:intro}, the key insight in \cite{npk} is that gates play an important role in DNNs with ReLUs. The DGN has external gating, i.e., gates are generated in the feature network and are external to the value network which learns the weights. Note that the neural path features encode the input and the gates, and in the context of DGN, we will be using neural path features as a synonym for the gates. Also the neural path value is learnt in the value network, and in the context of the DGN, we will use neural path value as a synonym for weights. The following question related to learning with external gating lead to the conclusion that gates are key.
 
 %During training, a DNN learns the relation $\hat{y}(x)=\ip{\phi_\Theta(x),v_\Theta}$, i.e., it learns both the neural path features and value. The DGN separately stores $\phi(x)$ and $v$ in the feature and value network respectively and helps in understanding their roles separately.  
 %if the feature network weights are fixed, then the gates are fixed and hence the neural path features are fixed as well. 
@@ -94,29 +107,18 @@ As mention in \Cref{sec:intro}, the key insight in \cite{npk} is that gates play
 
 
 %The dual view provides the first step in disentangling the linear and the non-linear operations. To elaborate,  it is worthwhile to ask `assuming that we have the \emph{right} neural path features $\phi_{\Tf}(x)$, then can we learn $v_{\Tv}$ separately?'.  This question is worthwhile because, while in each layer of the value network GaLUs and the linear operations are entangled, disentanglement happens in the path variables, i.e., the relation $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$ is linear in the dual variables; we call this \textbf{dual linearity}. Thus, when it comes to the value network alone, we can choose to interpret the computations in a path-by-path manner using dual linearity. This brings us to the next questions of (i) does dual linearity hold in practice?, (ii) are neural path features learnt, and (iii) how to characterise dual linearity analytically, and (iv) can the DGN be an alternative to a DNN? These questions were answered using a DGN setup based on network with $4$ convolutional layers with global average pooling as shown in \Cref{fig:dgn}. 
+\subsection{Experimental Results: Learning in the Gates}
 
-{\centering \emph{{Given the learnt gates, i.e., learnt features $\phi_{\Tf}(x)$s can we learn weights, i.e., $v_{\Tv}$?}}\par}
+The key result in \citep{npk} was that the learning in the gates (i.e., the neural path features) improves generalisation, and is the reason behind why finite width DNNs outperforms the infinite width NTK. This result was established empirically by comparing the performance of fixed learnt gates and that of fixed random gates and the performance of the NTK in \cite{arora2019exact}. For this purpose, \citep{npk} used a `C4GAP' architecture with $4$ convolutional layers, followed by global-average-pooling (GAP) and a fully connected layer with `softmax' activations. The test accuracy of C4GAP is approximately $80\%$ on CIFAR-10, and is not state of the art.  However, the main aim here was to compare with the corresponding infinite width NTK whose performance was $77.34\%$ \citep{arora2019exact} for which the C4GAP was sufficient. 
 
-This is answered by operating the DGN in the \textbf{fixed learnt (FL)} mode. Here, the feature network (which is a DNN with ReLU) is \emph{pre-trained} with $\hat{y}_f$ as the output. Then the feature network is frozen and the value network is trained, i.e., in $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, $\phi_{\Tf}(x)$ is fixed and only $v_{\Tv}$ is learnt. Here, `hard'-gating is used: for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. It was shown that \emph{most useful information is in the gates/neural path features}, i.e., using a pre-trained DNN as feature network, we can train the value network separately from scratch and match the performance of the pre-trained DNN. In other words, using pre-trained $\phi_{\Tg}(x)$ we can train the $v_{\Tv}$, in a manner analogous to linear models wherein given the features we can train the weights.  See in \Cref{fig:dgn} the performance of DNN ($80.32$) is close (within $1\%$) to that of the DGN ($79.68$).
+$\bullet$ \textbf{Fixed Learnt (FL)} gates. Here, the feature network (which is a DNN with ReLU) is \emph{pre-trained} with $\hat{y}_f$ as the output. Then the feature network is frozen and the value network is trained, i.e., in $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, $\phi_{\Tf}(x)$ is fixed and only $v_{\Tv}$ is learnt. Here, `hard'-gating is used: for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. It was shown that \emph{most useful information is in the gates/neural path features}, i.e., using a pre-trained DNN as feature network, we can train the value network separately from scratch and match the performance of the pre-trained DNN.  See in \Cref{fig:dgn} the performance of DNN ($80.32$) is close (within $1\%$) to that of the DGN ($79.68$).
 
-{\centering \emph{{In a DNN, are gates i.e., $\phi_{\Theta}(x)$s learnt during training? If so, how important is such learning?}}\par}
+$\bullet$ \textbf{Fixed Random (FR)} gates is similar to the FL gates, expect that, in the `FR gates' the feature network is randomly initialised and kept frozen, and only the value network is trained. Here too, hard gating is used. It was shown that  random gates/neural path features perform significantly poorly than the learnt gates/neural path features. See in \Cref{fig:dgn} the performance of DGN in the FR mode ($68.08$) which is poorer by more than $11\%$ when compared to FL mode ($79.68$).
 
-This is answered by operating the DGN in the \textbf{fixed random (FR)} mode, which is similar to the FL mode, expect that, in the FR mode the feature network is randomly initialised and kept frozen, and only the value network is trained. Here too, hard gating is used. It was shown that  random gates/neural path features perform significantly poorly than the learnt gates/neural path features. Using the previous result that the learnt gates/neural path features perform as well as the trained DNN, it was concluded that the $\phi(x)$s are learnt during training and such learning is key for generalisation. See in \Cref{fig:dgn} the performance of DGN in the FR mode ($68.08$) which is poorer by more than $11\%$ when compared to FL mode ($79.68$).
-
-{\centering \emph{{Can gates, i.e., $\phi_{\Tf}(x)$s and weights, i.e., $v_{\Tv}$ be learnt simultaneously? or How good is a DGN?}}\par}
-
-This is answered by operating the DGN in the \textbf{decoupled learning (DL)} mode, wherein, both the feature and value networks are trained starting from random initialisation. Here, `soft'-gating is used, where, $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ ($\beta=10$ is a typical choice): this enables gradient to flow via the feature network. It was shown that DGN performs only marginally poorly compared to a DNN. See in \Cref{fig:dgn} the performance of DGN in the DL mode ($77.12$) which is poorer by only around than $3\%$ when compared to DNN ($80.32$). 
+\textbf{Message.} Since the random gates performed poorly than the NTK and the learnt gates performed better than the NTK and close to the original DNN itself, it was concluded that (i) gates (encoded as neural path features) are learnt, and (ii) the learning in the gates is the reason for finite width DNN outperforming infinite width NTK. \cite{npk} also showed that the gates and the weights can be learnt simultaneously in a DGN. This is answered by operating the DGN in the \textbf{decoupled learning (DL)} mode, wherein, both the feature and value networks are trained starting from random initialisation. Here, `soft'-gating is used, where, $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ ($\beta=$ 4 or 10 are typical choices): this enables gradient to flow via the feature network. It was shown that DGN performs only marginally poorly compared to a DNN. See in \Cref{fig:dgn} the performance of DGN in the DL mode ($77.12$) which is poorer by only around than $3\%$ when compared to DNN ($80.32$). 
 
 
-\subsection{Theoretical Result: External Fixed Gates}
-{\centering \emph{{What is the analysis for fixing the gates, i.e., $\phi_{\Tf}(x)$ and learning the weights, i.e., $v_{\Tv}$?}}\par}
-
-Recent works \citep{ntk,arora2019exact,cao2019generalization} have connected the training and generalisation of DNNs to kernel methods. An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
-\begin{align*}
- \text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}
- \end{align*}
-It was shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$. Theorem 5.1 in \citep{npk} showed that, when the gates are fixed, at randomised initialisation, the NTK of an  infinitely wide DGN is equal to (but for a scaling factor) the neural path kernel (NPK) which is the Gram matrix of the neural path features. 
-
+%In other words, using pre-trained $\phi_{\Tg}(x)$ we can train the $v_{\Tv}$, in a manner analogous to linear models wherein given the features we can train the weights. 
 %\textbf{Key Takeaways.} The dual view gives us an alternate way to look at feature learning. We know that $\phi(x)$s are features using which we can learn $v$s, and that $\phi(x)$s are learnt, and also that the information in the 
 %\textbf{DGN Training.} The primary use of the DGN was to measure the information in the gates of a DNN with ReLU. For this, the feature network (which is a DNN with ReLU) is \emph{pre-trained} with $\hat{y}_f$ as the output. Then the feature network is frozen and the value network is trained, i.e., in $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, $\phi_{\Tf}(x)$ is fixed and only $v_{\Tv}$ is learnt. Here, `hard'-gating is used: for pre-activation $q\in\R$, the gating value is $G(q) = \mathbbm{1}_{\{q>0\}}$. The secondary use of DGN is as an alternative/competetive model (for DNN) that learns  $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$, by separately learning $\Tf$ and $\Tv$ starting from randomised initialisation.Here, `soft'-gating is used, where, $G(q)=\frac{1}{1+\exp({-\beta\cdot q})}$ ($\beta=10$ is a typical choice): this enables gradient to flow via the feature network. 
 
