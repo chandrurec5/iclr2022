@@ -1,13 +1,13 @@
-\subsection{Learning of Weights Given Gates: Refining and Extending Prior Work}\label{sec:analysis}
+%\subsection{Learning of Weights Given Gates: Refining and Extending Prior Work}\label{sec:analysis}
 
-In what follows, we first restate the prior result. While \Cref{th:fc} and Theorem 5.1 in \citep{npk} are mathematically identical, \Cref{th:fc} is written in a manner to capture the fact that the NPK is invariant to permutation of the layers. \Cref{th:conv,th:res} are entirely new and are extensions of the dual view for convolutions with global pooling and skip connections. 
+%In what follows, we first restate the prior result. While \Cref{th:fc} and Theorem 5.1 in \citep{npk} are mathematically identical, \Cref{th:fc} is written in a manner to capture the fact that the NPK is invariant to permutation of the layers. \Cref{th:conv,th:res} are entirely new and are extensions of the dual view for convolutions with global pooling and skip connections. 
 
-\subsubsection{Definitions and Theorem Statements}
+\subsection{Definitions and Theorem Statements}
 
 \begin{definition}[Overlap of active sub-networks]\label{def:overlap} 
 The total number of `active' paths for both $x$ and $x'$ that pass through input node $i$ is defined to be:
 
-{\centering{$\textbf{overlap}_{\Tf}(i,x,x') = \Lambda_{\Tf}(i,x,x') \eqdef \frac{\left|\{p \colon  p\,\, \text{starts at input node }\,\, i\,\, \text{and}\,\,A_{\Tf}(x,p)= A_{\Tf}(x',p)=1\} \right|}{\din}$}\par}
+{\centering{$\textbf{overlap}_{\Tf}(i,x,x') = \Lambda_{\Tf}(i,x,x') \eqdef {\left|\{p \colon  \I_0(p)=i \,, A_{\Tf}(x,p)= A_{\Tf}(x',p)=1\} \right|}$}\par}
 \end{definition}
 %\subsection{NPK of FC-DNN: Product Kernel }
 %\input{cnpkexample}
@@ -83,10 +83,6 @@ Let $2^{[b]}$ denote the power set of $[b]$ and let $\J\in 2^{[b]}$ denote any s
 \end{align*}
 \end{theorem}
 \textbf{Note.} The sub-FC-DNNs we refer to in \Cref{th:mainres} belong to (or are parts of) the feature network from which the gates are obtained. 
-
-
-\subsubsection{Discussion of Results}
-
 
 
 %In order to completely address the `black box'-ness issue, an ideal goal is to aim for theoretical results (supported by empirical evidence) on finite time learning in finite width \texttt{DGN-NO-ACT}. We find this goal is too hard at this stage and do not pursue the same. The next level is to analyse  the primal linearity and the dual linearity separately. Understanding the primal linearity has two parts to it (i) `what do the learnt pre-activations mean?', and (ii) `how are useful pre-activations learnt?'. The `what' question is \emph{post-hoc}, i.e., we can inspect the learnt pre-activations after training. However, we believe that in order to obtain domain specific insights on what the learnt pre-activations mean, we might require domain specific tools. For instance, in the case of `image classification', the pre-activations are the result of series of convolutions by `filter banks', and in order to do full justice, any visual interpretation should also tally with the results from `filter bank' theory. We defer the `what' question for future work. We also believe new theory is required to answer `how are useful pre-activations learnt?', and defer the same to future work. In this paper,  
