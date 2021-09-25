@@ -121,7 +121,7 @@ $\Tv_0\stackrel{\text{i.i.d}}\sim\text{Bernoulli}(\frac12)$ over $\{-{\sigma},+{
 \end{assumption}
 %We point out that this statistical decoupling of weights and gates in \Cref{assmp:main} is unrealisable in a DNN with ReLU, however, this assumption can be trivially realised in a DGN. %Further, we are interested only in the `what?' ( and not `how?') question related to the gates in which case this assumptions is not a restriction.
 
-\begin{theorem}[NTK = Constant $\times$ NPK]
+\begin{theorem}[Theorem 5.1 in \citep{npk}]
 \label{th:fcprev} Under \Cref{assmp:main} for FC-DGN : 
 \begin{align*}
 \text{NTK}=(x,x') \stackrel{(a)}\rightarrow &d \cdot \sigma^{2(d-1)} \cdot \text{NPK}(x,x'), \quad\text{as}\,\, w\rightarrow \infty \\
@@ -180,6 +180,7 @@ CNN-GAP & \multicolumn{3}{c} {CDGN-GAP} \\\cline{2-4}
 \caption{DGN}
 \label{fig:dgn}
 \end{figure}
+
 
 %\cite{npk} addressed these issues by measuring the performance of the fixed gates. For this, they considered a DGN setup, wherein, the feature network is frozen so as to fix the gates and only the value network is trained. In other words, the gates are fixed the `path features' are fixed, only the `path value' is learnt in the value network. 
 %As mention in \Cref{sec:intro}, the key insight in \cite{npk} is that gates play an important role in DNNs with ReLUs. The DGN has external gating, i.e., gates are generated in the feature network and are external to the value network which learns the weights. Note that the neural path features encode the input and the gates, and in the context of DGN, we will be using neural path features as a synonym for the gates. Also the neural path value is learnt in the value network, and in the context of the DGN, we will use neural path value as a synonym for weights. The following question related to learning with external gating lead to the conclusion that gates are key.

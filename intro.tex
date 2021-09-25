@@ -33,9 +33,25 @@ To address the `black box'-ness issues recent works have provided a kernel inter
 \end{figure}
 \end{comment}
 \begin{figure}[!t]
-\resizebox{0.98\columnwidth}{!}{
-\input{fig-lgln}
+\centering
+\begin{minipage}{1.0\columnwidth}
+\centering
+\begin{minipage}{0.49\columnwidth}
+\centering
+
+\resizebox{0.8\columnwidth}{!}{
+\input{fig-dgn-block}
 }
+\end{minipage}
+\begin{minipage}{0.49\columnwidth}
+\centering
+
+\resizebox{0.8\columnwidth}{!}{
+\input{fig-lgln-block}
+}
+\end{minipage}
+
+\end{minipage}
 \caption{\small{DNN and its corresponding \emph{Linearly-Gated-Linear Network}}: `Linearly' is because the pre-activations to the gates are linear functions of the input and `Gated-Linear' signifies the use of GaLUs. The surprising fact that a constant $\mathbf{1}$ input is given to LGLN is justified by theory and experiments in \Cref{sec:theory,sec:exp}.}
 \label{fig:lgln}
 \end{figure}
