@@ -18,8 +18,24 @@ Thus, giving a constant $\mathbf{1}$ input would mean that $\ip{x,x'}=\din$, and
 
 In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.e., \Cref{th:fcprev}) so as to explicitly capture the permutation invariance. In order to build a  more complete picture, we extend the dual view to cover the cases of convolution with global pooling and skip connections. We then present the aforementioned experimental results in \Cref{sec:exp}.
 
+\begin{figure}
+\centering
+\begin{minipage}{1.0\columnwidth}
+\centering
+\resizebox{0.99\columnwidth}{!}{
+\input{fig-c4gap-permute}
+}
+\resizebox{0.99\columnwidth}{!}{
+\input{fig-c4gap-no-act-permute}
+}
+\end{minipage}
+\caption{$4$ convolutional layers with GAP}
+\label{fig:c4gap}
+\end{figure}
 
 
+
+\begin{comment}
 \begin{figure}
 \centering
 \begin{minipage}{1.0\columnwidth}
@@ -38,6 +54,7 @@ In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.
 \caption{$4$ convolutional layers with GAP}
 \label{fig:c4gap}
 \end{figure}
+\end{comment}
 
 \begin{table}
 \centering
