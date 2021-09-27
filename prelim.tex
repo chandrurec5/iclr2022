@@ -192,7 +192,7 @@ CNN-GAP & \multicolumn{3}{c} {CDGN-GAP} \\\cline{2-4}
 }
 \end{minipage}
 \end{minipage}
-\caption{DGN}
+\caption{\small{DGN. In the case of fixed gates the feature network is frozen, hard-gates is used, and in the case learnable gates soft-gates are used to allow gradient flow through feature network. In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and the feature network is frozen. In the case of fixed random gates, the feature network is initialised at random, and frozen. In the case of learnable gates, both feature and value network are initialised at random and trained together.}}
 \label{fig:dgn}
 \end{figure}
 
