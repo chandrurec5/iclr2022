@@ -58,21 +58,23 @@ In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.
 
 \begin{table}
 \centering
-\begin{tabular}{ccccccc}
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{ccccccccc}
 \toprule 
-Dataset & Model & DNN & DGN$(x,x)$ & DGN$(x,\mathbf{1})$ &  LGLN$(x,x)$ & LGLN$(x,\mathbf{1})$\\\midrule
-\multirow{3}{*}{CIFAR10}& C4GAP & DNN & DGN$(x,x)$ & DGN$(x,\mathbf{1})$ &  LGLN$(x,x)$ & LGLN$(x,\mathbf{1})$\\
-& VGG16-AP & DNN & DGN$(x,x)$ & DGN$(x,\mathbf{1})$ &  LGLN$(x,x)$ & LGLN$(x,\mathbf{1})$\\
-&ResNet110 & DNN & DGN$(x,x)$ & DGN$(x,\mathbf{1})$ &  LGLN$(x,x)$ & LGLN$(x,\mathbf{1})$\\\midrule
-\multirow{2}{*}{CIFAR100} & VGG16-AP & DNN & DGN$(x,x)$ & DGN$(x,\mathbf{1})$ &  LGLN$(x,x)$ & LGLN$(x,\mathbf{1})$\\
-&ResNet110 & DNN & DGN$(x,x)$ & DGN$(x,\mathbf{1})$ &  LGLN$(x,x)$ & LGLN$(x,\mathbf{1})$\\
-
+Dataset 					& Model 		& DNN 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	& DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$  \\\midrule
+\multirow{3}{*}{CIFAR10}		& C4GAP 		& 80.5\tiny{$\pm$0.4} 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	&  DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$\\
+						& VGG16-AP 	& 93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	& 93.0\tiny{$\pm$0.1}   		&  87.0\tiny{$\pm$0.1}	& 87.0\tiny{$\pm$0.2}	&  85.0\tiny{$\pm$0.3} 	& 85.1\tiny{$\pm$0.2} \\
+						&ResNet110 	& 94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	& 93.2\tiny{$\pm$0.1} 	& 87.9\tiny{$\pm$0.2}   & 87.8\tiny{$\pm$0.1} 	& 72.4{$\pm$13.8} 	& 71.2{$\pm$17.3}  \\\midrule
+\multirow{2}{*}{CIFAR100}		& VGG16-AP 	& 73.4\tiny{$\pm$0.3}  	& 70.3\tiny{$\pm$0.1} 	&  70.5\tiny{$\pm$0.2} 	&  61.5\tiny{$\pm$0.2}	& 61.5\tiny{$\pm$0.1}&  55.5\tiny{$\pm$0.4} 	& 55.5\tiny{$\pm$0.3}\\
+						&ResNet110 	& 72.7\tiny{$\pm$0.2}	& 70.8\tiny{$\pm$0.2} 	& 70.8\tiny{$\pm$0.4}	&  62.3\tiny{$\pm$0.2} & 62.7\tiny{$\pm$0.3} & 49.8{$\pm$0.9}	&  41.5{$\pm$15.5}  \\
 \bottomrule
 \end{tabular}
+}
 \caption{Summary of Experiments}
 \label{tb:expresults}
 \end{table}
 
+%& C4GAP 		& 51.8 \tiny{$\pm$0.4} 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	&  DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$\\
 
 
 
