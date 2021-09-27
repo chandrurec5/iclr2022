@@ -1,5 +1,5 @@
 \section{Prior Work : Neural Tangent Kernel and Dual View}\label{sec:prelim}
-In this section, we will look at \emph{neural tangent kernel} (NTK) theory which gives a kernel interpretation of infinite width DNNs. The open question in the NTK theory is to explain why finite width DNNs outperform the infinite width DNNs. We then look at the dual view, which separately encodes the gates and the weights to: (i) simplify the NTK into a \emph{neural path kernel} which is based on information in the gates and (ii) show that featuring learning in the gates explains why finite width DNNs are better than infinite width DNNs.
+In this section, we will look at \emph{neural tangent kernel} (NTK) theory which gives a kernel interpretation of infinite width DNNs. The open question in the NTK theory is to explain why finite width DNNs outperform the infinite width DNNs. We then look at the dual view, which separately encodes the gates and the weights to: (i) simplify the NTK into a \emph{neural path kernel} which is solely based on the input and the gates and (ii) show that learning in the gates explains why finite width DNNs are better than infinite width DNNs.
 
 \subsection{Infinite Width DNN  = Kernel Method With Neural Tangent Kernel}\label{sec:ntk}
 Recent works \citep{ntk,arora2019exact,cao2019generalization} have connected the training and generalisation of DNNs to kernel methods. An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
@@ -26,7 +26,7 @@ CNTK-GAP &70.41\% &75.93\% & 76.73\% & \textbf{77.43}\% & 77.08\%\\
 %While these recent results allows us to look at DNNs from the lens of kernels, there are some important issues: (i) \textbf{feature learning:} $\text{NTK}_{\infty}$ being a deterministic matrix does not capture feature learning whereas the success of DNNs is due to feature learning, (ii) \textbf{finite vs infinite width:} finite width convolutional neural network outperforms its corresponding $\text{NTK}_{\infty}$ and (iii)  \textbf{non-interprability:} the NTK is the inner product of gradients and has no physical interpretation. As a result, NTK theory does not fully explain the success of DNNs.
 
 \subsection{Dual View For DNNs with ReLUs: Characterising the role of gates}
-We start with describing the encoding of gates, weights and subnetworks, followed by a description of deep gated network setup which separates the gates from the weights, and then we present theoretical results on learning the weights with fixed gates and the experimental results on learning in the gates.
+We start with describing the encoding of gates, weights, followed by a description of deep gated network setup which separates the gates from the weights, and then we present theoretical results on learning the weights with fixed gates and the experimental results on learning in the gates.
 \begin{comment}
 \begin{figure}[t]
 \resizebox{.95\columnwidth}{!}{
@@ -63,7 +63,7 @@ The output of the DNN is then the inner product of the NPF and NPV:
 \hat{y}_{\Theta}(x)=\ip{\phi_{\Theta}(x),v_{\Theta}}=\sum_{p\in[P]}  \phi_{\Theta}(x,p) v_{\Theta}(p)
 \end{align}
 \end{proposition}
-\textbf{Subnetwork Interpretation.} A path is active only if all the gates in the path are active. This gives a subnetwork interpretation, i.e., for a given input $x\in\R^{\din}$ only a subset gates and consequently only a subset of paths are active (i.e., paths for which $A(x,p)=1$), and the input to output computation can be seen to be produced by this subnetwork. The following matrix captures the correlation of the active subnetworks for a given pair of inputs $x,x'\in\R^{\din}$.
+\textbf{Subnetwork Interpretation of DNNs with ReLUs.} A path is active only if all the gates in the path are active. This gives a subnetwork interpretation, i.e., for a given input $x\in\R^{\din}$ only a subset gates and consequently only a subset of paths are active (i.e., paths for which $A(x,p)=1$), and the input to output computation can be seen to be produced by this subnetwork. The following matrix captures the correlation of the active subnetworks for a given pair of inputs $x,x'\in\R^{\din}$.
 \begin{definition}[Overlap of active sub-networks]\label{def:overlap} 
 The total number of `active' paths for both $x$ and $x'$ that pass through input node $i$ is defined to be:
 
