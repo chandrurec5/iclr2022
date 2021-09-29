@@ -49,7 +49,7 @@ In the dual view, the computations are broken down path-by-path. The input and t
 \label{fig:paths}
 \end{figure}
 \end{comment}
-\subsubsection{Neural Path Features, Neural Path Value and Neural Path Kernel}
+%\subsubsection{Neural Path Features, Neural Path Value and Neural Path Kernel}
 Consider a fully connected DNN with `$d$' layers and `$w$' hidden units in each layer. Let the DNN accept input $x\in \R^{\din}$ and produce an output $\hat{y}_{\Theta}(x)\in\R$. %Let a path be defined to be one that starts from an input node, passes through a weight and a hidden unit in each layer and ends at the output node. There are $\Pfc= \din w^{(d-1)}$ paths, let them be enumerable as $p=1,\ldots, \Pfc$. Let the index of the hidden unit in layer $l$ through which a path $p$ passes be denoted by $\I_l(p), l=0,1,\ldots,d$, where $l=0$ means the input layer. Let $\Theta\in\R^{\dnet}$ be the weights of network, with $\Theta(l,i,j)$ denoting the weight connecting the $i^{th}$ unit in layer $l$ and the $j^{th}$ unit in layer $l-1$. Let $G_l(x,I_l(p))$ denote the gate in the $l^{th}$ layer in path $p$. The neural path feature encoding the input and gates, and the neural path value encoding the weights is defined as below.
 \begin{definition}\label{def:npf-npv}
 A path starts from an input node, passes through a weight and a hidden unit in each layer and ends at the output node. We define the following quantities for a path $p$:
@@ -121,8 +121,27 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 \label{fig:dgn}
 \end{figure}
 \end{comment}
+\begin{figure}
+\centering
+\begin{minipage}{0.8\columnwidth}
+\centering
+\begin{minipage}{0.45\columnwidth}
+\resizebox{1.0\columnwidth}{!}{
+\input{fig-dgn}
+}
+\end{minipage}
+\begin{minipage}{0.54\columnwidth}
+\resizebox{1.0\columnwidth}{!}{
+\input{fig-c4gap-below}
+}
+\end{minipage}
+\end{minipage}
+\caption{\small{DGN. In the case of fixed gates the feature network is frozen, hard-gates is used, and in the case learnable gates soft-gates are used to allow gradient flow through feature network. In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and the feature network is frozen. In the case of fixed random gates, the feature network is initialised at random, and frozen. In the case of learnable gates, both feature and value network are initialised at random and trained together.}}
+\label{fig:dgn}
+\end{figure}
+
 %As mentioned in \Cref{sec:intro}, a deep gated network(DGN) setup is an alternative way to compute path-by-path, that is, the to compute the inner product of the neural path feature and neural path value. In this section, we first describe DGN in prior work \citep{npk}:  consitituent parts, information flow, purpose and training. We then discuss the two fundamental conceptual issues that make this DGN `black box'. We then present our modified \texttt{DGN-NO-ACT} with an intutitve explanation of how the conceptual issues are overcome and  why it is an entirely interpretatble white box model. These intuitive explanations will be justified in theory and experiments in \Cref{sec:main}.
-\subsubsection{Deep Gated Network: Separating Gates and Weights}
+%\subsubsection{Deep Gated Network: Separating Gates and Weights}
 \textbf{Deep Gated Network (DGN)} is a setup to separate the gates from the weights. Consider a DNN with ReLUs with weights $\Theta\in\R^{\dnet}$. The DGN \emph{corresponding} to this DNN (see the left diagram in \Cref{fig:dgn}) has two networks of \emph{identical architecture} (to the DNN) namely the `gating network' and the `weight network' with distinct weights $\Tf\in\R^{\dnet}$ and $\Tv\in\R^{\dnet}$ respectively.  
 %The main difference between the feature and value networks is in the activations. 
 The `gating network' has ReLUs which turn `on/off' based on their pre-activation signals, and the `weight network' has gated linear units (GaLUs) \citep{sss,npk}, which multiply their respective pre-activation inputs by the external gating signals provided by the `gating network'.  Since the gating and weight networks have identical architecture, there is a one-to-one correspondence between the ReLUs and GaLUs in the respective networks.  Gating network realises $\phi_{\Tf}(x)$ by turning `on/off' the corresponding GaLUs in the weight network. The weight network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.  The gating network is also called the feature network since it realises the neural path features, and the weight network is also called as the value network since it realises the neural path value. %Training of DGN is explained in \Cref{sec:gatelearning}.
@@ -187,24 +206,6 @@ CNN-GAP & \multicolumn{3}{c} {CDGN-GAP} \\\cline{2-4}
 
 %\textbf{Remark:} A previously unnoticed property of the NPK was that it is invariant to layer permutations. Theorem 5.1 in \citep{npk} is not presented here, it is restated in \Cref{th:fc} in which the invariance property is made explicit. 
 
-\begin{figure}
-\centering
-\begin{minipage}{0.8\columnwidth}
-\centering
-\begin{minipage}{0.45\columnwidth}
-\resizebox{1.0\columnwidth}{!}{
-\input{fig-dgn}
-}
-\end{minipage}
-\begin{minipage}{0.54\columnwidth}
-\resizebox{1.0\columnwidth}{!}{
-\input{fig-c4gap-below}
-}
-\end{minipage}
-\end{minipage}
-\caption{\small{DGN. In the case of fixed gates the feature network is frozen, hard-gates is used, and in the case learnable gates soft-gates are used to allow gradient flow through feature network. In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and the feature network is frozen. In the case of fixed random gates, the feature network is initialised at random, and frozen. In the case of learnable gates, both feature and value network are initialised at random and trained together.}}
-\label{fig:dgn}
-\end{figure}
 
 
 %\cite{npk} addressed these issues by measuring the performance of the fixed gates. For this, they considered a DGN setup, wherein, the feature network is frozen so as to fix the gates and only the value network is trained. In other words, the gates are fixed the `path features' are fixed, only the `path value' is learnt in the value network. 

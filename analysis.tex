@@ -52,8 +52,9 @@ $\bullet$ In \Cref{th:conv} the expression becomes $\frac{\bcnn}{{\din}^2} \cdot
 $\bullet$ \textbf{Destroying structure by permuting the layers}  does not destroy the rotational invariance property of the expression in \Cref{th:conv}. This is because of the fact that the all the variables internal to the network rotate as the input rotates. Permuting the layers, only affects the ordering in which the gates appear, and does not affect the rotational invariance of the gates themselves.
 
 \subsection{Residual Networks With Skip Connections (ResNet): New Result II}
-We consider a ResNet with `$(b+2)$' blocks and `$b$' skip connections between the blocks (left of \Cref{fig:resnet}). Each block is a fully connected (FC) network of depth `$\dblock$' and width `$w$'. There are $2^b$ many sub-FCNs within this ResNet (see \Cref{def:subfcdnn} and right of \Cref{fig:resnet}).
+We consider a ResNet with `$(b+2)$' blocks and `$b$' skip connections between the blocks (left of \Cref{fig:resnet}). Each block is a fully connected (FC) network of depth `$\dblock$' and width `$w$'. There are $2^b$ many sub-FCNs within this ResNet (see \Cref{def:subfcdnn}).%and right of \Cref{fig:resnet}).
 %\FloatBarrier
+\begin{comment}
 \begin{figure}[t]
 \begin{minipage}{0.5\columnwidth}
 \resizebox{\columnwidth}{!}{
@@ -68,9 +69,9 @@ We consider a ResNet with `$(b+2)$' blocks and `$b$' skip connections between th
 \caption{\small{Figure on the left is the ResNet with $b$ skip connections and $(b+2)$ blocks. Figure on the right shows for $b=2$, the sub-FCNs $N^1$ obtained by skipping no blocks, $N^2$ and $N^4$ obtained by skipping block $1$ and $2$ respectively, and $N^3$ obtained by skipping both blocks $1$ and $2$.}}
 \label{fig:resnet}
 \end{figure}
-
+\end{comment}
 \begin{definition}\label{def:subfcdnn}[Sub FC-DNNs]
-Let $2^{[b]}$ denote the power set of $[b]$ and let $\J\in 2^{[b]}$ denote any subset of $[b]$. Define the`$\J^{th}$' sub-FCN of the ResNet to be the fully connected network obtained by (i) including  $\text{block}_{j},\forall j\in \J$  and (ii) ignoring $\text{block}_{j},\forall j\notin \J$ (see \Cref{fig:resnet}).
+Let $2^{[b]}$ denote the power set of $[b]$ and let $\J\in 2^{[b]}$ denote any subset of $[b]$. Define the`$\J^{th}$' sub-FCN of the ResNet to be the fully connected network obtained by (i) including  $\text{block}_{j},\forall j\in \J$  and (ii) ignoring $\text{block}_{j},\forall j\notin \J$. %(see \Cref{fig:resnet}).
 \end{definition}
 \begin{theorem}
 [Ensemble Of Kernels Theorem]\label{th:res} Let $\text{NPK}^{\J}$ be the NPK of the $\J^{th}$ sub-FCN, and $\bfc^{\J}$ be the associated constant. Under \Cref{assmp:main}, we have:
