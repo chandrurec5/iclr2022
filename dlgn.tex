@@ -31,6 +31,8 @@ In this section, we show experimental results comparing performance of standard 
 
 \textbf{Result II.} As claimed in the \Cref{sec:intro}, results in \Cref{tb:expresults} show that the DLGN recovers more than $83.5\%$ (i.e., $83.78\%$ in the worst case) of the performance of the DNN, which implies that while entanglement in the DNNs enable their improved performance,  the `disentangled and interpretable'  computations in the DLGN can still recover most part of the performance. This result also implies that the most important function of gating is to \emph{lift} the linear computations in the feature network to the dual linear computations in the value network.
 
+\textbf{Open Questions.} The following questions are still open: (i) how the gates are learnt?, (ii) what are learnt in the gates? (iii) why the non-linearity in the feature network helps (the performance gap between DGN and DNN is less compared to DLGN and DNN)? and (iv) what is the visual/human interpretation. While these questions are open, we believe that the fact that the feature network in a DLGN is a deep linear network, will make these questions amenable to techniques from standard linear algebra and tools from `filter bank' theory. 
+
 %Recall that in a DLGN, the gating/feature network is a deep linear network without non-linearities, and hence is disentangled by construction. We claimed in \Cref{sec:intro} that the weight/value network is \emph{disentangled in the path space}, for which, as promised we presented theoretical insights in \Cref{sec:analysis}, and now we will provide the supporting experimental evidence. 
 
 
