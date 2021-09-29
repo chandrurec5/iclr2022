@@ -27,7 +27,7 @@ In this section, we show experimental results comparing performance of standard 
 
 \textbf{Training.} In all the $3$ architectures, the DGN and DLGN are trained from scratch, i.e., both the feature and value network are initialised at random and trained using off the shelf optimisers. In DGN and DLGN, we use soft gating (see \Cref{fig:dgn}) with $\beta=10$ so that gradient flows through the feature network and the gates are learnt. For experiments in \Cref{tb:permute}, we used \emph{Adam} optimiser, with learning rate of $3\times 10^{-4}$ and batch size of $32$. For  experiments in \Cref{tb:permute}, we used  \emph{SGD} optimiser with momentum of $0.9$ and trained for $64000$ steps with batch size of $128$ per step. The learning rate schedule of $0.01$ for first $400$ steps, and $0.1$ for steps $401$ to $3200$ and $0.01$ for steps $32001$ to $48000$ and $0.001$ for steps $48001$ to $64000$.
 
-\textbf{Result I.} The choice of C4GAP is motivated by: (i) there only $4!=24$ permutations, and (ii) ensure continuity with \citep{arora2019exact,npk}.  \Cref{tb:expresults} demonstrates the fact that computations in the weight/value network is \emph{disentangled in the path space}, i.e., destroying the layer-by-layer structure due to permutation or providing a constant $\mathbf{1}$ input does not degrade the performance. 
+\textbf{Result I.} The choice of C4GAP is motivated by: (i) there only $4!=24$ permutations; this enables us to run all the permutations and (ii) ensure continuity with \citep{arora2019exact,npk}.  \Cref{tb:expresults} demonstrates the fact that computations in the weight/value network is \emph{disentangled in the path space}, i.e., destroying the layer-by-layer structure due to permutation or providing a constant $\mathbf{1}$ input does not degrade the performance.  Similar results hold for CIFAR-100 as well and are shown in the Appendix.
 
 \textbf{Result II.} 
 
@@ -111,11 +111,11 @@ In this section, we show experimental results comparing performance of standard 
 \begin{table}[!t]
 \centering
 \resizebox{1.0\columnwidth}{!}{
-\begin{tabular}{ccccccc}
+\begin{tabular}{cccccccc}
 \toprule 
-Dataset 					& C4GAP 		&DNN 	&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	\\\midrule
-\multirow{2}{*}{CIFAR10}		& Vanilla				&80.5\tiny{$\pm$0.4} 	&77.4\tiny{$\pm$0.3} 	& 77.5\tiny{$\pm$0.2} 	&75.4\tiny{$\pm$0.3} 	&75.4\tiny{$\pm$0.2}		\\
-						& Permute 	&-- 		&77.3\tiny{$\pm$0.5} 	&77.9\tiny{$\pm$0.6}		&75.9\tiny{$\pm$0.5} 	&76.0\tiny{$\pm$0.5}		\\%\midrule
+Dataset 					& C4GAP 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	&Recovery\\\midrule
+\multirow{2}{*}{CIFAR10}		& Vanilla		&80.5\tiny{$\pm$0.4} 	&77.4\tiny{$\pm$0.3} 	& 77.5\tiny{$\pm$0.2} 	&75.4\tiny{$\pm$0.3} 	&75.4\tiny{$\pm$0.2}		&$93.66\%$	\\
+						& Permute 	&-- 					&77.3\tiny{$\pm$0.5} 	&77.9\tiny{$\pm$0.6}		&75.9\tiny{$\pm$0.5} 	&76.0\tiny{$\pm$0.5}		&$94.40\%$	\\					%\midrule
 %\multirow{2}{*}{CIFAR100}		& Vanilla  				&51.8\tiny{$\pm$0.4} 	&47.4\tiny{$\pm$0.2}		&47.3\tiny{$\pm$0.3} 	&47.4\tiny{$\pm$0.1} 	&48.0\tiny{$\pm$0.2}		\\
 %						& Permute 	& -- 		&48.4\tiny{$\pm$0.8} 	&49.2\tiny{$\pm$0.9} 	&47.5\tiny{$\pm$1.0} 	&48.4\tiny{$\pm$0.9}		\\
 \bottomrule
@@ -127,17 +127,17 @@ Dataset 					& C4GAP 		&DNN 	&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 	
 
 \begin{table}[!t]
 \centering
-%\resizebox{1.0\columnwidth}{!}{
-\begin{tabular}{ccccccccc}
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{cccccccccc}
 \toprule 
-Dataset 					& Model 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	\\\midrule		
-\multirow{2}{*}{CIFAR10}		&VGG16 		&93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	&93.0\tiny{$\pm$0.1}   	&87.0\tiny{$\pm$0.1}		&87.0\tiny{$\pm$0.2}		\\
-						&ResNet110 	&94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	&93.2\tiny{$\pm$0.1} 	&87.9\tiny{$\pm$0.2}   	&87.8\tiny{$\pm$0.1} 	\\\midrule
-\multirow{2}{*}{CIFAR100}		&VGG16	 	&73.4\tiny{$\pm$0.3}  	&70.3\tiny{$\pm$0.1} 	&70.5\tiny{$\pm$0.2} 	&61.5\tiny{$\pm$0.2}		&61.5\tiny{$\pm$0.1}		\\
-						&ResNet110 	&72.7\tiny{$\pm$0.2}		&70.8\tiny{$\pm$0.2} 	&70.8\tiny{$\pm$0.4}		&62.3\tiny{$\pm$0.2} 	&62.7\tiny{$\pm$0.3} 	\\
+Dataset 					& Model 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	&Recovery\\\midrule		
+\multirow{2}{*}{CIFAR10}		&VGG16 		&93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	&93.0\tiny{$\pm$0.1}   	&87.0\tiny{$\pm$0.1}		&87.0\tiny{$\pm$0.2}		&$92.94\%$	\\
+						&ResNet110 	&94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	&93.2\tiny{$\pm$0.1} 	&87.9\tiny{$\pm$0.2}   	&87.8\tiny{$\pm$0.1} 	&$93.40\%$	\\\midrule
+\multirow{2}{*}{CIFAR100}		&VGG16	 	&73.4\tiny{$\pm$0.3}  	&70.3\tiny{$\pm$0.1} 	&70.5\tiny{$\pm$0.2} 	&61.5\tiny{$\pm$0.2}		&61.5\tiny{$\pm$0.1}		&$83.78\%$	\\
+						&ResNet110 	&72.7\tiny{$\pm$0.2}		&70.8\tiny{$\pm$0.2} 	&70.8\tiny{$\pm$0.4}		&62.3\tiny{$\pm$0.2} 	&62.7\tiny{$\pm$0.3} 	&$86.24\%$	\\
 \bottomrule
 \end{tabular}
-%}
+}
 \caption{Summary of Experiments}
 \label{tb:expresults}
 \end{table}
