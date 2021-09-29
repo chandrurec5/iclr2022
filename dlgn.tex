@@ -27,7 +27,7 @@ In this section, we show experimental results comparing performance of standard 
 
 \textbf{Training.} In all the $3$ architectures, the DGN and DLGN are trained from scratch, i.e., both the feature and value network are initialised at random and trained using off the shelf optimisers. In DGN and DLGN, we use soft gating (see \Cref{fig:dgn}) with $\beta=10$ so that gradient flows through the feature network and the gates are learnt. For experiments in \Cref{tb:permute}, we used \emph{Adam} optimiser, with learning rate of $3\times 10^{-4}$ and batch size of $32$. For  experiments in \Cref{tb:permute}, we used  \emph{SGD} optimiser with momentum of $0.9$ and trained for $64000$ steps with batch size of $128$ per step. The learning rate schedule of $0.01$ for first $400$ steps, and $0.1$ for steps $401$ to $3200$ and $0.01$ for steps $32001$ to $48000$ and $0.001$ for steps $48001$ to $64000$.
 
-\textbf{Result I.} The choice of C4GAP is motivated by: (i) there only $4!=24$ permutations, and (ii) ensure continuity with \citep{arora2019exact,npk}.  \Cref{tb:expresults} demonstrate the fact that computations in the weight/value network is \emph{disentangled in the path space}, i.e., destroying the layer-by-layer or providing a constant $\mathbf{1}$ input does not destroy the performance.
+\textbf{Result I.} The choice of C4GAP is motivated by: (i) there only $4!=24$ permutations, and (ii) ensure continuity with \citep{arora2019exact,npk}.  \Cref{tb:expresults} demonstrates the fact that computations in the weight/value network is \emph{disentangled in the path space}, i.e., destroying the layer-by-layer structure due to permutation or providing a constant $\mathbf{1}$ input does not degrade the performance. 
 
 \textbf{Result II.} 
 
