@@ -1,16 +1,22 @@
 \section{Prior Work : Neural Tangent Kernel and Dual View}\label{sec:prelim}
-In this section, we will look at \emph{neural tangent kernel} (NTK), the open question with the NTK theory\citep{arora2019exact}, the dual view \citep{npk} and how the dual view helps to address the open question in the NTK theory. %A main highlight of the dual view is \textbf{dual linearity}, i.e., expressing the output as a summation path contributions.
+In this section, we will focus on the dual view \citep{npk} and how the dual view helps to address the open question in the NTK theory. We begin with a brief summary of NTK.
+%In this section, we will look at \emph{neural tangent kernel} (NTK), the open question with the NTK theory\citep{arora2019exact}, the dual view \citep{npk} and how the dual view helps to address the open question in the NTK theory. %A main highlight of the dual view is \textbf{dual linearity}, i.e., expressing the output as a summation path contributions.
 %In this section, we will look at \emph{neural tangent kernel} (NTK) theory which gives a kernel interpretation of infinite width DNNs. The open question in the NTK theory \citep{arora2019exact} was to explain why finite width DNNs outperform the infinite width DNNs. We then look at the dual view \citep{npk}, which is basically dual linearity, i.e., expressing the output as a summation path contributions.  To elaborate on dual linearity, the gates (of each path) are separately encoded in a neural path feature vector and the weights (of each path) is separately encoded in a neural path value vector, and the output is the inner product of these two vectors. The gates and weights are physically separated in a deep gated network setup to : (i) simplify the NTK into a \emph{neural path kernel} which is solely based on the input and the gates and (ii) show that learning in the gates explains why finite width DNNs are better than infinite width DNNs, thereby addressing the open question in NTK theory \citep{arora2019exact}.
 
-\subsection{Infinite Width DNN  = Kernel Method With Neural Tangent Kernel}\label{sec:ntk}
-Recent works \citep{ntk,arora2019exact,cao2019generalization} have connected the training and generalisation of DNNs to kernel methods. An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
+%\subsection{Infinite Width DNN  = Kernel Method With Neural Tangent Kernel}\label{sec:ntk}
+\textbf{NTK.}  An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
 \begin{align*}
  \text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}, \quad\text{where}
 \end{align*}
-$\hat{y}_\Theta(\cdot)\in\R$ is the DNN output. It was shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$. \cite{arora2019exact} compared the performance of convolutional neural network with global average pooling (CNN-GAP) and its infinite width Convolutional NTK (CNTK-GAP) on CIFAR-10 and observed the data in \Cref{tb:cntk-cnn}.   Based on the fact that best finite width CNN-GAP ($83.75\%$) performed better than best CNTK-GAP ($77.43\%$) by about $6\%$ they concluded that the infinite width NTK does not explain fully the success of DNNs, and left the characterisation of this performance gap as an interesting \textbf{open question}. 
+$\hat{y}_\Theta(\cdot)\in\R$ is the DNN output. Recent works \citep{ntk,arora2019exact,cao2019generalization} have shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$.  While, as a pure kernel NTK performed better than prior kernels by more than $10\%$, \cite{arora2019exact} observed that on CIFAR-10:
+
+{\centering CNTK-GAP: $\mathbf{77.43\%}\leq $ CNN-GAP: $\mathbf{80.32\%}$\par}
+
+where, CNN-GAP is a convolutional neural network with global average pooling (CNN-GAP) and CNTK-GAP is its corresponding infinite width NTK matrix. Due to this performance gap of about $5-6\%$ they concluded that the infinite width NTK does not explain fully the success of DNNs, and left the characterisation of this performance gap as an interesting \textbf{open question}. 
 
 %\textbf{Open Question 2:} NTK matrix is a fixed matrix and hence there is no feature learning which is at odds with the fact that the success of deep learning is due to feature learning.
-\textbf{Remark:} For a proper comparison between the  CNN-GAP and CNTK-GAP, \cite{arora2019exact} avoided tricks such as data augmentation, batch normalisation, dropout and weight decay.
+%\textbf{Remark:} For a proper comparison between the  CNN-GAP and CNTK-GAP, \cite{arora2019exact} avoided tricks such as data augmentation, batch normalisation, dropout and weight decay.
+\begin{comment}
 \begin{table}
 \begin{tabularx}{\columnwidth}{c *{5}{Y}}
 \toprule 
@@ -22,7 +28,7 @@ CNTK-GAP &70.41\% &75.93\% & 76.73\% & \textbf{77.43}\% & 77.08\%\\
 \caption{Data from Table 1 in \citep{arora2019exact}.}
 \label{tb:cntk-cnn}
 \end{table}
-
+\end{comment}
 
 %While these recent results allows us to look at DNNs from the lens of kernels, there are some important issues: (i) \textbf{feature learning:} $\text{NTK}_{\infty}$ being a deterministic matrix does not capture feature learning whereas the success of DNNs is due to feature learning, (ii) \textbf{finite vs infinite width:} finite width convolutional neural network outperforms its corresponding $\text{NTK}_{\infty}$ and (iii)  \textbf{non-interprability:} the NTK is the inner product of gradients and has no physical interpretation. As a result, NTK theory does not fully explain the success of DNNs.
 
@@ -142,10 +148,15 @@ $\Tv_0\stackrel{\text{i.i.d}}\sim\text{Bernoulli}(\frac12)$ over $\{-{\sigma},+{
 \end{theorem} 
 \textbf{Remark.} In the fully connected case, $\textbf{overlap}(i,x,x')$ is identical for all $i=1,\ldots,\din$, and hence $\ip{x,x'}_{\textbf{overlap}(\cdot,x,x')}$ in \Cref{lm:npk} becomes $\ip{x,x'}\cdot \textbf{overlap}(x,x')$ in \Cref{th:fcprev}. It follows from NTK theory that, training an infinite width DGN is equivalent to kernel method with NPK.
 \subsubsection{Learning in Gates : Why Finite Width Is Better Than Infinite Width}\label{sec:gatelearning}
-The fixed gates setting is an idealised setting, in that, it does not theoretically capture the learning of the gates, i.e., the neural path features $\phi_{\Theta}(x)$. However, the learning in the gates can be empirically characterised by comparing \textbf{fixed learnt (FL)}  gates coming from a pre-trained DNN and \textbf{fixed random (FR)} gates coming from randomly initialised DNN, and the infinite width NTK.  \cite{npk} compared the performance of a $4$ layer CNN-GAP (C4GAP) with its corresponding DGN (C4GAP-DGN) on CIFAR-10 and the observed the results in \Cref{tb:cdgn}. Since the fixed random (FR) gates performed poorly ($67.09\%$) than the best CNTK in \citep{arora2019exact} ($77.43\%$) and the fixed learnt (FL) gates performed better ($79.68\%$) than the best CNTK, it was concluded that learning in the gates (i.e., neural path features) explains the why finite width CNN-GAP outperforms the infinite width CNTK-GAP; this \textbf{explains the open question} in \Cref{sec:ntk}.
+The fixed gates setting is an idealised setting, in that, it does not theoretically capture the learning of the gates, i.e., the neural path features $\phi_{\Theta}(x)$. However, the learning in the gates can be empirically characterised by comparing \textbf{fixed learnt (FL)}  gates coming from a pre-trained DNN and \textbf{fixed random (FR)} gates coming from randomly initialised DNN, and the infinite width NTK.  Using a $4$ layer CNN-GAP and its corresponding DGN, \cite{npk} showed on CIFAR-10 that:
+
+{\centering Fixed Random Gates: $\mathbf{67.09\%}\leq $ CNTK: $\mathbf{77.43\%}\leq $ Fixed Learnt Gate $\mathbf{79.68\%}$,\par}
+
+based on which it was concluded that learning in the gates (i.e., neural path features) explains the why finite width CNN-GAP outperforms the infinite width CNTK-GAP.% this \textbf{explains the open question} in \Cref{sec:ntk}.
+%Since the fixed random (FR) gates performed poorly ($67.09\%$) than the best CNTK in \citep{arora2019exact} ($77.43\%$) and the fixed learnt (FL) gates performed better ($79.68\%$) than the best CNTK, 
 
 \textbf{Key Results.} Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. In other words, dual linearity is not a mere conceptualisation, but is analogous to a linear model in practice as well. That is, just like one can learn weight vector in a linear model given the features, one can learn the neural path value given the neural path features. It was also shown that if the gates are not fixed but allowed to learn along with the weights the performance is \emph{marginally poor} compared to the DNN. This is shown as the \textbf{learnable gates} in \Cref{fig:dgn,tb:cdgn}. 
-
+\begin{comment}
 \begin{table}
 \begin{tabularx}{\columnwidth}{c *{4}{Y}}
 \toprule 
@@ -157,8 +168,7 @@ CNN-GAP & \multicolumn{3}{c} {CDGN-GAP} \\\cline{2-4}
 \caption{Data from Table 2 in \citep{npk}.}
 \label{tb:cdgn}
 \end{table}
-
-
+\end{comment}
 %The information in the gates or the performance of the gates is measured by keeping the gates fixed in the feature network and training the weights of the value network. The key result in \citep{npk} was that the learning in the gates (i.e., the neural path features) improves generalisation, and is the reason behind why finite width DNNs outperforms the infinite width NTK. This result was established empirically by comparing the performance of \textbf{fixed learnt (FL)} gates and that of \textbf{fixed random(FR)} gates and the performance of the NTK in \cite{arora2019exact}. The fixed learnt gates are those that come from a pre-trained feature network (pre-trained using $\hat{y}_\text{f}$) and the fixed random gates are those that come from a randomly initialised feature network. For this purpose, \citep{npk} used a `C4GAP' architecture with $4$ convolutional layers, followed by global-average-pooling (GAP) and a fully connected layer with `softmax' activations. On CIFAR-10, it was observed that the fixed random (FR) gates performed poorly ($68.08\%$) than the NTK in \citep{arora2019exact} ($77.43$) and the fixed learnt (FL) gates performed better ($79.68\%$) than the NTK and within $1\%$ to the C4GAP-DNN ($80.32\%$). Based on this observation it was concluded that (i) gates (encoded as neural path features) are learnt, and (ii) the learning in the gates is the reason for finite width DNN outperforming infinite width NTK. It was also shown that the DGN can be trained standalone, i.e., gates in the feature network and the weights in the value network can be learnt starting from randomised initialisation. The standalone DGN performed only \emph{marginally poor} ($77.12\%$) compared to the DNN ($80.32\%$).
 
 %The test accuracy of C4GAP is approximately $80\%$ on CIFAR-10, and is not state of the art.  However, the main aim here was to compare with the corresponding infinite width NTK whose performance was $77.34\%$ \citep{arora2019exact} for which the C4GAP was sufficient. 
