@@ -1,5 +1,19 @@
 \section{DLGN:  Disentangling the computation in DNNs with ReLUs}\label{sec:dlgn}
-In this section, we turn to the issues of entanglement and `black box'-ness. We start by noting that the performance in the \emph{learnable gates} setting of the DGN show us that the DGN is not only conceptually similar to the DNN, but also empirically approximate to the DNN. In this paper, we modify the DGN to obtain the LGLN. In particular, the LGLN (\Cref{fig:lgln}) is same as the DGN in which (i) the ReLUs in the feature network are replaced with identity activations, and (ii) the input to the value network is $\mathbf{1}$ (see bottom network of LGLN in \Cref{fig:lgln} and the input to the value network of the DGN in \Cref{fig:dgn}). We now discuss how the LGLN disentangles the computations into two linear structures to show that the commonly held view of sophisticated structures are learnt in a layer-by-layer manner is misconceived.  From now on, as it is with the DGN, we will refer to the top part of the LGLN as its feature network and the bottom part as its value network. 
+In this section, we show experimental results comparing performance of standard DNNs with their DGN and DLGN counterparts on CIFAR-10 and CIFAR-100. In what follows, we use the notation DGN$(\xf,\xv)$ and DLGN$(\xf,\xv)$ where $\xf$ and $\xv$ denote the input to the value and feature networks respectively. In this notation, DGN$(x,x)$ will mean that both the value and feature network of the DGN is provided with the image as input, and DLGN$(x,\mathbf{1})$ will mean that the feature network is given with the image as input and the value network is given with $\mathbf{1}$ as input.
+
+We consider $3$ DNN architectures, the C4GAP in \Cref{fig:dgn}, VGG-16 and ResNet-110. The main purpose of using C4GAP is to experimentally demonstrate the fact that computations in the weight/value network is \emph{disentangled in the path space}. VGG-16 and ResNet-110 are chosen for their state of the art performance on standard datasets namely CIFAR-10 and CIFAR-100. We first present the results on experiments with C4GAP, followed by VGG-16 and ResNet-110. 
+
+%Recall that in a DLGN, the gating/feature network is a deep linear network without non-linearities, and hence is disentangled by construction. We claimed in \Cref{sec:intro} that the weight/value network is \emph{disentangled in the path space}, for which, as promised we presented theoretical insights in \Cref{sec:analysis}, and now we will provide the supporting experimental evidence. 
+
+
+
+%will experimentally compared DNNs with their DGN and DLGN counterparts, to show how the `disentangled and interpretable' computations in a DLGN recover major part of the performance of DNNs. Recall that the gating/
+
+
+%This also implies that while non-linearity in ReLU causes entanglement (and hence non-interpretability), the major function of the ReLU as gates is to lift the layer-by-layer computations in the gating/feature network to the path-by-path computations in the weight/value network. 
+ 
+
+%In this section, we turn to the issues of entanglement and `black box'-ness. We start by noting that the performance in the \emph{learnable gates} setting of the DGN show us that the DGN is not only conceptually similar to the DNN, but also empirically approximate to the DNN. In this paper, we modify the DGN to obtain the LGLN. In particular, the LGLN (\Cref{fig:lgln}) is same as the DGN in which (i) the ReLUs in the feature network are replaced with identity activations, and (ii) the input to the value network is $\mathbf{1}$ (see bottom network of LGLN in \Cref{fig:lgln} and the input to the value network of the DGN in \Cref{fig:dgn}). We now discuss how the LGLN disentangles the computations into two linear structures to show that the commonly held view of sophisticated structures are learnt in a layer-by-layer manner is misconceived.  From now on, as it is with the DGN, we will refer to the top part of the LGLN as its feature network and the bottom part as its value network. 
 
 
 
@@ -8,16 +22,49 @@ In this section, we turn to the issues of entanglement and `black box'-ness. We 
 
 %We now elaborate on why these changes are needed in the LGLN and how disentangling is achieved.
 
-$\bullet$ \textbf{Disentangling Feature Network.}  %The gates themselves encode binary information and are triggered by their pre-activations.
-In a DGN, the transformation from the input to the pre-activation to the gates happens through the hidden layers, in which the linear and non-linear operations are entangled. The hidden layers are not interpretable, and we have to fall back to sophisticated structures being learnt in the hidden layers as an explanation for why it is possible to learn useful pre-activations (as hence useful gates). In LGLN, the non-linear ReLUs are removed, and the transformation in linear, i.e., while the learning of pre-activations happens in a layer-by-layer manner, the learnt structures are no longer sophisticated and are interpretable in terms of standard linear algebra. We will call this \textbf{primal linearity}. Primal linearity is ensured via construction itself and needs no further theoretical justification, and in what follows, we experimentally verify in \Cref{sec:exp} that linearly learnt pre-activations does not degrade performance significantly, when compared to state of the art.
+%$\bullet$ \textbf{Disentangling Feature Network.}  %The gates themselves encode binary information and are triggered by their pre-activations.In a DGN, the transformation from the input to the pre-activation to the gates happens through the hidden layers, in which the linear and non-linear operations are entangled. The hidden layers are not interpretable, and we have to fall back to sophisticated structures being learnt in the hidden layers as an explanation for why it is possible to learn useful pre-activations (as hence useful gates). In LGLN, the non-linear ReLUs are removed, and the transformation in linear, i.e., while the learning of pre-activations happens in a layer-by-layer manner, the learnt structures are no longer sophisticated and are interpretable in terms of standard linear algebra. We will call this \textbf{primal linearity}. Primal linearity is ensured via construction itself and needs no further theoretical justification, and in what follows, we experimentally verify in \Cref{sec:exp} that linearly learnt pre-activations does not degrade performance significantly, when compared to state of the art.
 
-$\bullet$ \textbf{Disentangling Value Network.} %Note that the value network of the LGLN and that of the DGN are the same, except that in the DGN the value network is given $x\in\R^{\din}$ as the input and in the LGLN it is a constant $\mathbf{1}\in\R^{\din}$ instead. 
-In a DGN, given that the input $x\in\R^{\din}$  is presented to the value network, it could be argued that the GaLUs and linear operations are entangled which in turn enable learning of sophisticated features in the layers. To demystify the layer-by-layer processing viewpoint, in the LGLN the value network is provided with a constant $\mathbf{1}$, i.e., if the input $x\in\R^{\din}$ is not given to the value network in the first place it is not possible to learn sophisticated structures in a layer-by-layer manner. Now, it could be argued that the gates are still arranged layer-by-layer, due to which, the network is able to still learn sophisticated structures in a layer-by-layer manner despite a constant $\mathbf{1}$ input. We show via experiments in \Cref{sec:exp} that destroying the layer-by-layer structure and the constant $\mathbf{1}$ does not degrade performance. These results are counter intuitive, surprising, and more importantly difficult to reconcile with using the `sophisticated features are learnt in a layer-by-layer' explanation. However, we argue that these surprising results can be readily explained using the NPK expression in \Cref{th:fcprev}.  Note that in a DGN, learning the weights with fixed gates amounts to learning a linear model in the dual variables, i.e., learning $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x), v_{\Tv}}$. We called this \textbf{dual linearity} and in \Cref{sec:prelim} showed that dual linearity has a kernel interpretation in terms of the NPK in \Cref{th:fcprev}. 
-Thus, giving a constant $\mathbf{1}$ input would mean that $\ip{x,x'}=\din$, and the expression on the right reduces to $d \cdot \sigma^{2(d-1)}\cdot \din\cdot \textbf{overlap}(x,x')$. Now a previously unnoticed fact is that $\textbf{overlap}(x,x')$ is invariant to layer permutations, which implies destroying the layer-by-layer structure does not hurt. In short, the main role of the gating non-linearity is to lift the computations from the primal to the dual space. In the dual space, the right way to interpret the computations is path-by-path and the question of sophisticated structures being learnt in the layers is irrelevant.
+%$\bullet$ \textbf{Disentangling Value Network.} %Note that the value network of the LGLN and that of the DGN are the same, except that in the DGN the value network is given $x\in\R^{\din}$ as the input and in the LGLN it is a constant $\mathbf{1}\in\R^{\din}$ instead.  We show via experiments in \Cref{sec:exp} that destroying the layer-by-layer structure and the constant $\mathbf{1}$ does not degrade performance. These results are counter intuitive, surprising, and more importantly difficult to reconcile with using the `sophisticated features are learnt in a layer-by-layer' explanation. However, we argue that these surprising results can be readily explained using the NPK expression in \Cref{th:fcprev}.  Note that in a DGN, learning the weights with fixed gates amounts to learning a linear model in the dual variables, i.e., learning $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x), v_{\Tv}}$. We called this \textbf{dual linearity} and in \Cref{sec:prelim} showed that dual linearity has a kernel interpretation in terms of the NPK in \Cref{th:fcprev}. 
+%Thus, giving a constant $\mathbf{1}$ input would mean that $\ip{x,x'}=\din$, and the expression on the right reduces to $d \cdot \sigma^{2(d-1)}\cdot \din\cdot \textbf{overlap}(x,x')$. Now a previously unnoticed fact is that $\textbf{overlap}(x,x')$ is invariant to layer permutations, which implies destroying the layer-by-layer structure does not hurt. In short, the main role of the gating non-linearity is to lift the computations from the primal to the dual space. In the dual space, the right way to interpret the computations is path-by-path and the question of sophisticated structures being learnt in the layers is irrelevant.
 %However, in terms of the dual variables, the constant $\mathbf{1}$ has the following interpretation: the neural path value is a vector specifying the contribution of each path to the final output and the neural path feature is a vector specifying the path activity (from \Cref{def:npf-npv} $\phi(x,p)=x\cdot A(x,p)$, and since input is $1$, we have $\phi(x,p)=A(x,p)$), i.e., which path to be selected and which one to be left out in the output. The destruction of layers is possible due to the permutation invariance property of the NPK itself which was unnoticed in prior work. 
 
-In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.e., \Cref{th:fcprev}) so as to explicitly capture the permutation invariance. In order to build a  more complete picture, we extend the dual view to cover the cases of convolution with global pooling and skip connections. We then present the aforementioned experimental results in \Cref{sec:exp}.
+%In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.e., \Cref{th:fcprev}) so as to explicitly capture the permutation invariance. In order to build a  more complete picture, we extend the dual view to cover the cases of convolution with global pooling and skip connections. We then present the aforementioned experimental results in \Cref{sec:exp}.
 
+%What happens when we give $\mathbf{1}$ input to value network?
+
+%What happens when we give permute the gates?
+
+%Interpreting DLGN$(x,\mathbf{1})$
+
+%Interpreting DSLGN$(x,\mathbf{1})$
+
+%Power of Depth Alone
+
+\begin{figure}
+\centering
+\begin{minipage}{0.40\columnwidth}
+\centering
+\resizebox{0.99\columnwidth}{!}{
+\input{fig-c4dgn-permute}
+}
+\end{minipage}
+\begin{minipage}{0.40\columnwidth}
+\centering
+\resizebox{0.99\columnwidth}{!}{
+\input{fig-c4dlgn-permute}
+}
+\end{minipage}
+%\begin{minipage}{0.30\columnwidth}
+%\centering
+%\resizebox{0.99\columnwidth}{!}{
+%\input{fig-c4dslgn-permute}
+%}
+%\end{minipage}
+\caption{$4$ convolutional layers with GAP}
+\label{fig:c4gap}
+\end{figure}
+
+\begin{comment}
 \begin{figure}
 \centering
 \begin{minipage}{1.0\columnwidth}
@@ -35,8 +82,8 @@ In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.
 
 
 
-\begin{comment}
-\begin{figure}
+
+\begin{figure}[!t]
 \centering
 \begin{minipage}{1.0\columnwidth}
 \centering
@@ -56,24 +103,76 @@ In what follows, in \Cref{th:fc}, we first restate Theorem 5.1 in \cite{npk} (i.
 \end{figure}
 \end{comment}
 
-\begin{table}
+\begin{table}[!t]
+\centering
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{ccccccc}
+\toprule 
+Dataset 					& C4GAP 		&DNN 	&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	\\\midrule
+\multirow{2}{*}{CIFAR10}		& Vanilla				&80.5\tiny{$\pm$0.4} 	&77.4\tiny{$\pm$0.3} 	& 77.5\tiny{$\pm$0.2} 	&75.4\tiny{$\pm$0.3} 	&75.4\tiny{$\pm$0.2}		\\
+						& Permute 	&-- 		&77.3\tiny{$\pm$0.5} 	&77.9\tiny{$\pm$0.6}		&75.9\tiny{$\pm$0.5} 	&76.0\tiny{$\pm$0.5}		\\\midrule
+\multirow{2}{*}{CIFAR100}		& Vanilla  				&51.8\tiny{$\pm$0.4} 	&47.4\tiny{$\pm$0.2}		&47.3\tiny{$\pm$0.3} 	&47.4\tiny{$\pm$0.1} 	&48.0\tiny{$\pm$0.2}		\\
+						& Permute 	& -- 		&48.4\tiny{$\pm$0.8} 	&49.2\tiny{$\pm$0.9} 	&47.5\tiny{$\pm$1.0} 	&48.4\tiny{$\pm$0.9}		\\
+\bottomrule
+\end{tabular}
+}
+\caption{Summary of Experiments}
+\label{tb:premresults}
+\end{table}
+
+\begin{table}[!t]
+\centering
+%\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{ccccccccc}
+\toprule 
+Dataset 					& Model 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	\\\midrule		
+\multirow{2}{*}{CIFAR10}		&VGG16-AP 	&93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	&93.0\tiny{$\pm$0.1}   	&87.0\tiny{$\pm$0.1}		&87.0\tiny{$\pm$0.2}		\\
+						&ResNet110 	&94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	&93.2\tiny{$\pm$0.1} 	&87.9\tiny{$\pm$0.2}   	&87.8\tiny{$\pm$0.1} 	\\\midrule
+\multirow{2}{*}{CIFAR100}		&VGG16-AP 	&73.4\tiny{$\pm$0.3}  	&70.3\tiny{$\pm$0.1} 	&70.5\tiny{$\pm$0.2} 	&61.5\tiny{$\pm$0.2}		&61.5\tiny{$\pm$0.1}		\\
+						&ResNet110 	&72.7\tiny{$\pm$0.2}		&70.8\tiny{$\pm$0.2} 	&70.8\tiny{$\pm$0.4}		&62.3\tiny{$\pm$0.2} 	&62.7\tiny{$\pm$0.3} 	\\
+\bottomrule
+\end{tabular}
+%}
+\caption{Summary of Experiments}
+\label{tb:expresults}
+\end{table}
+
+
+\begin{comment}
+\begin{table}[!t]
 \centering
 \resizebox{1.0\columnwidth}{!}{
 \begin{tabular}{ccccccccc}
 \toprule 
-Dataset 					& Model 		& DNN 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	& DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$  \\\midrule
-\multirow{3}{*}{CIFAR10}		& C4GAP 		& 80.5\tiny{$\pm$0.4} 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	&  DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$\\
-						& VGG16-AP 	& 93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	& 93.0\tiny{$\pm$0.1}   		&  87.0\tiny{$\pm$0.1}	& 87.0\tiny{$\pm$0.2}	&  85.0\tiny{$\pm$0.3} 	& 85.1\tiny{$\pm$0.2} \\
-						&ResNet110 	& 94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	& 93.2\tiny{$\pm$0.1} 	& 87.9\tiny{$\pm$0.2}   & 87.8\tiny{$\pm$0.1} 	& 72.4{$\pm$13.8} 	& 71.2{$\pm$17.3}  \\\midrule
-\multirow{2}{*}{CIFAR100}		& VGG16-AP 	& 73.4\tiny{$\pm$0.3}  	& 70.3\tiny{$\pm$0.1} 	&  70.5\tiny{$\pm$0.2} 	&  61.5\tiny{$\pm$0.2}	& 61.5\tiny{$\pm$0.1}&  55.5\tiny{$\pm$0.4} 	& 55.5\tiny{$\pm$0.3}\\
-						&ResNet110 	& 72.7\tiny{$\pm$0.2}	& 70.8\tiny{$\pm$0.2} 	& 70.8\tiny{$\pm$0.4}	&  62.3\tiny{$\pm$0.2} & 62.7\tiny{$\pm$0.3} & 49.8{$\pm$0.9}	&  41.5{$\pm$15.5}  \\
+Dataset 					& Model 				&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	&DSLGN$(x,x)$ 		&DSLGN$(x,\mathbf{1})$  \\\midrule
+\multirow{2}{*}{CIFAR10}		& C4GAP 				&80.5\tiny{$\pm$0.4} 	&77.4\tiny{$\pm$0.3} 	& 77.5\tiny{$\pm$0.2} 	&75.4\tiny{$\pm$0.3} 	&75.4\tiny{$\pm$0.2}		&74.2\tiny{$\pm$0.2}	 	&73.3\tiny{$\pm$0.2} \\
+						& C4GAP-PERMUTE 	&-- 					&77.3\tiny{$\pm$0.5} 	&77.9\tiny{$\pm$0.6}		&75.9\tiny{$\pm$0.5} 	&76.0\tiny{$\pm$0.5}		& -- 					& -- \\\midrule
+\multirow{2}{*}{CIFAR100}		& C4GAP 				&51.8\tiny{$\pm$0.4} 	&47.4\tiny{$\pm$0.2}		&47.3\tiny{$\pm$0.3} 	&47.4\tiny{$\pm$0.1} 	&48.0\tiny{$\pm$0.2}		&45.8\tiny{$\pm$0.3}	 	&44.9\tiny{$\pm$0.1}	\\
+						& C4GAP-PERMUTE 	& -- 					&48.4\tiny{$\pm$0.8} 	&49.2\tiny{$\pm$0.9} 	&47.5\tiny{$\pm$1.0} 	&48.4\tiny{$\pm$0.9}		& --					& -- \\
+\bottomrule
+\end{tabular}
+}
+\caption{Summary of Experiments}
+\label{tb:premresults}
+\end{table}
+
+\begin{table}[!t]
+\centering
+\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{ccccccccc}
+\toprule 
+Dataset 					& Model 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	&DSLGN$(x,x)$ 		&DSLGN$(x,\mathbf{1})$  \\\midrule		
+\multirow{2}{*}{CIFAR10}		&VGG16-AP 	&93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	&93.0\tiny{$\pm$0.1}   	&87.0\tiny{$\pm$0.1}		&87.0\tiny{$\pm$0.2}		&84.8\tiny{$\pm$0.3} 	&84.9\tiny{$\pm$0.2} \\
+						&ResNet110 	&94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	&93.2\tiny{$\pm$0.1} 	&87.9\tiny{$\pm$0.2}   	&87.8\tiny{$\pm$0.1} 	&72.4{$\pm$13.8} 		&71.2{$\pm$17.3}  \\\midrule
+\multirow{2}{*}{CIFAR100}		&VGG16-AP 	&73.4\tiny{$\pm$0.3}  	&70.3\tiny{$\pm$0.1} 	&70.5\tiny{$\pm$0.2} 	&61.5\tiny{$\pm$0.2}		&61.5\tiny{$\pm$0.1}		&56.4\tiny{$\pm$0.4} 	&56.3\tiny{$\pm$0.2}\\
+						&ResNet110 	&72.7\tiny{$\pm$0.2}		&70.8\tiny{$\pm$0.2} 	&70.8\tiny{$\pm$0.4}		&62.3\tiny{$\pm$0.2} 	&62.7\tiny{$\pm$0.3} 	&49.8{$\pm$0.9}		&41.5{$\pm$15.5}  \\
 \bottomrule
 \end{tabular}
 }
 \caption{Summary of Experiments}
 \label{tb:expresults}
 \end{table}
-
+\end{comment}
 %& C4GAP 		& 51.8 \tiny{$\pm$0.4} 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	&  DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$\\
 
 

@@ -2,7 +2,7 @@
 \node []  (dnn-text)at (4.125,2) {CNN-GAP : \textbf{80.32\%}};
 
 \node []  (dnn-output) at (9.25,1) {$\hat{y}(x)$};
-\node [rotate=-90]  (dnn-smax) at (8,1) {\tiny{SOFTMAX}};
+\node [rotate=-90]  (dnn-smax) at (8,1) {\tiny{LINEAR}};
 \draw [-stealth,thick]   (dnn-smax.north) -- (dnn-output.west);
 
 \node [rotate=-90]  (dnn-gap) at (7.25,1) {\tiny{GAP}};
@@ -44,7 +44,7 @@
 
 
 \node [align=right]  (dgn-f-output) at (9.25,-1.25) {$\hat{y}_{\text{f}}(x)$};
-\node [rotate=-90]  (dgn-f-smax) at (8,-1.25) {\tiny{SOFTMAX}};
+\node [rotate=-90]  (dgn-f-smax) at (8,-1.25) {\tiny{LINEAR}};
 \draw [-stealth,thick]   (dgn-f-smax.north) -- (dgn-f-output.west);
 
 \node [rotate=-90]  (dgn-f-gap) at (7.25,-1.25) {\tiny{GAP}};
@@ -80,7 +80,7 @@
 \draw [-stealth,thick]   (dgn-f-input.east) -- (dgn-f-c1.west);
 
 \node [align=right]  (dgn-output) at (9.25,-3.25) {$\hat{y}_{\text{DGN}}(x)$};
-\node [rotate=-90] (dgn-smax) at (8,-3.25){\tiny{SOFTMAX}};
+\node [rotate=-90] (dgn-smax) at (8,-3.25){\tiny{LINEAR}};
 \draw [-stealth,thick]   (dgn-smax.north)--(dgn-output.west);
 
 \node [rotate=-90] (dgn-gap) at (7.25,-3.25){\tiny{GAP}};
