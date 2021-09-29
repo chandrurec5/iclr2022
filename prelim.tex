@@ -10,7 +10,7 @@ In this section, we will focus on the dual view \citep{npk} and how the dual vie
 \end{align*}
 $\hat{y}_\Theta(\cdot)\in\R$ is the DNN output. Recent works \citep{ntk,arora2019exact,cao2019generalization} have shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$.  While, as a pure kernel NTK performed better than prior kernels by more than $10\%$, \cite{arora2019exact} observed that on CIFAR-10:
 
-{\centering CNTK-GAP: $\mathbf{77.43\%}\leq $ CNN-GAP: $\mathbf{80.32\%}$\par}
+{\centering CNTK-GAP: $\mathbf{77.43\%}\leq $ CNN-GAP: $\mathbf{83.30\%}$\par}
 
 where, CNN-GAP is a convolutional neural network with global average pooling (CNN-GAP) and CNTK-GAP is its corresponding infinite width NTK matrix. Due to this performance gap of about $5-6\%$ they concluded that the infinite width NTK does not explain fully the success of DNNs, and left the characterisation of this performance gap as an interesting \textbf{open question}. 
 

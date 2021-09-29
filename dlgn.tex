@@ -1,4 +1,4 @@
-\section{DLGN:  Disentangling the computation in DNNs with ReLUs}\label{sec:dlgn}
+\section{Numerical Experiments}\label{sec:dlgn}
 \begin{figure}[!b]
 \centering
 \begin{minipage}{0.40\columnwidth}
@@ -29,9 +29,13 @@ In this section, we show experimental results comparing performance of standard 
 
 \textbf{Result I.} The choice of C4GAP is motivated by: (i) there only $4!=24$ permutations; this enables us to run all the permutations and (ii) ensure continuity with \citep{arora2019exact,npk}.  \Cref{tb:expresults} demonstrates the fact that computations in the weight/value network is \emph{disentangled in the path space}, i.e., destroying the layer-by-layer structure due to permutation or providing a constant $\mathbf{1}$ input does not degrade the performance.  Similar results hold for CIFAR-100 as well and are shown in the Appendix.
 
-\textbf{Result II.} As claimed in the \Cref{sec:intro}, results in \Cref{tb:expresults} show that the DLGN recovers more than $83.5\%$ (i.e., $83.78\%$ in the worst case) of the performance of the DNN, which implies that while entanglement in the DNNs enable their improved performance,  the `disentangled and interpretable'  computations in the DLGN can still recover most part of the performance. This result also implies that the most important function of gating is to \emph{lift} the linear computations in the feature network to the dual linear computations in the value network.
+\textbf{Result II.} As claimed in the \Cref{sec:intro}, results in \Cref{tb:expresults} show that the DLGN recovers more than $83.5\%$ (i.e., $83.78\%$ in the worst case) of the performance of the DNN, which implies that while entanglement in the DNNs enable their improved performance,  the `disentangled and interpretable'  computations in the DLGN can still recover most part of the performance. %This result also implies that the most important function of gating is to \emph{lift} the linear computations in the feature network to the dual linear computations in the value network.
 
-\textbf{Open Questions.} The following questions are still open: (i) how the gates are learnt?, (ii) what are learnt in the gates? (iii) why the non-linearity in the feature network helps (the performance gap between DGN and DNN is less compared to DLGN and DNN)? and (iv) what is the visual/human interpretation. While these questions are open, we believe that the fact that the feature network in a DLGN is a deep linear network, will make these questions amenable to techniques from standard linear algebra and tools from `filter bank' theory. 
+\textbf{Interpretation of DLGN$(x,\mathbf{1})$.} The feature network generates pre-activations via linear transformations, the pre-activations trigger the gates, the gates lift the computations to the dual linear space, which in the infinite width limit implements the product kernel $\Pi_{l=1}^{(d-1)} \frac{\ip{G_l(x),G_l(x')}}{w}$. Given that the value network is best interpreted as the product kernel, we can ask the following open questions about the feature network.
+
+\textbf{Open Questions.} The following questions are still open: (i) how the gates are learnt?, (ii) what are learnt in the gates? (iii) why the non-linearity in the feature network helps (the performance gap between DGN and DNN is less compared to DLGN and DNN)? and (iv) what is the visual/human interpretation? While these questions are open, we believe that the fact that the feature network in a DLGN is a deep linear network, will make these questions amenable to techniques from standard linear algebra and tools from `filter bank' theory.  %Note that all these questions are related to the feature network, because, we have shown that the role of the gates and the value network is to obtain the gating features and realise the corresponding NPK.
+
+
 
 %Recall that in a DLGN, the gating/feature network is a deep linear network without non-linearities, and hence is disentangled by construction. We claimed in \Cref{sec:intro} that the weight/value network is \emph{disentangled in the path space}, for which, as promised we presented theoretical insights in \Cref{sec:analysis}, and now we will provide the supporting experimental evidence. 
 
@@ -180,6 +184,31 @@ Dataset 					& Model 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)
 \label{tb:expresults}
 \end{table}
 \end{comment}
+
+\subsection{Open Question: Upstream training with random labels}\label{sec:exp2}
+\textbf{Open Question [\citenum{randlabel}]).} {When trained with random labels upstream followed by true labels downstream, the test performance of a DNN with ReLUs degrades, Why?}
+
+\textbf{Answer Using Dual View}. Let us denote training by true labels by subscript $\text{T}$ and training by random labels first followed by true labels by subscript RT. In what follows, we also drop $\Theta$ from the notation. When trained with true labels, the DNN learns the relation $\hat{y}(x)=\ip{\phi_{\text{T}}(x),v_{\text{T}}}$. The scenario in the open question corresponds to learning  $\hat{y}(x)=\ip{\phi_{\text{RT}}(x),v_{\text{RT}}}$. In order to disentangle the effect of the random labels on the gates and the weights separately, we consider the following two scenarios: 
+
+(i) learning $\hat{y}(x)=\ip{\phi_{\text{RT}}(x),v_{\text{RT}}}$; this can be achieved using the DGN setup by pre-training the feature network first with random labels followed by true labels, and then training the value network with true labels.
+
+(ii) learning $\hat{y}(x)=\ip{\phi_{\text{T}}(x),v_{\text{RT}}}$; this can be achieved using the DGN setup by pre-training the feature network with true labels, and then training the value network first with random labels followed by true labels.
+\begin{table}[!t]
+\centering
+%\resizebox{1.0\columnwidth}{!}{
+\begin{tabular}{cccc}
+\toprule 
+$\hat{y}(x)=\ip{\phi_{\text{T}}(x),v_{\text{T}}}$ 	&$\hat{y}(x)=\ip{\phi_{\text{T}}(x),v_{\text{RT}}}$ 	&$\hat{y}(x)=\ip{\phi_{\text{RT}}(x),v_{\text{RT}}}$ 	&$\hat{y}(x)=\ip{\phi_{\text{RT}}(x),v_{\text{T}}}$ 	\\\midrule
+81.0\tiny{$\pm$0.3}						&79.9\tiny{$\pm$0.3}							&68.5\tiny{$\pm$0.4}							&67.7\tiny{$\pm$0.4}								\\
+\bottomrule
+\end{tabular}
+%}
+\caption{\small{Random labels affect the gates. In column $2$ the random labels were corrupted by $100\%$. In columns $3$ and $4$ the random labels were corrupted by $75\%$, because we could not train the DNN with $100\%$ corrupt labels.}}
+\label{tb:randlabel}
+\end{table}
+
+\textbf{Result.} From \Cref{tb:randlabel}, it is evident from column $2$ that if the gates, i.e., the neural path features are \emph{clean}, training the weights, i.e., the neural path values with random labels first followed by true labels degrades test performance by $2\%$. Also, it is evident from column $4$ that if the gates, i.e., the neural path features are \emph{corrupt}, training the weights, i.e., the neural path values with true labels still have poor performance. Based on these, we conclude that, \emph{when trained with random labels upstream followed by true labels downstream, the test performance of a DNN with ReLUs degrades, because, the gates degrade.}
+
 %& C4GAP 		& 51.8 \tiny{$\pm$0.4} 	& DGN$(x,x)$ 	& DGN$(x,\mathbf{1})$ 	&  DLGN$(x,x)$ 	& DLGN$(x,\mathbf{1})$ & DSLGN$(x,x)$ 	& DSLGN$(x,\mathbf{1})$\\
 
 

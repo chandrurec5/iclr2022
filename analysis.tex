@@ -52,7 +52,10 @@ $\bullet$ In \Cref{th:conv} the expression becomes $\frac{\bcnn}{{\din}^2} \cdot
 $\bullet$ \textbf{Destroying structure by permuting the layers}  does not destroy the rotational invariance property of the expression in \Cref{th:conv}. This is because of the fact that the all the variables internal to the network rotate as the input rotates. Permuting the layers, only affects the ordering in which the gates appear, and does not affect the rotational invariance of the gates themselves.
 
 \subsection{Residual Networks With Skip Connections (ResNet): New Result II}
-We consider a ResNet with `$(b+2)$' blocks and `$b$' skip connections between the blocks. Each block is a fully connected (FC) network of depth `$\dblock$' and width `$w$'. There are $2^b$ many sub-FCNs within this ResNet (see \Cref{def:subfcdnn}).%and right of \Cref{fig:resnet}).
+We consider a ResNet with `$(b+2)$' blocks and `$b$' skip connections between the blocks. Each block is a fully connected (FC) network of depth `$\dblock$' and width `$w$'. There are $2^b$ many sub-FCNs within this ResNet (see \Cref{def:subfcdnn}).
+Also note that the blocks being fully connected is solely for expository purposes, and the results hold even if the blocks were convolutional instead.
+
+%and right of \Cref{fig:resnet}).
 %\FloatBarrier
 \begin{comment}
 \begin{figure}[t]
@@ -83,7 +86,7 @@ Let $2^{[b]}$ denote the power set of $[b]$ and let $\J\in 2^{[b]}$ denote any s
 
 $\bullet$ The constant $\bfc^{\J}$ is expanded in the Appendix. 
 
-$\bullet$ \textbf{Ensemble.} To the best of our knowledge, this is the first theoretical result to show that ResNets have an ensemble structure, where  each kernel in the ensemble, i.e., $\text{NPK}^{\J}$ corresponds to one of the $2^b$ sub-architectures (see \Cref{def:subfcdnn}). The ensemble behaviour of ResNet and  presence of $2^b$ architectures was observed by \cite{veit2016residual}, however without any concrete theoretical formalism. Also note that the blocks being fully connected is solely for expository purposes. The same ensemble structure will hold even if the blocks were convolutional instead.
+$\bullet$ \textbf{Ensemble.} To the best of our knowledge, this is the first theoretical result to show that ResNets have an ensemble structure, where  each kernel in the ensemble, i.e., $\text{NPK}^{\J}$ corresponds to one of the $2^b$ sub-architectures (see \Cref{def:subfcdnn}). The ensemble behaviour of ResNet and  presence of $2^b$ architectures was observed by \cite{veit2016residual}, however without any concrete theoretical formalism. 
 
 $\bullet$ The effect of \textbf{constant $\mathbf{1}$ input} continues to hold to all the kernels (which are fully connected networks themselves) in the ensemble and hence to the overall kernel.
 
