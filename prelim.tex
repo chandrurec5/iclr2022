@@ -174,8 +174,9 @@ The fixed gates setting is an idealised setting, in that, it does not theoretica
 based on which it was concluded that learning in the gates (i.e., neural path features) explains the why finite width CNN-GAP outperforms the infinite width CNTK-GAP.% this \textbf{explains the open question} in \Cref{sec:ntk}.
 %Since the fixed random (FR) gates performed poorly ($67.09\%$) than the best CNTK in \citep{arora2019exact} ($77.43\%$) and the fixed learnt (FL) gates performed better ($79.68\%$) than the best CNTK, 
 
-\textbf{Key Results.} Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. In other words, dual linearity is not a mere conceptualisation, but is analogous to a linear model in practice as well. That is, just like one can learn weight vector in a linear model given the features, one can learn the neural path value given the neural path features. It was also shown that if the gates are not fixed but allowed to learn along with the weights the performance is \emph{marginally poor} compared to the DNN. This is shown as the \textbf{learnable gates} in \Cref{fig:dgn,tb:cdgn}. 
-\begin{comment}
+\textbf{Key Results.} Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. It was also shown that if the gates are not fixed but allowed to learn along with the weights the performance is \emph{marginally poor} compared to the DNN. This is shown as the \textbf{learnable gates} in \Cref{fig:dgn}. 
+%In other words, dual linearity is not a mere conceptualisation, but is analogous to a linear model in practice as well. That is, just like one can learn weight vector in a linear model given the features, one can learn the neural path value given the neural path features.
+ \begin{comment}
 \begin{table}
 \begin{tabularx}{\columnwidth}{c *{4}{Y}}
 \toprule 

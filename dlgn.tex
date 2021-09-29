@@ -110,9 +110,9 @@ We consider $3$ DNN architectures, the C4GAP in \Cref{fig:dgn}, VGG-16 and ResNe
 \toprule 
 Dataset 					& C4GAP 		&DNN 	&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	\\\midrule
 \multirow{2}{*}{CIFAR10}		& Vanilla				&80.5\tiny{$\pm$0.4} 	&77.4\tiny{$\pm$0.3} 	& 77.5\tiny{$\pm$0.2} 	&75.4\tiny{$\pm$0.3} 	&75.4\tiny{$\pm$0.2}		\\
-						& Permute 	&-- 		&77.3\tiny{$\pm$0.5} 	&77.9\tiny{$\pm$0.6}		&75.9\tiny{$\pm$0.5} 	&76.0\tiny{$\pm$0.5}		\\\midrule
-\multirow{2}{*}{CIFAR100}		& Vanilla  				&51.8\tiny{$\pm$0.4} 	&47.4\tiny{$\pm$0.2}		&47.3\tiny{$\pm$0.3} 	&47.4\tiny{$\pm$0.1} 	&48.0\tiny{$\pm$0.2}		\\
-						& Permute 	& -- 		&48.4\tiny{$\pm$0.8} 	&49.2\tiny{$\pm$0.9} 	&47.5\tiny{$\pm$1.0} 	&48.4\tiny{$\pm$0.9}		\\
+						& Permute 	&-- 		&77.3\tiny{$\pm$0.5} 	&77.9\tiny{$\pm$0.6}		&75.9\tiny{$\pm$0.5} 	&76.0\tiny{$\pm$0.5}		\\%\midrule
+%\multirow{2}{*}{CIFAR100}		& Vanilla  				&51.8\tiny{$\pm$0.4} 	&47.4\tiny{$\pm$0.2}		&47.3\tiny{$\pm$0.3} 	&47.4\tiny{$\pm$0.1} 	&48.0\tiny{$\pm$0.2}		\\
+%						& Permute 	& -- 		&48.4\tiny{$\pm$0.8} 	&49.2\tiny{$\pm$0.9} 	&47.5\tiny{$\pm$1.0} 	&48.4\tiny{$\pm$0.9}		\\
 \bottomrule
 \end{tabular}
 }
@@ -126,9 +126,9 @@ Dataset 					& C4GAP 		&DNN 	&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 	
 \begin{tabular}{ccccccccc}
 \toprule 
 Dataset 					& Model 		&DNN 				&DGN$(x,x)$ 			&DGN$(x,\mathbf{1})$ 	&DLGN$(x,x)$ 			&DLGN$(x,\mathbf{1})$ 	\\\midrule		
-\multirow{2}{*}{CIFAR10}		&VGG16-AP 	&93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	&93.0\tiny{$\pm$0.1}   	&87.0\tiny{$\pm$0.1}		&87.0\tiny{$\pm$0.2}		\\
+\multirow{2}{*}{CIFAR10}		&VGG16 		&93.6\tiny{$\pm$0.2} 	& 93.0\tiny{$\pm$0.1}  	&93.0\tiny{$\pm$0.1}   	&87.0\tiny{$\pm$0.1}		&87.0\tiny{$\pm$0.2}		\\
 						&ResNet110 	&94.0\tiny{$\pm$0.2} 	& 93.3\tiny{$\pm$0.2} 	&93.2\tiny{$\pm$0.1} 	&87.9\tiny{$\pm$0.2}   	&87.8\tiny{$\pm$0.1} 	\\\midrule
-\multirow{2}{*}{CIFAR100}		&VGG16-AP 	&73.4\tiny{$\pm$0.3}  	&70.3\tiny{$\pm$0.1} 	&70.5\tiny{$\pm$0.2} 	&61.5\tiny{$\pm$0.2}		&61.5\tiny{$\pm$0.1}		\\
+\multirow{2}{*}{CIFAR100}		&VGG16	 	&73.4\tiny{$\pm$0.3}  	&70.3\tiny{$\pm$0.1} 	&70.5\tiny{$\pm$0.2} 	&61.5\tiny{$\pm$0.2}		&61.5\tiny{$\pm$0.1}		\\
 						&ResNet110 	&72.7\tiny{$\pm$0.2}		&70.8\tiny{$\pm$0.2} 	&70.8\tiny{$\pm$0.4}		&62.3\tiny{$\pm$0.2} 	&62.7\tiny{$\pm$0.3} 	\\
 \bottomrule
 \end{tabular}
