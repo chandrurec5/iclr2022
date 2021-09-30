@@ -1,5 +1,5 @@
 \begin{tikzpicture}
-\node []  (fntext)at (-4.625,-3.5) {C4GAP-DLGN};
+\node []  (fntext)at (-4.625,-3.5) {CNN-GAP-DLGN};
 
 %\node []  (output) at (7.5,1.5) {$\hat{y}(x)$};
 
@@ -8,7 +8,7 @@
 \node [] (dgn1-f-c3) at (-5,1.5){\tiny{$C^{\text{f}}_3$}};
 \node [] (dgn1-f-c2) at (-6.5,1.5){\tiny{$C^{\text{f}}_2$}};
 \node [] (dgn1-f-c1) at (-8,1.5){\tiny{$C^{\text{f}}_1$}};
-\node [] (dgn1-input-f) at (-8.75,1.5){$x$};
+\node [] (dgn1-input-f) at (-9,1.5){$x^{\text{f}}$};
 \draw [-stealth,thick]   (dgn1-f-c3.east) -- (dgn1-f-c4.west);
 \draw [-stealth,thick]   (dgn1-f-c2.east) -- (dgn1-f-c3.west);
 \draw [-stealth,thick]   (dgn1-f-c1.east) -- (dgn1-f-c2.west);
@@ -16,13 +16,13 @@
 
 
 
-\node []  (dgn1-output) at (-0.5,-2.5) {$\hat{y}(x)$};
+\node []  (dgn1-output) at (-0.25,-2.5) {$\hat{y}(x)$};
 
-\node [rotate=-90] (dgn1-smax) at (-1.25,-2.5){\tiny{LINEAR}};
-\draw [-stealth,thick]   (dgn1-smax.north)--(dgn1-output.west);
+\node [] (dgn1-smax) at (-1.25,-2.5){\tiny{FC}};
+\draw [-stealth,thick]   (dgn1-smax.east)--(dgn1-output.west);
 
 \node [rotate=-90] (dgn1-gap) at (-2,-2.5){\tiny{GAP}};
-\draw [-stealth,thick]   (dgn1-gap.north)--(dgn1-smax.south);
+\draw [-stealth,thick]   (dgn1-gap.north)--(dgn1-smax.west);
 
 
 \node [rotate=-90] (dgn1-galu-4) at (-2.75,-2.5){\tiny{GaLU}};
@@ -54,7 +54,7 @@
 \draw [-stealth,thick]   (dgn1-v-c1.east) -- (dgn1-galu-1.south);
 
 
-\node [] (dgn1-v-input) at (-8.75,-2.5){$\mathbf{1}$};
+\node [] (dgn1-v-input) at (-9,-2.5){$x^{\text{v}}$};
 
 \draw [-stealth,thick]   (dgn1-v-input.east) -- (dgn1-v-c1.west);
 
