@@ -1,12 +1,15 @@
 \begin{tikzpicture}
-\node []  (dnn-text)at (4.125,2) {CNN-GAP : \textbf{80.32\%}};
+\node []  (dnn-text)at (5.375,2) {CNN-GAP : \textbf{80.32\%}};
 
-\node []  (dnn-output) at (9.25,1) {$\hat{y}(x)$};
-\node [rotate=-90]  (dnn-smax) at (8,1) {\tiny{LINEAR}};
-\draw [-stealth,thick]   (dnn-smax.north) -- (dnn-output.west);
+\node []  (dnn-output) at (10.25,1) {$\hat{y}(x)$};
+\node []  (dnn-fc2) at (9.0,1) {\tiny{$FC_2$}};
+\draw [-stealth,thick]   (dnn-fc2.east) -- (dnn-output.west);
+
+\node []  (dnn-fc1) at (8,1) {\tiny{$FC_1$}};
+\draw [-stealth,thick]   (dnn-fc1.east) -- (dnn-fc2.west);
 
 \node [rotate=-90]  (dnn-gap) at (7.25,1) {\tiny{GAP}};
-\draw [-stealth,thick]   (dnn-gap.north) -- (dnn-smax.south);
+\draw [-stealth,thick]   (dnn-gap.north) -- (dnn-fc1.west);
 
 \node [rotate=-90] (dnn-relu-4) at (6.5,1){\tiny{ReLU}};
 \node [] (dnn-c4) at (5.75,1){\tiny{$C_4$}};
@@ -38,17 +41,25 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\node []  (fntext)at (4.125,-.5) {CDGN-GAP (\small{\textbf{FL: 79.68\%, Learnable Gate: 77.12\%, FR: 67.09\%}})};
+\node []  (fntext)at (5.375,0) {CNN-GAP-DGN};
+\node []  (fntext)at (5.375,-.5) {(\small{\textbf{FL: 79.68\%, Learnable Gate: 77.12\%, FR: 67.09\%}})};
 
 %\node []  (output) at (7.5,1.5) {$\hat{y}(x)$};
 
 
-\node [align=right]  (dgn-f-output) at (9.25,-1.25) {$\hat{y}_{\text{f}}(x)$};
-\node [rotate=-90]  (dgn-f-smax) at (8,-1.25) {\tiny{LINEAR}};
-\draw [-stealth,thick]   (dgn-f-smax.north) -- (dgn-f-output.west);
+\node [align=right]  (dgn-f-output) at (10.25,-1.25) {$\hat{y}_{\text{f}}(x)$};
+\node []  (dgn-f-fc2) at (9.0,-1.25) {\tiny{$FC^{\text{f}}_2$}};
+\draw [-stealth,thick]   (dgn-f-fc2.east) -- (dgn-f-output.west);
+
+
+\node []  (dgn-f-fc1) at (8,-1.25) {\tiny{$FC^{\text{f}}_1$}};
+\draw [-stealth,thick]   (dgn-f-fc1.east) -- (dgn-f-fc2.west);
+
+
+
 
 \node [rotate=-90]  (dgn-f-gap) at (7.25,-1.25) {\tiny{GAP}};
-\draw [-stealth,thick]   (dgn-f-gap.north) -- (dgn-f-smax.south);
+\draw [-stealth,thick]   (dgn-f-gap.north) -- (dgn-f-fc1.west);
 
 
 \node [rotate=-90] (dgn-relu-4) at (6.5,-1.25){\tiny{ReLU}};
@@ -79,12 +90,16 @@
 \node [] (dgn-f-input) at (0.5,-1.25){$x$};
 \draw [-stealth,thick]   (dgn-f-input.east) -- (dgn-f-c1.west);
 
-\node [align=right]  (dgn-output) at (9.25,-3.25) {$\hat{y}_{\text{DGN}}(x)$};
-\node [rotate=-90] (dgn-smax) at (8,-3.25){\tiny{LINEAR}};
-\draw [-stealth,thick]   (dgn-smax.north)--(dgn-output.west);
+\node [align=right]  (dgn-output) at (10.5,-3.25) {$\hat{y}_{\text{DGN}}(x)$};
+
+\node [] (dgn-fc2) at (9,-3.25){\tiny{$FC^{\text{v}}_2$}};
+\draw [-stealth,thick]   (dgn-fc2.east)--(dgn-output.west);
+
+\node [] (dgn-fc1) at (8,-3.25){\tiny{$FC^{\text{v}}_1$}};
+\draw [-stealth,thick]   (dgn-fc1.east)--(dgn-fc2.west);
 
 \node [rotate=-90] (dgn-gap) at (7.25,-3.25){\tiny{GAP}};
-\draw [-stealth,thick]   (dgn-gap.north)--(dgn-smax.south);
+\draw [-stealth,thick]   (dgn-gap.north)--(dgn-fc1.west);
 
 
 
