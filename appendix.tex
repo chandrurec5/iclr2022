@@ -4,82 +4,18 @@
 \section{Numerical Experiments}
 We now list the details related to the numerical experiments which have been left out in the main body of the paper.
 
-\indent \quad $\bullet$ \textbf{Computational Resource.} All the numerical experiments were run in `Google Colaboratory' (``https://colab.research.google.com") and the models were in \emph{Tensorflow}.
+\indent \quad $\bullet$ \textbf{Computational Resource.} The numerical experiments were run in Nvidia-RTX 2080 TI GPUs and Tesla V100 GPUs.
+
+\indent \quad $\bullet$ All the models in \Cref{tb:permute} we used Adam [\citenum{adam}] with learning rate of $3\times 10^{-4}$, and batch size of 32.
 
 
-
-\indent \quad $\bullet$ For experiments in \Cref{sec:exp} we used Adam [\citenum{adam}] with learning rate of $3\times 10^{-4}$, and batch size of 32.
-
-
-\indent \quad $\bullet$ In \Cref{sec:exp1}, for the MNIST results in \Cref{tb:regimes}, we used the DGN architectures in \Cref{fig:dgn-prior-new} with fully connected layers instead of convolutional layers. 
 
 \indent \quad $\bullet$ The training and test accuracy plots for the random label experiments in \Cref{sec:exp2} are shown in \Cref{fig:rand-label1,fig:rand-label2}. In particular, the fact that while training with random labels upstream the performance reaches a peak (`Best') and then it degrades (`End') can be seen in $M1(\gamma)$ in the top row of \Cref{fig:rand-label1}. 
 
-\begin{figure}[h]
-\begin{minipage}{0.99\columnwidth}
-%\resizebox{\columnwidth}{!}{
-\begin{tabular}{ccc}
-\includegraphics[scale=0.3]{figs/relu_25.pdf}&
-\includegraphics[scale=0.3]{figs/relu_50.pdf}&
-\includegraphics[scale=0.3]{figs/relu_75.pdf}
-\\
- $M1(25)$ & $M1(50)$ &  $M1(75)$\\
-\includegraphics[scale=0.3]{figs/relu_25_good.pdf}&
-\includegraphics[scale=0.3]{figs/relu_50_good.pdf}&
-\includegraphics[scale=0.3]{figs/relu_75_good.pdf}\\
- $M4(25)$ & $M4(50)$ &  $M4(75)$
-\end{tabular}
-%}
-\end{minipage}
-\caption{Shows the upstream training with random labels $M1(\gamma)$, followed by downstream training with true labels $M4(\gamma)$. The first epochs of bottom plots is same as the last epochs in the top plots.}
-\label{fig:rand-label1}
 
-\end{figure}
+\indent \quad $\bullet$ In \Cref{sec:interpret}, the code for VGG-16 and Resnet-100 architecture is from the repository ``https://github.com/gahaalt/resnets-in-tensorflow2".
 
-
-\begin{figure}[h]
-\begin{minipage}{0.99\columnwidth}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{cccccc}
-\includegraphics[scale=0.125]{figs/relu_25.pdf}&
-\includegraphics[scale=0.125]{figs/galu_25_good.pdf}&
-\includegraphics[scale=0.125]{figs/galu_25_bad.pdf}&
-\includegraphics[scale=0.125]{figs/galu_25_bad_good.pdf}&
-\includegraphics[scale=0.125]{figs/relu_25_good.pdf}&
-\includegraphics[scale=0.125]{figs/galu_25_recovered.pdf}
-\\
-\includegraphics[scale=0.125]{figs/relu_50.pdf}&
-\includegraphics[scale=0.125]{figs/galu_50_good.pdf}&
-\includegraphics[scale=0.125]{figs/galu_50_bad.pdf}&
-\includegraphics[scale=0.125]{figs/galu_50_bad_good.pdf}&
-\includegraphics[scale=0.125]{figs/relu_50_good.pdf}&
-\includegraphics[scale=0.125]{figs/galu_50_recovered.pdf}
-\\
-\includegraphics[scale=0.125]{figs/relu_75.pdf}&
-\includegraphics[scale=0.125]{figs/galu_75_good.pdf}&
-\includegraphics[scale=0.125]{figs/galu_75_bad.pdf}&
-\includegraphics[scale=0.125]{figs/galu_75_bad_good.pdf}&
-\includegraphics[scale=0.125]{figs/relu_75_good.pdf}&
-\includegraphics[scale=0.125]{figs/galu_75_recovered.pdf}\\
-\tiny{M1}&\tiny{M2}&\tiny{M3:US}&\tiny{M3:DS}&\tiny{M4}&\tiny{M5}\\
-\end{tabular}
-}
-\end{minipage}
-\caption{Shows the training and test accuracy plots of a single run for models $M1,M2,M3,M4$ and $M5$.}
-\label{fig:rand-label2}
-\end{figure}
-
-\indent \quad $\bullet$ In \Cref{sec:interpret}, the code for VGG19 architecture is from the repository ``https://github.com/gahaalt/resnets-in-tensorflow2", and the ResNet architecture called \texttt{DavidNet} is from the repository ``https://github.com/davidcpage/cifar10-fast". The \texttt{DGN-No-Act}s based on these architectures were derived in a manner described in \Cref{sec:interpret}.
-
-\indent \quad $\bullet$ For VGG19 (and the corresponding \texttt{DGN-No-Act}), we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
-
-
-\indent \quad $\bullet$ For \texttt{DavidNet} (and the corresponding \texttt{DGN-No-Act}), we used \emph{SGD} optimiser with momentum $0.9$, learning rate $0.4$, batch size of $512$, weight decay of $5\times 10^{-4}$ (as suggested in ``https://github.com/davidcpage/cifar10-fast").
-
-
-
-
-
+\indent \quad $\bullet$ All the models in \Cref{tb:expresults} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
 \section{Fully Connected}
 Here, we present the formal definition for the neural path features and neural path values for the fully connected case in \Cref{def:formal-npf-npv}.  The layer-by-layer way of expressing the computation in a DNN of width `$w$' and depth `$d$' is given below.
 \begin{table}[h]
