@@ -15,7 +15,7 @@ A dual view for DNNs with rectified linear units (ReLUs) was recently developed 
 
 (i) It was shown that learning in the gates is most crucial for finite width networks to outperform infinite width NTK; this addresses \textbf{Issue I}.
 
-(ii) In the infinite width regime, when learning the weights with fixed gates, it was shown that the NTK is equal to (but for a scalar) a so called neural path kernel (NPK) which is a kernel solely based on inputs and gates and is dictated by the gating network. In other words, the interpretation of the weight network is that it realises the NPK, and now \textbf{Issue II} gets shifted entirely to interpreting the gating network, i.e., to interpreting the gates as opposed to interpreting the gradients.
+(ii) In the infinite width regime, when learning the weights with fixed gates, it was shown that the NTK is equal to (but for a scalar) a so called neural path kernel (NPK) which is a kernel solely based on inputs and gates and is dictated by the gating network. In other words, the interpretation of the weight network is that it is equivalent to the NPK, and since NPK is dictated by the gating network, \textbf{Issue II} gets shifted entirely to interpreting the gating network, i.e., to interpreting the gates as opposed to interpreting the gradients.
 
 \begin{figure}[!t]
 \centering
