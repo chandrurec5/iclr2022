@@ -71,14 +71,17 @@ $\bullet$ Claim II: \emph{Disentangled computations in a DLGN recovers most perf
 \textbf{Verifying Claim II.} For this we choose VGG-16 and Resnet-110. The results in \Cref{tb:expresults} show that the DLGN recovers more than $83.5\%$ (i.e., $83.78\%$ in the worst case) of the performance of the DNN. %This verifies Claim II.
 While entanglement in the DNNs enable their improved performance,  the `disentangled and interpretable'  computations in the DLGN can still recover most part of the performance. %This result also implies that the most important function of gating is to \emph{lift} the linear computations in the feature network to the dual linear computations in the value network.
 
-\subsection{Comparison With Shallow Models}
+\subsection{Is DLGN a Universal Spectral Approximator}
+Motivated by the success of DLGN, we further break it down into DLGN-\emph{Shallow Features} (DLGN-SF), wherein, the feature network is just a collection of shallow linear operations. We compare the performance of a shallow architecture called C1GAP (see 
 
 
 
 
 \begin{figure}
 \centering
+\resizebox{1.0\columnwidth}{!}{
 \input{fig-dlgn-sl-folded}
+}
 \end{figure}
 
 $\bullet$ \textbf{Shallow Network vs DLGN}

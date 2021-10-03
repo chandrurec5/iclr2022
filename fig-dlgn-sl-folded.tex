@@ -107,8 +107,27 @@
 
 
 
+\node []  (c1gap-output) at (-0.75,0) {$\hat{y}(x)$};
 
+\node []  (c1gap-fc) at (-1.75,0) {\tiny{$FC_1$}};
 
+\node [rotate=-90]  (c1gap-gap) at (-2.5,0) {\tiny{GAP}};
+
+\node [rotate=-90]  (c1gap-relu) at (-3.25,0) {\tiny{ReLU}};
+
+\node []  (c1gap-c1) at (-4,0) {\tiny{$C_1$}};
+
+\node []  (c1gap-x) at (-4.75,0) {$x$};
+
+\draw [-stealth,thick]		(c1gap-x.east) 	-- (c1gap-c1.west);
+
+\draw [-stealth,thick]    	(c1gap-c1.east) -- (c1gap-relu.south) ;
+
+\draw [-stealth,thick]     	(c1gap-relu.north) -- (c1gap-gap.south) ;
+
+\draw [-stealth,thick]     	(c1gap-gap.north) -- (c1gap-fc.west) ;
+
+\draw [-stealth,thick]     	(c1gap-fc.east) -- (c1gap-output.west) ;
 	
 \end{tikzpicture}
 
