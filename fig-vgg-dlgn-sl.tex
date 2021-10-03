@@ -1,0 +1,712 @@
+\begin{tikzpicture}
+
+
+
+
+%\node [] (dgn-GaLU-16) at (6,48){\large{GaLU}};
+%\draw [-stealth,thick]   (dgn-GaLU-16.north) -- (dgn-c9.south);
+
+%\node [] (dgn-bn-16) at (6,47){\large{BN}};
+%\draw [-stealth,thick]   (dgn-bn-16.north) -- (dgn-GaLU-16.south);
+
+%\node [] (dgn-c16) at (6,46){\large{$C_{16}$}};
+%\draw [-stealth,thick]   (dgn-c16.north) -- (dgn-bn-16.south);
+
+
+
+
+%\node [] (dgn-GaLU-15) at (6,45){\large{GaLU}};
+%\draw [-stealth,thick]   (dgn-GaLU-15.north) -- (dgn-c16.south);
+
+%\node [] (dgn-bn-15) at (6,44){\large{BN}};
+%\draw [-stealth,thick]   (dgn-bn-15.north) -- (dgn-GaLU-15.south);
+
+%\node [] (dgn-c15) at (6,43){\large{$C_{15}$}};
+%\draw [-stealth,thick]   (dgn-c15.north) -- (dgn-bn-15.south);
+
+
+
+
+\node [] (dgn-GaLU-14) at (6,42){$\hat{y}(x)$};
+%\draw [-stealth,thick]   (dgn-GaLU-14.north) -- (dgn-c15.south);
+
+\node [] (dgn-bn-14) at (6,41){\large{$FC$}};
+\draw [-stealth,thick]   (dgn-bn-14.north) -- (dgn-GaLU-14.south);
+
+\node [] (dgn-c14) at (6,40){\large{Global Avg. Pool}};
+\draw [-stealth,thick]   (dgn-c14.north) -- (dgn-bn-14.south);
+
+
+
+
+\node [] (dgn-GaLU-13) at (6,39){\large{GaLU+Avg. Pool}};
+\draw [-stealth,thick]   (dgn-GaLU-13.north) -- (dgn-c14.south);
+
+\node [] (dgn-bn-13) at (6,38){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-13.north) -- (dgn-GaLU-13.south);
+
+\node [] (dgn-c13) at (6,37){\large{$C_{13}$}};
+\draw [-stealth,thick]   (dgn-c13.north) -- (dgn-bn-13.south);
+
+
+
+\node [] (dgn-GaLU-12) at (6,36){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-12.north) -- (dgn-c13.south);
+
+\node [] (dgn-bn-12) at (6,35){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-12.north) -- (dgn-GaLU-12.south);
+
+\node [] (dgn-c12) at (6,34){\large{$C_{12}$}};
+\draw [-stealth,thick]   (dgn-c12.north) -- (dgn-bn-12.south);
+
+
+
+\node [] (dgn-GaLU-11) at (6,33){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-11.north) -- (dgn-c12.south);
+
+\node [] (dgn-bn-11) at (6,32){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-11.north) -- (dgn-GaLU-11.south);
+
+\node [] (dgn-c11) at (6,31){\large{$C_{11}$}};
+\draw [-stealth,thick]   (dgn-c11.north) -- (dgn-bn-11.south);
+
+
+
+
+
+\node [] (dgn-GaLU-10) at (6,30){\large{GaLU+ Avg. Pool}};
+\draw [-stealth,thick]   (dgn-GaLU-10.north) -- (dgn-c11.south);
+
+\node [] (dgn-bn-10) at (6,29){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-10.north) -- (dgn-GaLU-10.south);
+
+\node [] (dgn-c10) at (6,28){\large{$C_{10}$}};
+\draw [-stealth,thick]   (dgn-c10.north) -- (dgn-bn-10.south);
+
+
+
+
+\node [] (dgn-GaLU-9) at (6,27){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-9.north) -- (dgn-c10.south);
+
+\node [] (dgn-bn-9) at (6,26){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-9.north) -- (dgn-GaLU-9.south);
+
+\node [] (dgn-c9) at (6,25){\large{$C_9$}};
+\draw [-stealth,thick]   (dgn-c9.north) -- (dgn-bn-9.south);
+
+
+
+\node [] (dgn-GaLU-8) at (6,24){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-8.north) -- (dgn-c9.south);
+
+\node [] (dgn-bn-8) at (6,23){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-8.north) -- (dgn-GaLU-8.south);
+
+\node [] (dgn-c8) at (6,22){\large{$C_8$}};
+\draw [-stealth,thick]   (dgn-c8.north) -- (dgn-bn-8.south);
+
+
+
+
+\node [] (dgn-GaLU-7) at (6,21){\large{GaLU+Avg. Pool}};
+\draw [-stealth,thick]   (dgn-GaLU-7.north) -- (dgn-c8.south);
+
+\node [] (dgn-bn-7) at (6,20){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-7.north) -- (dgn-GaLU-7.south);
+
+\node [] (dgn-c7) at (6,19){\large{$C_7$}};
+\draw [-stealth,thick]   (dgn-c7.north) -- (dgn-bn-7.south);
+
+
+
+
+\node [] (dgn-GaLU-6) at (6,18){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-6.north) -- (dgn-c7.south);
+
+\node [] (dgn-bn-6) at (6,17){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-6.north) -- (dgn-GaLU-6.south);
+
+\node [] (dgn-c6) at (6,16){\large{$C_6$}};
+\draw [-stealth,thick]   (dgn-c6.north) -- (dgn-bn-6.south);
+
+
+
+
+\node [] (dgn-GaLU-5) at (6,15){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-5.north) -- (dgn-c6.south);
+
+\node [] (dgn-bn-5) at (6,14){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-5.north) -- (dgn-GaLU-5.south);
+
+\node [] (dgn-c5) at (6,13){\large{$C_5$}};
+\draw [-stealth,thick]   (dgn-c5.north) -- (dgn-bn-5.south);
+
+
+
+\node [] (dgn-GaLU-4) at (6,12){\large{GaLU+Avg. Pool}};
+\draw [-stealth,thick]   (dgn-GaLU-4.north) -- (dgn-c5.south);
+
+\node [] (dgn-bn-4) at (6,11){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-4.north) -- (dgn-GaLU-4.south);
+
+\node [] (dgn-c4) at (6,10){\large{$C_4$}};
+\draw [-stealth,thick]   (dgn-c4.north) -- (dgn-bn-4.south);
+
+
+
+\node [] (dgn-GaLU-3) at (6,9){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-3.north) -- (dgn-c4.south);
+
+\node [] (dgn-bn-3) at (6,8){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-3.north) -- (dgn-GaLU-3.south);
+
+\node [] (dgn-c3) at (6,7){\large{$C_3$}};
+\draw [-stealth,thick]   (dgn-c3.north) -- (dgn-bn-3.south);
+
+
+
+
+
+\node [] (dgn-GaLU-2) at (6,6){\large{GaLU+Avg. Pool}};
+\draw [-stealth,thick]   (dgn-GaLU-2.north) -- (dgn-c3.south);
+
+\node [] (dgn-bn-2) at (6,5){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-2.north) -- (dgn-GaLU-2.south);
+
+\node [] (dgn-c2) at (6,4){\large{$C_2$}};
+\draw [-stealth,thick]   (dgn-c2.north) -- (dgn-bn-2.south);
+
+
+
+
+\node [] (dgn-GaLU-1) at (6,3){\large{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-1.north) -- (dgn-c2.south);
+
+\node [] (dgn-bn-1) at (6,2){\large{BN}};
+\draw [-stealth,thick]   (dgn-bn-1.north) -- (dgn-GaLU-1.south);
+
+\node [] (dgn-c1) at (6,1){\large{$C_1$}};
+\draw [-stealth,thick]   (dgn-c1.north) -- (dgn-bn-1.south);
+
+
+
+\node [] (dgn-input) at (6,0){$\mathbf{1}$};
+\draw [-stealth,thick]   (dgn-input.north) -- (dgn-c1.south);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\node [] (dnnsig-relu-16) at (2,48){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-16.north) -- (dnnsig-c9.south);
+
+%\node [] (dnnsig-bn-16) at (2,47){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-16.north) -- (dnnsig-relu-16.south);
+
+%\node [] (dnnsig-c16) at (2,46){\large{$C_{16}$}};
+%\draw [-stealth,thick]   (dnnsig-c16.north) -- (dnnsig-bn-16.south);
+
+
+
+
+%\node [] (dnnsig-relu-15) at (2,45){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-15.north) -- (dnnsig-c16.south);
+
+%\node [] (dnnsig-bn-15) at (2,44){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-15.north) -- (dnnsig-relu-15.south);
+
+%\node [] (dnnsig-c15) at (2,43){\large{$C_{15}$}};
+%\draw [-stealth,thick]   (dnnsig-c15.north) -- (dnnsig-bn-15.south);
+
+
+
+
+%\node [] (dnnsig-relu-14) at (2,42){\large{Softmax}};
+%\draw [-stealth,thick]   (dnnsig-relu-14.north) -- (dnnsig-c15.south);
+
+%\node [] (dnnsig-bn-14) at (2,41){\large{Fully Connected}};
+%\draw [-stealth,thick]   (dnnsig-bn-14.north) -- (dnnsig-relu-14.south);
+
+%\node [] (dnnsig-c14) at (2,40){\large{Global Avg. Pool}};
+%\draw [-stealth,thick]   (dnnsig-c14.north) -- (dnnsig-bn-14.south);
+
+
+
+
+%\node [] (dnnsig-relu-13) at (2,39){\large{Avg. Pool}};
+%\draw [-stealth,thick]   (dnnsig-relu-13.north) -- (dnnsig-c14.south);
+
+\node [] (dnnsig-bn-13) at (2,38){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-13.north) -- (dnnsig-relu-13.south);
+
+\node [] (dnnsig-gate-13) at (3.5,39){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-13.north) -- (dnnsig-gate-13.west);
+\draw [-stealth,thick]   (dnnsig-gate-13.east) -- (dgn-GaLU-13.west);
+
+\node [] (dnnsig-c13) at (2,37){\large{$C_{13}$}};
+\draw [-stealth,thick]   (dnnsig-c13.north) -- (dnnsig-bn-13.south);
+
+
+
+%\node [] (dnnsig-relu-12) at (2,36){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-12.north) -- (dnnsig-c13.south);
+
+\node [] (dnnsig-bn-12) at (2,35){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-12.north) -- (dnnsig-c13.south);
+
+\node [] (dnnsig-gate-12) at (3.5,36){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-12.north) -- (dnnsig-gate-12.west);
+\draw [-stealth,thick]   (dnnsig-gate-12.east) -- (dgn-GaLU-12.west);
+
+\node [] (dnnsig-c12) at (2,34){\large{$C_{12}$}};
+\draw [-stealth,thick]   (dnnsig-c12.north) -- (dnnsig-bn-12.south);
+
+
+
+%\node [] (dnnsig-relu-11) at (2,33){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-11.north) -- (dnnsig-c12.south);
+
+\node [] (dnnsig-bn-11) at (2,32){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-11.north) -- (dnnsig-c12.south);
+
+\node [] (dnnsig-gate-11) at (3.5,33){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-11.north) -- (dnnsig-gate-11.west);
+\draw [-stealth,thick]   (dnnsig-gate-11.east) -- (dgn-GaLU-11.west);
+
+
+\node [] (dnnsig-c11) at (2,31){\large{$C_{11}$}};
+\draw [-stealth,thick]   (dnnsig-c11.north) -- (dnnsig-bn-11.south);
+
+
+
+
+
+%\node [] (dnnsig-relu-10) at (2,30){\large{Avg. Pool}};
+%\draw [-stealth,thick]   (dnnsig-relu-10.north) -- (dnnsig-c11.south);
+
+\node [] (dnnsig-bn-10) at (2,29){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-10.north) -- (dnnsig-relu-10.south);
+
+\node [] (dnnsig-gate-10) at (3.5,30){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-10.north) -- (dnnsig-gate-10.west);
+\draw [-stealth,thick]   (dnnsig-gate-10.east) -- (dgn-GaLU-10.west);
+
+
+\node [] (dnnsig-c10) at (2,28){\large{$C_{10}$}};
+\draw [-stealth,thick]   (dnnsig-c10.north) -- (dnnsig-bn-10.south);
+
+
+
+
+%\node [] (dnnsig-relu-9) at (2,27){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-9.north) -- (dnnsig-c10.south);
+
+\node [] (dnnsig-bn-9) at (2,26){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-9.north) -- (dnnsig-c10.south);
+
+\node [] (dnnsig-gate-9) at (3.5,27){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-9.north) -- (dnnsig-gate-9.west);
+\draw [-stealth,thick]   (dnnsig-gate-9.east) -- (dgn-GaLU-9.west);
+
+\node [] (dnnsig-c9) at (2,25){\large{$C_9$}};
+\draw [-stealth,thick]   (dnnsig-c9.north) -- (dnnsig-bn-9.south);
+
+
+
+%\node [] (dnnsig-relu-8) at (2,24){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-8.north) -- (dnnsig-c9.south);
+
+\node [] (dnnsig-bn-8) at (2,23){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-8.north) -- (dnnsig-c9.south);
+
+\node [] (dnnsig-gate-8) at (3.5,24){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-8.north) -- (dnnsig-gate-8.west);
+\draw [-stealth,thick]   (dnnsig-gate-8.east) -- (dgn-GaLU-8.west);
+
+
+\node [] (dnnsig-c8) at (2,22){\large{$C_8$}};
+\draw [-stealth,thick]   (dnnsig-c8.north) -- (dnnsig-bn-8.south);
+
+
+
+
+%\node [] (dnnsig-relu-7) at (2,21){\large{Avg. Pool}};
+%\draw [-stealth,thick]   (dnnsig-relu-7.north) -- (dnnsig-c8.south);
+
+\node [] (dnnsig-bn-7) at (2,20){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-7.north) -- (dnnsig-relu-7.south);
+
+\node [] (dnnsig-gate-7) at (3.5,21){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-7.north) -- (dnnsig-gate-7.west);
+\draw [-stealth,thick]   (dnnsig-gate-7.east) -- (dgn-GaLU-7.west);
+
+
+\node [] (dnnsig-c7) at (2,19){\large{$C_7$}};
+\draw [-stealth,thick]   (dnnsig-c7.north) -- (dnnsig-bn-7.south);
+
+
+
+
+%\node [] (dnnsig-relu-6) at (2,18){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-6.north) -- (dnnsig-c7.south);
+
+\node [] (dnnsig-bn-6) at (2,17){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-6.north) -- (dnnsig-c7.south);
+
+\node [] (dnnsig-gate-6) at (3.5,18){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-6.north) -- (dnnsig-gate-6.west);
+\draw [-stealth,thick]   (dnnsig-gate-6.east) -- (dgn-GaLU-6.west);
+
+
+
+\node [] (dnnsig-c6) at (2,16){\large{$C_6$}};
+\draw [-stealth,thick]   (dnnsig-c6.north) -- (dnnsig-bn-6.south);
+
+
+
+
+%\node [] (dnnsig-relu-5) at (2,15){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-5.north) -- (dnnsig-c6.south);
+
+\node [] (dnnsig-bn-5) at (2,14){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-5.north) -- (dnnsig-c6.south);
+
+\node [] (dnnsig-gate-5) at (3.5,15){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-5.north) -- (dnnsig-gate-5.west);
+\draw [-stealth,thick]   (dnnsig-gate-5.east) -- (dgn-GaLU-5.west);
+
+
+\node [] (dnnsig-c5) at (2,13){\large{$C_5$}};
+\draw [-stealth,thick]   (dnnsig-c5.north) -- (dnnsig-bn-5.south);
+
+
+
+%\node [] (dnnsig-relu-4) at (2,12){\large{Avg. Pool}};
+%\draw [-stealth,thick]   (dnnsig-relu-4.north) -- (dnnsig-c5.south);
+
+\node [] (dnnsig-bn-4) at (2,11){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-4.north) -- (dnnsig-relu-4.south);
+
+\node [] (dnnsig-gate-4) at (3.5,12){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-4.north) -- (dnnsig-gate-4.west);
+\draw [-stealth,thick]   (dnnsig-gate-4.east) -- (dgn-GaLU-4.west);
+
+\node [] (dnnsig-c4) at (2,10){\large{$C_4$}};
+\draw [-stealth,thick]   (dnnsig-c4.north) -- (dnnsig-bn-4.south);
+
+
+
+%\node [] (dnnsig-relu-3) at (2,9){\large{ReLU}};
+%\draw [-stealth,thick]   (dnnsig-relu-3.north) -- (dnnsig-c4.south);
+
+\node [] (dnnsig-bn-3) at (2,8){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-3.north) -- (dnnsig-c4.south);
+
+\node [] (dnnsig-gate-3) at (3.5,9){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-3.north) -- (dnnsig-gate-3.west);
+\draw [-stealth,thick]   (dnnsig-gate-3.east) -- (dgn-GaLU-3.west);
+
+\node [] (dnnsig-c3) at (2,7){\large{$C_3$}};
+\draw [-stealth,thick]   (dnnsig-c3.north) -- (dnnsig-bn-3.south);
+
+
+
+
+
+%\node [] (dnnsig-relu-2) at (2,6){\large{Avg. Pool}};
+%\draw [-stealth,thick]   (dnnsig-relu-2.north) -- (dnnsig-c3.south);
+
+\node [] (dnnsig-bn-2) at (2,5){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-2.north) -- (dnnsig-relu-2.south);
+
+\node [] (dnnsig-gate-2) at (3.5,6){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-2.north) -- (dnnsig-gate-2.west);
+\draw [-stealth,thick]   (dnnsig-gate-2.east) -- (dgn-GaLU-2.west);
+
+
+
+\node [] (dnnsig-c2) at (2,4){\large{$C_2$}};
+\draw [-stealth,thick]   (dnnsig-c2.north) -- (dnnsig-bn-2.south);
+
+
+
+
+
+%\draw [-stealth,thick]   (dnnsig-relu-1.north) -- (dnnsig-c2.south);
+
+\node [] (dnnsig-bn-1) at (2,2){\large{BN}};
+%\draw [-stealth,thick]   (dnnsig-bn-1.north) -- (dnnsig-c2.south);
+
+\node [] (dnnsig-gate-1) at (3.5,3){\large{G}};
+\draw [-stealth,thick]   (dnnsig-bn-1.north) -- (dnnsig-gate-1.west);
+\draw [-stealth,thick]   (dnnsig-gate-1.east) -- (dgn-GaLU-1.west);
+
+
+\node [] (dnnsig-c1) at (2,1){\large{$C_1$}};
+\draw [-stealth,thick]   (dnnsig-c1.north) -- (dnnsig-bn-1.south);
+
+
+
+%\node [] (dnnsig-input) at (2,0){$x$};
+
+
+\draw [-stealth,thick]   (dnn-c1.center) -- (dnnsig-c1.west);
+\draw [-stealth,thick]   (dnn-c2.center) -- (dnnsig-c2.west);
+\draw [-stealth,thick]   (dnn-c3.center) -- (dnnsig-c3.west);
+\draw [-stealth,thick]   (dnn-c4.center) -- (dnnsig-c4.west);
+\draw [-stealth,thick]   (dnn-c5.center) -- (dnnsig-c5.west);
+\draw [-stealth,thick]   (dnn-c6.center) -- (dnnsig-c6.west);
+\draw [-stealth,thick]   (dnn-c7.center) -- (dnnsig-c7.west);
+\draw [-stealth,thick]   (dnn-c8.center) -- (dnnsig-c8.west);
+\draw [-stealth,thick]   (dnn-c9.center) -- (dnnsig-c9.west);
+\draw [-stealth,thick]   (dnn-c10.center) -- (dnnsig-c10.west);
+\draw [-stealth,thick]   (dnn-c11.center) -- (dnnsig-c11.west);
+\draw [-stealth,thick]   (dnn-c12.center) -- (dnnsig-c12.west);
+\draw [-stealth,thick]   (dnn-c13.center) -- (dnnsig-c13.west);
+
+
+
+
+
+%\draw [-stealth,thick]   (dnnsig-input.north) -- (dnnsig-c1.south);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\node [] (dnn-relu-16) at (0,48){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-16.north) -- (dnn-c9.south);
+
+%\node [] (dnn-bn-16) at (0,47){\large{BN}};
+%\draw [-stealth,thick]   (dnn-bn-16.north) -- (dnn-relu-16.south);
+
+%\node [] (dnn-c16) at (0,46){\large{$C_{16}$}};
+%\draw [-stealth,thick]   (dnn-c16.north) -- (dnn-bn-16.south);
+
+
+
+
+%\node [] (dnn-relu-15) at (0,45){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-15.north) -- (dnn-c16.south);
+
+%\node [] (dnn-bn-15) at (0,44){\large{BN}};
+%\draw [-stealth,thick]   (dnn-bn-15.north) -- (dnn-relu-15.south);
+
+%\node [] (dnn-c15) at (0,43){\large{$C_{15}$}};
+%\draw [-stealth,thick]   (dnn-c15.north) -- (dnn-bn-15.south);
+
+
+
+
+%\node [] (dnn-relu-14) at (0,42){\large{Softmax}};
+%\draw [-stealth,thick]   (dnn-relu-14.north) -- (dnn-c15.south);
+
+%\node [] (dnn-bn-14) at (0,41){\large{Fully Connected}};
+%\draw [-stealth,thick]   (dnn-bn-14.north) -- (dnn-relu-14.south);
+
+%\node [] (dnn-c14) at (0,40){\large{Global Avg. Pool}};
+%\draw [-stealth,thick]   (dnn-c14.north) -- (dnn-bn-14.south);
+
+
+
+
+%\node [] (dnn-relu-13) at (0,39){\large{Avg. Pool}};
+%\draw [-stealth,thick]   (dnn-relu-13.north) -- (dnn-c14.south);
+
+\node [] (dnn-bn-13) at (0,38){};
+%\draw [-stealth,thick]   (dnn-bn-13.north) -- (dnn-relu-13.south);
+
+
+\node [] (dnn-c13) at (0,37){};
+%\draw [-stealth,thick]   (dnn-c13.north) -- (dnn-bn-13.south);
+
+
+
+%\node [] (dnn-relu-12) at (0,36){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-12.north) -- (dnn-c13.south);
+
+\node [] (dnn-bn-12) at (0,35){};
+%\draw [-stealth,thick]   (dnn-bn-12.north) -- (dnn-c13.south);
+
+
+\node [] (dnn-c12) at (0,34){};
+%\draw [-stealth,thick]   (dnn-c12.north) -- (dnn-bn-12.south);
+
+
+
+%\node [] (dnn-relu-11) at (0,33){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-11.north) -- (dnn-c12.south);
+
+\node [] (dnn-bn-11) at (0,32){};
+%\draw [-stealth,thick]   (dnn-bn-11.north) -- (dnn-c12.south);
+
+
+
+\node [] (dnn-c11) at (0,31){};
+%\draw [-stealth,thick]   (dnn-c11.north) -- (dnn-bn-11.south);
+
+
+
+
+
+\node [] (dnn-relu-10) at (0,30){\large{Avg. Pool}};
+\draw [-,thick]   (dnn-relu-10.north) -- (dnn-c13.center);
+
+\node [] (dnn-bn-10) at (0,29){};
+%\draw [-stealth,thick]   (dnn-bn-10.north) -- (dnn-relu-10.south);
+
+
+
+\node [] (dnn-c10) at (0,28){};
+%\draw [-stealth,thick]   (dnn-c10.north) -- (dnn-bn-10.south);
+
+
+
+
+%\node [] (dnn-relu-9) at (0,27){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-9.north) -- (dnn-c10.south);
+
+\node [] (dnn-bn-9) at (0,26){};
+%\draw [-stealth,thick]   (dnn-bn-9.north) -- (dnn-c10.south);
+
+
+\node [] (dnn-c9) at (0,25){};
+%\draw [-stealth,thick]   (dnn-c9.north) -- (dnn-bn-9.south);
+
+
+
+%\node [] (dnn-relu-8) at (0,24){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-8.north) -- (dnn-c9.south);
+
+\node [] (dnn-bn-8) at (0,23){};
+%\draw [-stealth,thick]   (dnn-bn-8.north) -- (dnn-c9.south);
+
+
+
+\node [] (dnn-c8) at (0,22){};
+%\draw [-stealth,thick]   (dnn-c8.north) -- (dnn-bn-8.south);
+
+
+
+
+\node [] (dnn-relu-7) at (0,21){\large{Avg. Pool}};
+\draw [-stealth,thick]   (dnn-relu-7.north) -- (dnn-relu-10.south);
+
+\node [] (dnn-bn-7) at (0,20){};
+%\draw [-stealth,thick]   (dnn-bn-7.north) -- (dnn-relu-7.south);
+
+
+
+\node [] (dnn-c7) at (0,19){};
+%\draw [-stealth,thick]   (dnn-c7.north) -- (dnn-bn-7.south);
+
+
+
+
+%\node [] (dnn-relu-6) at (0,18){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-6.north) -- (dnn-c7.south);
+
+\node [] (dnn-bn-6) at (0,17){};
+%\draw [-stealth,thick]   (dnn-bn-6.north) -- (dnn-c7.south);
+
+
+
+
+\node [] (dnn-c6) at (0,16){};
+%\draw [-stealth,thick]   (dnn-c6.north) -- (dnn-bn-6.south);
+
+
+
+
+%\node [] (dnn-relu-5) at (0,15){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-5.north) -- (dnn-c6.south);
+
+\node [] (dnn-bn-5) at (0,14){};
+%\draw [-stealth,thick]   (dnn-bn-5.north) -- (dnn-c6.south);
+
+
+
+\node [] (dnn-c5) at (0,13){};
+%\draw [-stealth,thick]   (dnn-c5.north) -- (dnn-bn-5.south);
+
+
+
+\node [] (dnn-relu-4) at (0,12){\large{Avg. Pool}};
+\draw [-stealth,thick]   (dnn-relu-4.north) -- (dnn-relu-7.south);
+
+\node [] (dnn-bn-4) at (0,11){};
+%\draw [-stealth,thick]   (dnn-bn-4.north) -- (dnn-relu-4.south);
+
+
+\node [] (dnn-c4) at (0,10){};
+%\draw [-stealth,thick]   (dnn-c4.north) -- (dnn-bn-4.south);
+
+
+
+%\node [] (dnn-relu-3) at (0,9){\large{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-3.north) -- (dnn-c4.south);
+
+\node [] (dnn-bn-3) at (0,8){};
+%\draw [-stealth,thick]   (dnn-bn-3.north) -- (dnn-c4.south);
+
+
+\node [] (dnn-c3) at (0,7){};
+%\draw [-stealth,thick]   (dnn-c3.north) -- (dnn-bn-3.south);
+
+
+
+
+
+\node [] (dnn-relu-2) at (0,6){\large{Avg. Pool}};
+\draw [-stealth,thick]   (dnn-relu-2.north) -- (dnn-relu-4.south);
+
+\node [] (dnn-bn-2) at (0,5){};
+%\draw [-stealth,thick]   (dnn-bn-2.north) -- (dnn-relu-2.south);
+
+
+
+
+\node [] (dnn-c2) at (0,4){};
+%\draw [-stealth,thick]   (dnn-c2.north) -- (dnn-bn-2.south);
+
+
+
+
+
+%\draw [-stealth,thick]   (dnn-relu-1.north) -- (dnn-c2.south);
+
+\node [] (dnn-bn-1) at (0,2){};
+%\draw [-stealth,thick]   (dnn-bn-1.north) -- (dnn-c2.south);
+
+
+
+\node [] (dnn-c1) at (0,1){};
+%\draw [-stealth,thick]   (dnn-c1.north) -- (dnn-bn-1.south);
+
+
+
+\node [] (dnn-input) at (0,0){$x$};
+\draw [-stealth,thick]   (dnn-input.north) -- (dnn-relu-2.south);
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+	
+
+
+
+
+
+
+
+
+	
+\end{tikzpicture}
+

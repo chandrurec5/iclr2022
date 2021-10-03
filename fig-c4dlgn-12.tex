@@ -1,0 +1,112 @@
+\begin{tikzpicture}
+%\node []  (fntext)at (-4.625,-3.5) {CNN-GAP-DLGN};
+
+%\node []  (output) at (7.5,1.5) {$\hat{y}(x)$};
+
+
+\node [] (dgn1-f-c4) at (-3.5,1.5){\tiny{$C^{\text{f}}_4$}};
+\node [] (dgn1-f-c3) at (-5,1.5){\tiny{$C^{\text{f}}_3$}};
+\node [] (dgn1-f-c2) at (-6.5,1.5){\tiny{$C^{\text{f}}_2$}};
+\node [] (dgn1-f-c1) at (-8,1.5){\tiny{$C^{\text{f}}_1$}};
+\node [] (dgn1-input-f) at (-9,1.5){$x^{\text{f}}$};
+\draw [-stealth,thick]   (dgn1-f-c3.east) -- (dgn1-f-c4.west);
+\draw [-stealth,thick]   (dgn1-f-c2.east) -- (dgn1-f-c3.west);
+\draw [-stealth,thick]   (dgn1-f-c1.east) -- (dgn1-f-c2.west);
+\draw [-stealth,thick]   (dgn1-input-f.east) -- (dgn1-f-c1.west);
+
+
+
+\node []  (dgn1-output) at (-0.25,-2.5) {$\hat{y}(x)$};
+
+\node [] (dgn1-smax) at (-1.25,-2.5){\tiny{FC}};
+\draw [-stealth,thick]   (dgn1-smax.east)--(dgn1-output.west);
+
+\node [rotate=-90] (dgn1-gap) at (-2,-2.5){\tiny{GAP}};
+\draw [-stealth,thick]   (dgn1-gap.north)--(dgn1-smax.west);
+
+
+\node [rotate=-90] (dgn1-galu-4) at (-2.75,-2.5){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn1-galu-4.north)--(dgn1-gap.south);
+
+\node [] (dgn1-v-c4) at (-3.5,-2.5){\tiny{$C^{\text{v}}_4$}};
+\draw [-stealth,thick]   (dgn1-v-c4.east) -- (dgn1-galu-4.south);
+
+
+\node [rotate=-90] (dgn1-galu-3) at (-4.25,-2.5){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn1-galu-3.north) -- (dgn1-v-c4.west);
+
+\node [] (dgn1-v-c3) at (-5,-2.5){\tiny{$C^{\text{v}}_3$}};
+\draw [-stealth,thick]   (dgn1-v-c3.east) -- (dgn1-galu-3.south);
+
+
+\node [rotate=-90] (dgn1-galu-2) at (-5.75,-2.5){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn1-galu-2.north) -- (dgn1-v-c3.west);
+
+\node [] (dgn1-v-c2) at (-6.5,-2.5){\tiny{$C^{\text{v}}_2$}};
+\draw [-stealth,thick]   (dgn1-v-c2.east) -- (dgn1-galu-2.south);
+
+
+\node [rotate=-90] (dgn1-galu-1) at (-7.25,-2.5){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn1-galu-1.north) -- (dgn1-v-c2.west);
+
+
+\node [] (dgn1-v-c1) at (-8,-2.5){\tiny{$C^{\text{v}}_1$}};
+\draw [-stealth,thick]   (dgn1-v-c1.east) -- (dgn1-galu-1.south);
+
+
+\node [] (dgn1-v-input) at (-9,-2.5){$x^{\text{v}}$};
+
+\draw [-stealth,thick]   (dgn1-v-input.east) -- (dgn1-v-c1.west);
+
+
+\node[] (dgn1-gating-4-up) at (-2.75,0.5){\tiny{$G_{4}$}};
+\draw [-stealth,thick]   (dgn1-f-c4.east) to[out=-90,in=90] (dgn1-gating-4-up.north);
+
+
+\node[] (dgn1-gating-3-up) at (-4.25,0.5){\tiny{$G_{3}$}};
+\draw [-stealth,thick]   (dgn1-f-c3.east) to[out=-90,in=90] (dgn1-gating-3-up.north);
+
+
+
+\node[] (dgn1-gating-2-up) at (-5.75,0.5){\tiny{$G_{2}$}};
+\draw [-stealth,thick]   (dgn1-f-c2.east) to[out=-90,in=90] (dgn1-gating-2-up.north);
+
+
+\node[] (dgn1-gating-1-up) at (-7.25,0.5){\tiny{$G_{1}$}};
+\draw [-stealth,thick]   (dgn1-f-c1.east) to[out=-90,in=90] (dgn1-gating-1-up.north);
+
+
+
+
+
+\node[] (dgn1-gating-4) at (-2.75,-1.5){\tiny{$G_{i_4}$}};
+\draw [-stealth,thick]   (dgn1-gating-4.south) -- (dgn1-galu-4.west);
+
+
+\node[] (dgn1-gating-3) at (-4.25,-1.5){\tiny{$G_{i_3}$}};
+\draw [-stealth,thick]   (dgn1-gating-3.south) -- (dgn1-galu-3.west);
+
+
+
+\node[] (dgn1-gating-2) at (-5.75,-1.5){\tiny{$G_{i_2}$}};
+\draw [-stealth,thick]   (dgn1-gating-2.south) -- (dgn1-galu-2.west);
+
+
+\node[] (dgn1-gating-1) at (-7.25,-1.5){\tiny{$G_{i_1}$}};
+\draw [-stealth,thick]   (dgn1-gating-1.south) -- (dgn1-galu-1.west);
+
+
+
+\draw [-,thick,color=red]   (dgn1-gating-1-up.south) --(dgn1-gating-4.north);
+
+\draw [-,thick,color=blue]   (dgn1-gating-2-up.south) --(dgn1-gating-1.north);
+
+\draw [-,thick,color=green]   (dgn1-gating-3-up.south) --(dgn1-gating-3.north);
+
+\draw [-,thick,color=brown]   (dgn1-gating-4-up.south) --(dgn1-gating-2.north);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+\end{tikzpicture}
+

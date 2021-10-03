@@ -1,7 +1,6 @@
 \begin{tikzpicture}
-\node []  (dummy-text)at (-4.625,1.5) {};
-\node []  (dnn-text)at (-4.625,-3.5) {CNN-GAP};
 
+\node []  (dnn-text)at (-4.5,0.0) {CNN-GAP};
 \node []  (dnn-output) at (-0.25,-0.5) {$\hat{y}(x)$};
 \node []  (dnn-smax) at (-1.25,-0.5) {\tiny{FC}};
 \draw [-stealth,thick]   (dnn-smax.east) -- (dnn-output.west);
@@ -35,6 +34,7 @@
 \node [] (dnn-input) at (-8.75,-0.5){$x$};
 \draw [-stealth,thick]   (dnn-input.east) -- (dnn-c1.west);
 
+\node []  (dummy)at (-4.5,-1) {};
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

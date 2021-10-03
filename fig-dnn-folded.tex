@@ -1,0 +1,45 @@
+\begin{tikzpicture}
+
+
+\node []  (dnn-output) at (2.5,-0.25+4-0.5) {$\hat{y}(x)$};
+\node []  (dnn-smax) at (2.5,-1.25+4-0.5) {\Huge{FC}};
+\draw [-stealth,thick]   (dnn-smax.north) -- (dnn-output.south);
+
+\node []  (dnn-gap) at (2.5,-2+4-0.5) {\Huge{GAP}};
+\draw [-stealth,thick]   (dnn-gap.north) -- (dnn-smax.south);
+
+\node [] (dnn-relu-4) at (2.5,-2.75+4-0.5){\Huge{ReLU}};
+\node [] (dnn-c4) at (2.5,-3.5+4-0.5){\Huge{$C_4$}};
+\draw [-stealth,thick]   (dnn-c4.north) -- (dnn-relu-4.south);
+\draw [-stealth,thick]   (dnn-relu-4.north) -- (dnn-gap.south);
+
+\node [] (dnn-relu-3) at (2.5,-4.25+4-0.5){\Huge{ReLU}};
+\node [] (dnn-c3) at (2.5,-5+4-0.5){\Huge{$C_3$}};
+\draw [-stealth,thick]   (dnn-c3.north) -- (dnn-relu-3.south);
+\draw [-stealth,thick]   (dnn-relu-3.north) -- (dnn-c4.south);
+
+
+\node [] (dnn-relu-2) at (2.5,-5.75+4-0.5){\Huge{ReLU}};
+\node [] (dnn-c2) at (2.5,-6.5+4-0.5){\Huge{$C_2$}};
+\draw [-stealth,thick]   (dnn-c2.north) -- (dnn-relu-2.south);
+\draw [-stealth,thick]   (dnn-relu-2.north) -- (dnn-c3.south);
+
+\node [] (dnn-relu-1) at (2.5,-7.25+4-0.5){\Huge{ReLU}};
+\node [] (dnn-c1) at (2.5,-8+4-0.5){\Huge{$C_1$}};
+\draw [-stealth,thick]   (dnn-c1.north) -- (dnn-relu-1.south);
+\draw [-stealth,thick]   (dnn-relu-1.north) -- (dnn-c2.south);
+
+
+
+\node [] (dnn-input) at (2.5,-8.75+4-0.5){$x$};
+\draw [-stealth,thick]   (dnn-input.north) -- (dnn-c1.south);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+	
+\end{tikzpicture}
+

@@ -1,0 +1,460 @@
+\begin{tikzpicture}
+
+
+
+
+%\node [] (dgn-GaLU-16) at (4,48){\tiny{GaLU}};
+%\draw [-stealth,thick]   (dgn-GaLU-16.north) -- (dgn-c9.south);
+
+%\node [] (dgn-bn-16) at (4,47){\tiny{BatchNorm}};
+%\draw [-stealth,thick]   (dgn-bn-16.north) -- (dgn-GaLU-16.south);
+
+%\node [] (dgn-c16) at (4,46){\tiny{$C_{16}$}};
+%\draw [-stealth,thick]   (dgn-c16.north) -- (dgn-bn-16.south);
+
+
+
+
+%\node [] (dgn-GaLU-15) at (4,45){\tiny{GaLU}};
+%\draw [-stealth,thick]   (dgn-GaLU-15.north) -- (dgn-c16.south);
+
+%\node [] (dgn-bn-15) at (4,44){\tiny{BatchNorm}};
+%\draw [-stealth,thick]   (dgn-bn-15.north) -- (dgn-GaLU-15.south);
+
+%\node [] (dgn-c15) at (4,43){\tiny{$C_{15}$}};
+%\draw [-stealth,thick]   (dgn-c15.north) -- (dgn-bn-15.south);
+
+
+
+
+\node [] (dgn-GaLU-14) at (4,42){$\hat{y}(x)$};
+%\draw [-stealth,thick]   (dgn-GaLU-14.north) -- (dgn-c15.south);
+
+\node [] (dgn-bn-14) at (4,41){\tiny{$FC$}};
+\draw [-stealth,thick]   (dgn-bn-14.north) -- (dgn-GaLU-14.south);
+
+\node [] (dgn-c14) at (4,40){\tiny{Global Average Pooling}};
+\draw [-stealth,thick]   (dgn-c14.north) -- (dgn-bn-14.south);
+
+
+
+
+\node [] (dgn-GaLU-13) at (4,39){\tiny{GaLU+Average Pooling}};
+\draw [-stealth,thick]   (dgn-GaLU-13.north) -- (dgn-c14.south);
+
+\node [] (dgn-bn-13) at (4,38){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-13.north) -- (dgn-GaLU-13.south);
+
+\node [] (dgn-c13) at (4,37){\tiny{$C_{13}$}};
+\draw [-stealth,thick]   (dgn-c13.north) -- (dgn-bn-13.south);
+
+
+
+\node [] (dgn-GaLU-12) at (4,36){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-12.north) -- (dgn-c13.south);
+
+\node [] (dgn-bn-12) at (4,35){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-12.north) -- (dgn-GaLU-12.south);
+
+\node [] (dgn-c12) at (4,34){\tiny{$C_{12}$}};
+\draw [-stealth,thick]   (dgn-c12.north) -- (dgn-bn-12.south);
+
+
+
+\node [] (dgn-GaLU-11) at (4,33){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-11.north) -- (dgn-c12.south);
+
+\node [] (dgn-bn-11) at (4,32){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-11.north) -- (dgn-GaLU-11.south);
+
+\node [] (dgn-c11) at (4,31){\tiny{$C_{11}$}};
+\draw [-stealth,thick]   (dgn-c11.north) -- (dgn-bn-11.south);
+
+
+
+
+
+\node [] (dgn-GaLU-10) at (4,30){\tiny{GaLU+ Average Pooling}};
+\draw [-stealth,thick]   (dgn-GaLU-10.north) -- (dgn-c11.south);
+
+\node [] (dgn-bn-10) at (4,29){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-10.north) -- (dgn-GaLU-10.south);
+
+\node [] (dgn-c10) at (4,28){\tiny{$C_{10}$}};
+\draw [-stealth,thick]   (dgn-c10.north) -- (dgn-bn-10.south);
+
+
+
+
+\node [] (dgn-GaLU-9) at (4,27){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-9.north) -- (dgn-c10.south);
+
+\node [] (dgn-bn-9) at (4,26){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-9.north) -- (dgn-GaLU-9.south);
+
+\node [] (dgn-c9) at (4,25){\tiny{$C_9$}};
+\draw [-stealth,thick]   (dgn-c9.north) -- (dgn-bn-9.south);
+
+
+
+\node [] (dgn-GaLU-8) at (4,24){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-8.north) -- (dgn-c9.south);
+
+\node [] (dgn-bn-8) at (4,23){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-8.north) -- (dgn-GaLU-8.south);
+
+\node [] (dgn-c8) at (4,22){\tiny{$C_8$}};
+\draw [-stealth,thick]   (dgn-c8.north) -- (dgn-bn-8.south);
+
+
+
+
+\node [] (dgn-GaLU-7) at (4,21){\tiny{GaLU+Average Pooling}};
+\draw [-stealth,thick]   (dgn-GaLU-7.north) -- (dgn-c8.south);
+
+\node [] (dgn-bn-7) at (4,20){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-7.north) -- (dgn-GaLU-7.south);
+
+\node [] (dgn-c7) at (4,19){\tiny{$C_7$}};
+\draw [-stealth,thick]   (dgn-c7.north) -- (dgn-bn-7.south);
+
+
+
+
+\node [] (dgn-GaLU-6) at (4,18){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-6.north) -- (dgn-c7.south);
+
+\node [] (dgn-bn-6) at (4,17){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-6.north) -- (dgn-GaLU-6.south);
+
+\node [] (dgn-c6) at (4,16){\tiny{$C_6$}};
+\draw [-stealth,thick]   (dgn-c6.north) -- (dgn-bn-6.south);
+
+
+
+
+\node [] (dgn-GaLU-5) at (4,15){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-5.north) -- (dgn-c6.south);
+
+\node [] (dgn-bn-5) at (4,14){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-5.north) -- (dgn-GaLU-5.south);
+
+\node [] (dgn-c5) at (4,13){\tiny{$C_5$}};
+\draw [-stealth,thick]   (dgn-c5.north) -- (dgn-bn-5.south);
+
+
+
+\node [] (dgn-GaLU-4) at (4,12){\tiny{GaLU+Average Pooling}};
+\draw [-stealth,thick]   (dgn-GaLU-4.north) -- (dgn-c5.south);
+
+\node [] (dgn-bn-4) at (4,11){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-4.north) -- (dgn-GaLU-4.south);
+
+\node [] (dgn-c4) at (4,10){\tiny{$C_4$}};
+\draw [-stealth,thick]   (dgn-c4.north) -- (dgn-bn-4.south);
+
+
+
+\node [] (dgn-GaLU-3) at (4,9){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-3.north) -- (dgn-c4.south);
+
+\node [] (dgn-bn-3) at (4,8){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-3.north) -- (dgn-GaLU-3.south);
+
+\node [] (dgn-c3) at (4,7){\tiny{$C_3$}};
+\draw [-stealth,thick]   (dgn-c3.north) -- (dgn-bn-3.south);
+
+
+
+
+
+\node [] (dgn-GaLU-2) at (4,6){\tiny{GaLU+Average Pooling}};
+\draw [-stealth,thick]   (dgn-GaLU-2.north) -- (dgn-c3.south);
+
+\node [] (dgn-bn-2) at (4,5){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-2.north) -- (dgn-GaLU-2.south);
+
+\node [] (dgn-c2) at (4,4){\tiny{$C_2$}};
+\draw [-stealth,thick]   (dgn-c2.north) -- (dgn-bn-2.south);
+
+
+
+
+\node [] (dgn-GaLU-1) at (4,3){\tiny{GaLU}};
+\draw [-stealth,thick]   (dgn-GaLU-1.north) -- (dgn-c2.south);
+
+\node [] (dgn-bn-1) at (4,2){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dgn-bn-1.north) -- (dgn-GaLU-1.south);
+
+\node [] (dgn-c1) at (4,1){\tiny{$C_1$}};
+\draw [-stealth,thick]   (dgn-c1.north) -- (dgn-bn-1.south);
+
+
+
+\node [] (dgn-input) at (4,0){$\mathbf{1}$};
+\draw [-stealth,thick]   (dgn-input.north) -- (dgn-c1.south);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\node [] (dnn-relu-16) at (0,48){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-16.north) -- (dnn-c9.south);
+
+%\node [] (dnn-bn-16) at (0,47){\tiny{BatchNorm}};
+%\draw [-stealth,thick]   (dnn-bn-16.north) -- (dnn-relu-16.south);
+
+%\node [] (dnn-c16) at (0,46){\tiny{$C_{16}$}};
+%\draw [-stealth,thick]   (dnn-c16.north) -- (dnn-bn-16.south);
+
+
+
+
+%\node [] (dnn-relu-15) at (0,45){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-15.north) -- (dnn-c16.south);
+
+%\node [] (dnn-bn-15) at (0,44){\tiny{BatchNorm}};
+%\draw [-stealth,thick]   (dnn-bn-15.north) -- (dnn-relu-15.south);
+
+%\node [] (dnn-c15) at (0,43){\tiny{$C_{15}$}};
+%\draw [-stealth,thick]   (dnn-c15.north) -- (dnn-bn-15.south);
+
+
+
+
+%\node [] (dnn-relu-14) at (0,42){\tiny{Softmax}};
+%\draw [-stealth,thick]   (dnn-relu-14.north) -- (dnn-c15.south);
+
+%\node [] (dnn-bn-14) at (0,41){\tiny{Fully Connected}};
+%\draw [-stealth,thick]   (dnn-bn-14.north) -- (dnn-relu-14.south);
+
+%\node [] (dnn-c14) at (0,40){\tiny{Global Average Pooling}};
+%\draw [-stealth,thick]   (dnn-c14.north) -- (dnn-bn-14.south);
+
+
+
+
+%\node [] (dnn-relu-13) at (0,39){\tiny{Average Pooling}};
+%\draw [-stealth,thick]   (dnn-relu-13.north) -- (dnn-c14.south);
+
+\node [] (dnn-bn-13) at (0,38){\tiny{BatchNorm}};
+%\draw [-stealth,thick]   (dnn-bn-13.north) -- (dnn-relu-13.south);
+
+\node [] (dnn-gate-13) at (2,39){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-13.north) -- (dnn-gate-13.west);
+\draw [-stealth,thick]   (dnn-gate-13.east) -- (dgn-GaLU-13.west);
+
+\node [] (dnn-c13) at (0,37){\tiny{$C_{13}$}};
+\draw [-stealth,thick]   (dnn-c13.north) -- (dnn-bn-13.south);
+
+
+
+%\node [] (dnn-relu-12) at (0,36){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-12.north) -- (dnn-c13.south);
+
+\node [] (dnn-bn-12) at (0,35){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-12.north) -- (dnn-c13.south);
+
+\node [] (dnn-gate-12) at (2,36){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-12.north) -- (dnn-gate-12.west);
+\draw [-stealth,thick]   (dnn-gate-12.east) -- (dgn-GaLU-12.west);
+
+\node [] (dnn-c12) at (0,34){\tiny{$C_{12}$}};
+\draw [-stealth,thick]   (dnn-c12.north) -- (dnn-bn-12.south);
+
+
+
+%\node [] (dnn-relu-11) at (0,33){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-11.north) -- (dnn-c12.south);
+
+\node [] (dnn-bn-11) at (0,32){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-11.north) -- (dnn-c12.south);
+
+\node [] (dnn-gate-11) at (2,33){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-11.north) -- (dnn-gate-11.west);
+\draw [-stealth,thick]   (dnn-gate-11.east) -- (dgn-GaLU-11.west);
+
+
+\node [] (dnn-c11) at (0,31){\tiny{$C_{11}$}};
+\draw [-stealth,thick]   (dnn-c11.north) -- (dnn-bn-11.south);
+
+
+
+
+
+\node [] (dnn-relu-10) at (0,30){\tiny{Average Pooling}};
+\draw [-stealth,thick]   (dnn-relu-10.north) -- (dnn-c11.south);
+
+\node [] (dnn-bn-10) at (0,29){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-10.north) -- (dnn-relu-10.south);
+
+\node [] (dnn-gate-10) at (2,30){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-10.north) -- (dnn-gate-10.west);
+\draw [-stealth,thick]   (dnn-gate-10.east) -- (dgn-GaLU-10.west);
+
+
+\node [] (dnn-c10) at (0,28){\tiny{$C_{10}$}};
+\draw [-stealth,thick]   (dnn-c10.north) -- (dnn-bn-10.south);
+
+
+
+
+%\node [] (dnn-relu-9) at (0,27){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-9.north) -- (dnn-c10.south);
+
+\node [] (dnn-bn-9) at (0,26){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-9.north) -- (dnn-c10.south);
+
+\node [] (dnn-gate-9) at (2,27){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-9.north) -- (dnn-gate-9.west);
+\draw [-stealth,thick]   (dnn-gate-9.east) -- (dgn-GaLU-9.west);
+
+\node [] (dnn-c9) at (0,25){\tiny{$C_9$}};
+\draw [-stealth,thick]   (dnn-c9.north) -- (dnn-bn-9.south);
+
+
+
+%\node [] (dnn-relu-8) at (0,24){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-8.north) -- (dnn-c9.south);
+
+\node [] (dnn-bn-8) at (0,23){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-8.north) -- (dnn-c9.south);
+
+\node [] (dnn-gate-8) at (2,24){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-8.north) -- (dnn-gate-8.west);
+\draw [-stealth,thick]   (dnn-gate-8.east) -- (dgn-GaLU-8.west);
+
+
+\node [] (dnn-c8) at (0,22){\tiny{$C_8$}};
+\draw [-stealth,thick]   (dnn-c8.north) -- (dnn-bn-8.south);
+
+
+
+
+\node [] (dnn-relu-7) at (0,21){\tiny{Average Pooling}};
+\draw [-stealth,thick]   (dnn-relu-7.north) -- (dnn-c8.south);
+
+\node [] (dnn-bn-7) at (0,20){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-7.north) -- (dnn-relu-7.south);
+
+\node [] (dnn-gate-7) at (2,21){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-7.north) -- (dnn-gate-7.west);
+\draw [-stealth,thick]   (dnn-gate-7.east) -- (dgn-GaLU-7.west);
+
+
+\node [] (dnn-c7) at (0,19){\tiny{$C_7$}};
+\draw [-stealth,thick]   (dnn-c7.north) -- (dnn-bn-7.south);
+
+
+
+
+%\node [] (dnn-relu-6) at (0,18){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-6.north) -- (dnn-c7.south);
+
+\node [] (dnn-bn-6) at (0,17){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-6.north) -- (dnn-c7.south);
+
+\node [] (dnn-gate-6) at (2,18){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-6.north) -- (dnn-gate-6.west);
+\draw [-stealth,thick]   (dnn-gate-6.east) -- (dgn-GaLU-6.west);
+
+
+
+\node [] (dnn-c6) at (0,16){\tiny{$C_6$}};
+\draw [-stealth,thick]   (dnn-c6.north) -- (dnn-bn-6.south);
+
+
+
+
+%\node [] (dnn-relu-5) at (0,15){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-5.north) -- (dnn-c6.south);
+
+\node [] (dnn-bn-5) at (0,14){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-5.north) -- (dnn-c6.south);
+
+\node [] (dnn-gate-5) at (2,15){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-5.north) -- (dnn-gate-5.west);
+\draw [-stealth,thick]   (dnn-gate-5.east) -- (dgn-GaLU-5.west);
+
+
+\node [] (dnn-c5) at (0,13){\tiny{$C_5$}};
+\draw [-stealth,thick]   (dnn-c5.north) -- (dnn-bn-5.south);
+
+
+
+\node [] (dnn-relu-4) at (0,12){\tiny{Average Pooling}};
+\draw [-stealth,thick]   (dnn-relu-4.north) -- (dnn-c5.south);
+
+\node [] (dnn-bn-4) at (0,11){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-4.north) -- (dnn-relu-4.south);
+
+\node [] (dnn-gate-4) at (2,12){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-4.north) -- (dnn-gate-4.west);
+\draw [-stealth,thick]   (dnn-gate-4.east) -- (dgn-GaLU-4.west);
+
+\node [] (dnn-c4) at (0,10){\tiny{$C_4$}};
+\draw [-stealth,thick]   (dnn-c4.north) -- (dnn-bn-4.south);
+
+
+
+%\node [] (dnn-relu-3) at (0,9){\tiny{ReLU}};
+%\draw [-stealth,thick]   (dnn-relu-3.north) -- (dnn-c4.south);
+
+\node [] (dnn-bn-3) at (0,8){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-3.north) -- (dnn-c4.south);
+
+\node [] (dnn-gate-3) at (2,9){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-3.north) -- (dnn-gate-3.west);
+\draw [-stealth,thick]   (dnn-gate-3.east) -- (dgn-GaLU-3.west);
+
+\node [] (dnn-c3) at (0,7){\tiny{$C_3$}};
+\draw [-stealth,thick]   (dnn-c3.north) -- (dnn-bn-3.south);
+
+
+
+
+
+\node [] (dnn-relu-2) at (0,6){\tiny{Average Pooling}};
+\draw [-stealth,thick]   (dnn-relu-2.north) -- (dnn-c3.south);
+
+\node [] (dnn-bn-2) at (0,5){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-2.north) -- (dnn-relu-2.south);
+
+\node [] (dnn-gate-2) at (2,6){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-2.north) -- (dnn-gate-2.west);
+\draw [-stealth,thick]   (dnn-gate-2.east) -- (dgn-GaLU-2.west);
+
+
+
+\node [] (dnn-c2) at (0,4){\tiny{$C_2$}};
+\draw [-stealth,thick]   (dnn-c2.north) -- (dnn-bn-2.south);
+
+
+
+
+
+%\draw [-stealth,thick]   (dnn-relu-1.north) -- (dnn-c2.south);
+
+\node [] (dnn-bn-1) at (0,2){\tiny{BatchNorm}};
+\draw [-stealth,thick]   (dnn-bn-1.north) -- (dnn-c2.south);
+
+\node [] (dnn-gate-1) at (2,3){\tiny{G}};
+\draw [-stealth,thick]   (dnn-bn-1.north) -- (dnn-gate-1.west);
+\draw [-stealth,thick]   (dnn-gate-1.east) -- (dgn-GaLU-1.west);
+
+
+\node [] (dnn-c1) at (0,1){\tiny{$C_1$}};
+\draw [-stealth,thick]   (dnn-c1.north) -- (dnn-bn-1.south);
+
+
+
+\node [] (dnn-input) at (0,0){$x$};
+\draw [-stealth,thick]   (dnn-input.north) -- (dnn-c1.south);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+	
+\end{tikzpicture}
+
