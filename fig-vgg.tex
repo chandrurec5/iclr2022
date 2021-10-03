@@ -6,168 +6,187 @@
 \node [] (dgn-ReLU-14) at (4,42){$\hat{y}(x)$};
 %\draw [-stealth,thick]   (dgn-ReLU-14.north) -- (dgn-c15.south);
 
-\node [] (dgn-bn-14) at (4,41){\tiny{$FC$}};
+\node [] (dgn-bn-14) at (4,41){\large{$FC$}};
 \draw [-stealth,thick]   (dgn-bn-14.north) -- (dgn-ReLU-14.south);
 
-\node [] (dgn-c14) at (4,40){\tiny{Global Average Pooling}};
+\node [] (dgn-c14) at (4,40){\large{Global Avg. Pool}};
 \draw [-stealth,thick]   (dgn-c14.north) -- (dgn-bn-14.south);
 
 
 
 
-\node [] (dgn-ReLU-13) at (4,39){\tiny{ReLU+Average Pooling}};
+\node [] (dgn-ReLU-13) at (4,39){\large{ReLU+Avg. Pool (1/2)}};
 \draw [-stealth,thick]   (dgn-ReLU-13.north) -- (dgn-c14.south);
 
-\node [] (dgn-bn-13) at (4,38){\tiny{BatchNorm}};
+\node [] (dgn-bn-13) at (4,38){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-13.north) -- (dgn-ReLU-13.south);
 
-\node [] (dgn-c13) at (4,37){\tiny{$C_{13}$}};
+\node [] (dgn-c13-text) at (2.5,37){$(3\times 3, 512)$};
+\node [] (dgn-c13) at (4,37){\large{$C_{13}$}};
 \draw [-stealth,thick]   (dgn-c13.north) -- (dgn-bn-13.south);
 
 
 
-\node [] (dgn-ReLU-12) at (4,36){\tiny{ReLU}};
+\node [] (dgn-ReLU-12) at (4,36){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-12.north) -- (dgn-c13.south);
 
-\node [] (dgn-bn-12) at (4,35){\tiny{BatchNorm}};
+\node [] (dgn-bn-12) at (4,35){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-12.north) -- (dgn-ReLU-12.south);
 
-\node [] (dgn-c12) at (4,34){\tiny{$C_{12}$}};
+
+\node [] (dgn-c12-text) at (2.5,34){$(3\times 3, 512)$};
+\node [] (dgn-c12) at (4,34){\large{$C_{12}$}};
 \draw [-stealth,thick]   (dgn-c12.north) -- (dgn-bn-12.south);
 
 
 
-\node [] (dgn-ReLU-11) at (4,33){\tiny{ReLU}};
+\node [] (dgn-ReLU-11) at (4,33){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-11.north) -- (dgn-c12.south);
 
-\node [] (dgn-bn-11) at (4,32){\tiny{BatchNorm}};
+\node [] (dgn-bn-11) at (4,32){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-11.north) -- (dgn-ReLU-11.south);
 
-\node [] (dgn-c11) at (4,31){\tiny{$C_{11}$}};
+
+\node [] (dgn-c11-text) at (2.5,31){$(3\times 3, 512)$};
+\node [] (dgn-c11) at (4,31){\large{$C_{11}$}};
 \draw [-stealth,thick]   (dgn-c11.north) -- (dgn-bn-11.south);
 
 
 
 
 
-\node [] (dgn-ReLU-10) at (4,30){\tiny{ReLU+ Average Pooling}};
+\node [] (dgn-ReLU-10) at (4,30){\large{ReLU+ Avg. Pool (1/2)}};
 \draw [-stealth,thick]   (dgn-ReLU-10.north) -- (dgn-c11.south);
 
-\node [] (dgn-bn-10) at (4,29){\tiny{BatchNorm}};
+\node [] (dgn-bn-10) at (4,29){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-10.north) -- (dgn-ReLU-10.south);
 
-\node [] (dgn-c10) at (4,28){\tiny{$C_{10}$}};
+\node [] (dgn-c10-text) at (2.5,28){$(3\times 3, 512)$};
+\node [] (dgn-c10) at (4,28){\large{$C_{10}$}};
 \draw [-stealth,thick]   (dgn-c10.north) -- (dgn-bn-10.south);
 
 
 
 
-\node [] (dgn-ReLU-9) at (4,27){\tiny{ReLU}};
+\node [] (dgn-ReLU-9) at (4,27){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-9.north) -- (dgn-c10.south);
 
-\node [] (dgn-bn-9) at (4,26){\tiny{BatchNorm}};
+\node [] (dgn-bn-9) at (4,26){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-9.north) -- (dgn-ReLU-9.south);
 
-\node [] (dgn-c9) at (4,25){\tiny{$C_9$}};
+\node [] (dgn-c9-text) at (2.5,25){$(3\times 3, 512)$};
+\node [] (dgn-c9) at (4,25){\large{$C_9$}};
 \draw [-stealth,thick]   (dgn-c9.north) -- (dgn-bn-9.south);
 
 
 
-\node [] (dgn-ReLU-8) at (4,24){\tiny{ReLU}};
+\node [] (dgn-ReLU-8) at (4,24){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-8.north) -- (dgn-c9.south);
 
-\node [] (dgn-bn-8) at (4,23){\tiny{BatchNorm}};
+\node [] (dgn-bn-8) at (4,23){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-8.north) -- (dgn-ReLU-8.south);
 
-\node [] (dgn-c8) at (4,22){\tiny{$C_8$}};
+
+\node [] (dgn-c8-text) at (2.5,22){$(3\times 3, 512)$};
+\node [] (dgn-c8) at (4,22){\large{$C_8$}};
 \draw [-stealth,thick]   (dgn-c8.north) -- (dgn-bn-8.south);
 
 
 
 
-\node [] (dgn-ReLU-7) at (4,21){\tiny{ReLU+Average Pooling}};
+\node [] (dgn-ReLU-7) at (4,21){\large{ReLU+Avg. Pool (1/2)}};
 \draw [-stealth,thick]   (dgn-ReLU-7.north) -- (dgn-c8.south);
 
-\node [] (dgn-bn-7) at (4,20){\tiny{BatchNorm}};
+\node [] (dgn-bn-7) at (4,20){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-7.north) -- (dgn-ReLU-7.south);
 
-\node [] (dgn-c7) at (4,19){\tiny{$C_7$}};
+\node [] (dgn-c7-text) at (2.5,19){$(3\times 3,256)$};
+\node [] (dgn-c7) at (4,19){\large{$C_7$}};
 \draw [-stealth,thick]   (dgn-c7.north) -- (dgn-bn-7.south);
 
 
 
 
-\node [] (dgn-ReLU-6) at (4,18){\tiny{ReLU}};
+\node [] (dgn-ReLU-6) at (4,18){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-6.north) -- (dgn-c7.south);
 
-\node [] (dgn-bn-6) at (4,17){\tiny{BatchNorm}};
+\node [] (dgn-bn-6) at (4,17){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-6.north) -- (dgn-ReLU-6.south);
 
-\node [] (dgn-c6) at (4,16){\tiny{$C_6$}};
+
+\node [] (dgn-c6-text) at (2.5,16){$(3\times 3,256)$};
+\node [] (dgn-c6) at (4,16){\large{$C_6$}};
 \draw [-stealth,thick]   (dgn-c6.north) -- (dgn-bn-6.south);
 
 
 
 
-\node [] (dgn-ReLU-5) at (4,15){\tiny{ReLU}};
+\node [] (dgn-ReLU-5) at (4,15){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-5.north) -- (dgn-c6.south);
 
-\node [] (dgn-bn-5) at (4,14){\tiny{BatchNorm}};
+\node [] (dgn-bn-5) at (4,14){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-5.north) -- (dgn-ReLU-5.south);
 
-\node [] (dgn-c5) at (4,13){\tiny{$C_5$}};
+
+\node [] (dgn-c5-text) at (2.5,13){$(3\times 3,256)$};
+\node [] (dgn-c5) at (4,13){\large{$C_5$}};
 \draw [-stealth,thick]   (dgn-c5.north) -- (dgn-bn-5.south);
 
 
 
-\node [] (dgn-ReLU-4) at (4,12){\tiny{ReLU+Average Pooling}};
+\node [] (dgn-ReLU-4) at (4,12){\large{ReLU+Avg. Pool (1/2)}};
 \draw [-stealth,thick]   (dgn-ReLU-4.north) -- (dgn-c5.south);
 
-\node [] (dgn-bn-4) at (4,11){\tiny{BatchNorm}};
+\node [] (dgn-bn-4) at (4,11){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-4.north) -- (dgn-ReLU-4.south);
 
-\node [] (dgn-c4) at (4,10){\tiny{$C_4$}};
+
+\node [] (dgn-c4-text) at (2.5,10){$(3\times 3,128)$};
+\node [] (dgn-c4) at (4,10){\large{$C_4$}};
 \draw [-stealth,thick]   (dgn-c4.north) -- (dgn-bn-4.south);
 
 
 
-\node [] (dgn-ReLU-3) at (4,9){\tiny{ReLU}};
+\node [] (dgn-ReLU-3) at (4,9){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-3.north) -- (dgn-c4.south);
 
-\node [] (dgn-bn-3) at (4,8){\tiny{BatchNorm}};
+\node [] (dgn-bn-3) at (4,8){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-3.north) -- (dgn-ReLU-3.south);
 
-\node [] (dgn-c3) at (4,7){\tiny{$C_3$}};
+\node [] (dgn-c3-text) at (2.5,7){$(3\times 3,128)$};
+\node [] (dgn-c3) at (4,7){\large{$C_3$}};
 \draw [-stealth,thick]   (dgn-c3.north) -- (dgn-bn-3.south);
 
 
 
 
 
-\node [] (dgn-ReLU-2) at (4,6){\tiny{ReLU+Average Pooling}};
+\node [] (dgn-ReLU-2) at (4,6){\large{ReLU+Avg. Pool (1/2)}};
 \draw [-stealth,thick]   (dgn-ReLU-2.north) -- (dgn-c3.south);
 
-\node [] (dgn-bn-2) at (4,5){\tiny{BatchNorm}};
+\node [] (dgn-bn-2) at (4,5){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-2.north) -- (dgn-ReLU-2.south);
 
-\node [] (dgn-c2) at (4,4){\tiny{$C_2$}};
+\node [] (dgn-c2-text) at (2.5,4){$(3\times 3,64)$};
+\node [] (dgn-c2) at (4,4){\large{$C_2$}};
 \draw [-stealth,thick]   (dgn-c2.north) -- (dgn-bn-2.south);
 
 
 
 
-\node [] (dgn-ReLU-1) at (4,3){\tiny{ReLU}};
+\node [] (dgn-ReLU-1) at (4,3){\large{ReLU}};
 \draw [-stealth,thick]   (dgn-ReLU-1.north) -- (dgn-c2.south);
 
-\node [] (dgn-bn-1) at (4,2){\tiny{BatchNorm}};
+\node [] (dgn-bn-1) at (4,2){\large{BN}};
 \draw [-stealth,thick]   (dgn-bn-1.north) -- (dgn-ReLU-1.south);
 
-\node [] (dgn-c1) at (4,1){\tiny{$C_1$}};
+\node [] (dnn-c1-text) at (2.5,1){$(3\times 3,64)$};
+\node [] (dgn-c1) at (4,1){\large{$C_1$}};
 \draw [-stealth,thick]   (dgn-c1.north) -- (dgn-bn-1.south);
 
 
 
-\node [] (dgn-input) at (4,0){$\mathbf{1}$};
+\node [] (dgn-input) at (4,0){$x$};
 \draw [-stealth,thick]   (dgn-input.north) -- (dgn-c1.south);
 
 
