@@ -153,13 +153,20 @@ Follows from Theorem~5.1 in [\citenum{npk}].
 \section{Numerical Experiments}
 We now list the details related to the numerical experiments which have been left out in the main body of the paper.
 
-\indent \quad $\bullet$ \textbf{Computational Resource.} The numerical experiments were run in Nvidia-RTX 2080 TI GPUs and Tesla V100 GPUs.
+ $\bullet$ \textbf{Computational Resource.} The numerical experiments were run in Nvidia-RTX 2080 TI GPUs and Tesla V100 GPUs.
 
-\indent \quad $\bullet$ All the models in \Cref{tb:permute} we used Adam [\citenum{adam}] with learning rate of $3\times 10^{-4}$, and batch size of 32.
+$\bullet$ All the models in Table I of \Cref{fig:c4gap} we used Adam \citep{adam} with learning rate of $3\times 10^{-4}$, and batch size of 32.
 
-\indent \quad $\bullet$ In \Cref{sec:dlgn}, the codes for experiments based on VGG-16 and Resnet-110  were refactored from following repository: ``https://github.com/gahaalt/resnets-in-tensorflow2".
+$\bullet$ In \Cref{sec:dlgn}, the codes for experiments based on VGG-16 and Resnet-110  were refactored from following repository: ``https://github.com/gahaalt/resnets-in-tensorflow2".
 
-\indent \quad $\bullet$ All the models in \Cref{tb:expresults} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
+$\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow}, the $\max$-pooling were replaced by \emph{average} pooling so as to ensure that the feature network is entirely linear. For the comparison to be fair, we replaced the $\max$ pooling in VGG-16 reported in \Cref{fig:c4gap}. Batch normalisation layers were retained in VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF (all three are shown in \Cref{fig:vggnets}).
+
+
+$\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow}, the $\max$-pooling were replaced by \emph{average} pooling so as to ensure that the feature network is entirely linear. For the comparison to be fair, we replaced the $\max$ pooling in VGG-16 reported in \Cref{fig:c4gap}. Batch normalisation layers were retained in VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF.
+
+$\bullet$ All the models in Table II of \Cref{fig:c4gap} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
+
+$\bullet$ For C1GAP and C4GAP in Table III of \Cref{fig:shallow}, we used Adam \citep{adam} with learning rate of $10^{-3}$, and batch size of 32. This learning rate is best among the set $\{10^{-1},10^{-2},10^{-3}, 3\times 10^{-4}\}$ for C1GAP.
 \begin{comment}
 \begin{figure}
 \centering
@@ -351,6 +358,7 @@ We now list the details related to the numerical experiments which have been lef
 \input{fig-vgg-dlgn-sl}
 }
 \end{minipage}
-
+\caption{Shows VGG-16 (left), VGG-16-DLGN (middle), VGG-16-DLGN-SF(right).}
+\label{fig:vggnets}
 
 \end{figure}
