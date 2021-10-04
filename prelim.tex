@@ -5,9 +5,11 @@ In this section, we will focus on the dual view \citep{npk} and how the dual vie
 
 %\subsection{Infinite Width DNN  = Kernel Method With Neural Tangent Kernel}\label{sec:ntk}
 \textbf{NTK.}  An important kernel associated with a DNN is its \emph{neural tangent kernel} (NTK), which, for a pair of input examples $x,x'\in\R^{\din}$, and network weights $\Theta\in\R^{\dnet}$, is given by:
-\begin{align*}
- \text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}, \quad\text{where}
-\end{align*}
+
+{\centering  $\text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}$,\quad\text{where}\par}
+%\begin{align*}
+ %\text{NTK}(x,x')\quad = \quad \ip{\nabla_{\Theta}\hat{y}(x), \nabla_{\Theta}\hat{y}(x')}, \quad\text{where}
+%\end{align*}
 $\hat{y}_\Theta(\cdot)\in\R$ is the DNN output. Prior works \citep{ntk,arora2019exact,cao2019generalization} have shown that, as the width of the DNN goes to infinity, the NTK matrix converges to a limiting deterministic matrix $\text{NTK}_{\infty}$, and training an infinitely wide DNN is equivalent to a kernel method with $\text{NTK}_{\infty}$.  While, as a pure kernel $\text{NTK}_{\infty}$ performed better than prior kernels by more than $10\%$, \cite{arora2019exact} observed that on CIFAR-10:
 
 {\centering CNTK-GAP: $\mathbf{77.43\%}\leq $ CNN-GAP: $\mathbf{83.30\%}$\par}
@@ -34,7 +36,8 @@ CNTK-GAP &70.41\% &75.93\% & 76.73\% & \textbf{77.43}\% & 77.08\%\\
 
 \subsection{Dual View For DNNs with ReLUs: Characterising the role of gates}
 
-In the dual view, the computations are broken down path-by-path. The input and the gates (in each path) are encoded in a neural path feature vector and the weights (in each path) is encoded in a neural path value vector, and the output is the inner product of these two vectors; we call this \textbf{dual linearity}.  The learning in the gates (encoded in the neural path features) and the learning in the weights (encoded in the neural path value) are then separated in a deep gated network (DGN) setup. The DGN then leads to the two main results of dual view presented in \Cref{sec:fixedgates} and \Cref{sec:gatelearning}, wherein, the neural path kernel, the Gram matrix of the neural path features will play a key role. %As with the neural path feature, the neural path kernel also depends solely on the input and the gates. 
+In the dual view, the computations are broken down path-by-path. The input and the gates (in each path) are encoded in a neural path feature vector and the weights (in each path) is encoded in a neural path value vector, and the output is the inner product of these two vectors.  %The learning in the gates (encoded in the neural path features) and the learning in the weights (encoded in the neural path value) are then separated in a deep gated network (DGN) setup. 
+The learning in the gates and the learning in the weights separated in a deep gated network (DGN) setup, which then leads to the two main results of dual view presented in \Cref{sec:fixedgates} and \Cref{sec:gatelearning}, wherein, the neural path kernel, the Gram matrix of the neural path features will play a key role. %As with the neural path feature, the neural path kernel also depends solely on the input and the gates. 
 %The main results of the dual view are: (i) learning in gates, i.e., neural path features explains the fand  (ii) learning the weights with fixed gates is characterised by the neural path kernel which is the Gram matrix of the neural path feature. Since the neural path feature is solely based on the input and gates, the neural path kernel also depends solely on the input and the gates.
 %A path is `active'  if all the gates in the path are `active' (i.e. `on'). Each path, if active, transmits the signal at its input node, which on its way to the output is scaled by a `path value' which is equal the product of the weights in the path. The `path feature' is the product of signal at the input node and the path activity. 
 
@@ -67,7 +70,7 @@ Value&:& $v_{\Theta}(p)$ is the product of the `$d$' weights in the path.\\
 Feature&:&   $\phi_{\Theta}(x,p)$ is the product of the signal at the input node of the path and $A_{\Theta}(x,p)$.\\
 \end{tabular}
 }
-Let $\Pfc=\din w^{(d-1)}$ denote the total number of paths. The \emph{neural path feature} (NPF) given by $\phi_{\Theta}(x)=\left(\phi_{\Theta}(x,p),p=1,\ldots, \Pfc\right),\in\R^{\Pfc}$ and the \emph{neural path value} (NPV) given by $v_{\Theta}=\left(v_{\Theta}(p),p=1,\ldots,\Pfc\right),\in\R^{\Pfc}$.
+The \emph{neural path feature} (NPF) given by $\phi_{\Theta}(x)=\left(\phi_{\Theta}(x,p),p=1,\ldots, \Pfc\right),\in\R^{\Pfc}$ and the \emph{neural path value} (NPV) given by $v_{\Theta}=\left(v_{\Theta}(p),p=1,\ldots,\Pfc\right),\in\R^{\Pfc}$, where $\Pfc=\din w^{(d-1)}$ is the total number of paths. 
 \end{definition}
 %Note that the neural path features are completely dictated by the gates, and i.e., if any gate in a path $p$ is not active for a given input $x\in\R^{\din}$, then $\phi(x,p)=0$.
 \begin{proposition}\label{prop:npf-npv}
@@ -136,7 +139,7 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 }
 \end{minipage}
 \end{minipage}
-\caption{\small{Shows the DGN on the left. \textbf{Training:} In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and then the feature network is frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed random gates, the feature network is initialised at random and frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed gates hard gating $G(q)=\mathbbm{1}_{\{q>0\}}$ is used. In the case of learnable gates both feature and value network are initialised at random and trained together with $\hat{y}_{DGN}$ as the output. Here, soft gating $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$ is used to allow gradient flow through feature network. On the right side is the CNN-GAP and its DGN used in \citep{npk}. In CNN-GAP, $C_i, i=1,2,3,4$ are convolutional layers, $FC_1,FC_2$ are fully connected layers. In CNN-GAP-DGN, the superscripts f, and v stand for value and feature network respectively.}}
+\caption{\small{Shows the DGN on the left. \textbf{Training:} In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and then the feature network is frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed random gates, the feature network is initialised at random and frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed gates hard gating $G(q)=\mathbbm{1}_{\{q>0\}}$ is used. In the case of learnable gates both feature and value network are initialised at random and trained together with $\hat{y}_{DGN}$ as the output. Here, soft gating $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$ is used to allow gradient flow through feature network. On the right side is the CNN-GAP and its DGN used in \citep{npk}. In CNN-GAP, $C_1,C_2,C_3,C_4$ are convolutional layers, $FC_1,FC_2$ are fully connected layers. In CNN-GAP-DGN, $G_l, l=1,2,3,4$ are the gates of layers, the superscripts f, and v stand for feature and value network respectively.}}
 \label{fig:dgn}
 \end{figure}
 
