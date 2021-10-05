@@ -1,5 +1,4 @@
-\newpage
-\appendix
+
 \section{Convolution With Global Average Pooling}\label{sec:conv}
 In this section, we define NPFs and NPV in the presence of convolution with pooling. This requires three key steps (i) treating pooling layers like gates/masks (see \Cref{def:pooling}) (ii) bundling together the paths that share the same path value
 (due to weight sharing in convolutions, see \Cref{def:bundle}),  and (iii) re-defining the NPF and NPV for bundles (see \Cref{def:convnps}). Weight sharing due to convolutions and pooling makes the NPK rotationally invariant \Cref{lm:cnnnpk}. We begin by describing the architecture.
@@ -159,16 +158,22 @@ $\bullet$ All the models in Table I of \Cref{fig:c4gap} we used Adam \citep{adam
 
 $\bullet$ In \Cref{sec:dlgn}, the codes for experiments based on VGG-16 and Resnet-110  were refactored from following repository: ``https://github.com/gahaalt/resnets-in-tensorflow2".
 
-$\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow}, the $\max$-pooling were replaced by \emph{average} pooling so as to ensure that the feature network is entirely linear. For the comparison to be fair, we replaced the $\max$ pooling in VGG-16 reported in \Cref{fig:c4gap}. Batch normalisation layers were retained in VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF (all three are shown in \Cref{fig:vggnets}).
+$\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow}, the $\max$-pooling were replaced by \emph{average} pooling so as to ensure that the feature network is entirely linear. For the comparison to be fair, we replaced the $\max$ pooling in VGG-16 reported in \Cref{fig:c4gap} by \emph{average} pooling. Batch normalisation layers were retained in VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF (all three are shown in \Cref{fig:vggnets}).
 
 
 $\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow}, the $\max$-pooling were replaced by \emph{average} pooling so as to ensure that the feature network is entirely linear. For the comparison to be fair, we replaced the $\max$ pooling in VGG-16 reported in \Cref{fig:c4gap}. Batch normalisation layers were retained in VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF.
 
-$\bullet$ All the models in Table II of \Cref{fig:c4gap} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
+$\bullet$ All the VGG-16, Resnet-100 (and their DGN/DLGN) models in Table II of \Cref{fig:c4gap} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
+
+$\bullet$ The VGG-16-DLGN-SF in Table III of \Cref{fig:shallow} uses the same optimiser, batch size and learning rate schedule as the models in Table II of \Cref{fig:c4gap} as explained in the previous point.
 
 $\bullet$ For C1GAP and C4GAP in Table III of \Cref{fig:shallow}, we used Adam \citep{adam} with learning rate of $10^{-3}$, and batch size of 32. This learning rate is best among the set $\{10^{-1},10^{-2},10^{-3}, 3\times 10^{-4}\}$ for C1GAP.
-\begin{comment}
-\begin{figure}
+\newpage
+\section{Models Used in \Cref{fig:c4gap} and \Cref{fig:shallow}}
+
+%\Cref{fig:perm1} shows the permutations $1-12$  of C4GAP-DLGN, and \Cref{fig:perm1} shows the permutations $13-24$  of C4GAP-DLGN in Table I of \Cref{fig:c4gap}. \Cref{fig:vggnets} shows VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF.
+
+\begin{figure}[!b]
 \centering
 \begin{minipage}{0.48\columnwidth}
 \centering
@@ -251,7 +256,8 @@ $\bullet$ For C1GAP and C4GAP in Table III of \Cref{fig:shallow}, we used Adam \
 }
 \end{minipage}
 
-
+\caption{Shows the permutations $1-12$ C4GAP-DLGN in Table I of \Cref{fig:c4gap}. The top left is the identity permutation and is the vanilla model.}
+\label{fig:perm1}
 \end{figure}
 
 \begin{figure}
@@ -336,10 +342,10 @@ $\bullet$ For C1GAP and C4GAP in Table III of \Cref{fig:shallow}, we used Adam \
 \input{fig-c4dlgn-24}
 }
 \end{minipage}
-
-
+\caption{Shows the permutations $13-24$ C4GAP-DLGN in Table I of \Cref{fig:c4gap}.}
+\label{fig:perm1}
 \end{figure}
-\end{comment}
+
 
 \begin{figure}
 \centering
@@ -360,5 +366,4 @@ $\bullet$ For C1GAP and C4GAP in Table III of \Cref{fig:shallow}, we used Adam \
 \end{minipage}
 \caption{Shows VGG-16 (left), VGG-16-DLGN (middle), VGG-16-DLGN-SF(right).}
 \label{fig:vggnets}
-
 \end{figure}

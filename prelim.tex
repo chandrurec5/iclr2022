@@ -139,7 +139,7 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 }
 \end{minipage}
 \end{minipage}
-\caption{\small{Shows the DGN on the left. \textbf{Training:} In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and then the feature network is frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed random gates, the feature network is initialised at random and frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed gates hard gating $G(q)=\mathbbm{1}_{\{q>0\}}$ is used. For standalone training, both feature and value network are initialised at random and trained together with $\hat{y}_{DGN}$ as the output. Here, soft gating $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$ is used to allow gradient flow through feature network. On the right side is the CNN-GAP and its DGN used in \citep{npk}. In CNN-GAP, $C_1,C_2,C_3,C_4$ are convolutional layers, $FC_1,FC_2$ are fully connected layers. In CNN-GAP-DGN, $G_l, l=1,2,3,4$ are the gates of layers, the superscripts f, and v stand for feature and value network respectively.}}
+\caption{\small{Shows the DGN on the left. \textbf{Training:} In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and then the feature network is frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed random gates, the feature network is initialised at random and frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed gates hard gating $G(q)=\mathbbm{1}_{\{q>0\}}$ is used. \textbf{Standalone Training:} both feature and value network are initialised at random and trained together with $\hat{y}_{DGN}$ as the output. Here, soft gating $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$ is used to allow gradient flow through feature network. On the right side is the CNN-GAP and its DGN used in \citep{npk}. In CNN-GAP, $C_1,C_2,C_3,C_4$ are convolutional layers, $FC_1,FC_2$ are fully connected layers. In CNN-GAP-DGN, $G_l, l=1,2,3,4$ are the gates of layers, the superscripts f, and v stand for feature and value network respectively.}}
 \label{fig:dgn}
 \end{figure}
 
@@ -174,10 +174,10 @@ The fixed gates setting is an idealised setting, in that, it does not theoretica
 
 {\centering FR Gates : $\mathbf{67.09\%}\leq $ CNTK-GAP: $\mathbf{77.43\%}\leq $ FL Gates: $\mathbf{79.68\%}\approx $ CNN-GAP: $\mathbf{80.32\%}$\par}
 
-based on which it was concluded that learning in the gates (i.e., neural path features) is crucial for finite width CNN-GAP to outperform the infinite width CNTK-GAP.% this \textbf{explains the open question} in \Cref{sec:ntk}.
+based on which it was concluded that learning in the gates (i.e., neural path features) is crucial for finite width CNN-GAP to outperform the infinite width CNTK-GAP. It was also shown that the DGN can be trained standalone and are only \emph{marginally poor} to the DNN as shown in \Cref{fig:dgn}. % this \textbf{explains the open question} in \Cref{sec:ntk}.
 %Since the fixed random (FR) gates performed poorly ($67.09\%$) than the best CNTK in \citep{arora2019exact} ($77.43\%$) and the fixed learnt (FL) gates performed better ($79.68\%$) than the best CNTK, 
 
-\textbf{Note.} Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. It was also shown that the DGN can be trained standalone if the gates allowed to learn along with the weights; standalone DGN is only \emph{marginally poor} compared to the DNN as shown in \Cref{fig:dgn}. 
+%Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. 
 %In other words, dual linearity is not a mere conceptualisation, but is analogous to a linear model in practice as well. That is, just like one can learn weight vector in a linear model given the features, one can learn the neural path value given the neural path features.
  \begin{comment}
 \begin{table}
