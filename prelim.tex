@@ -79,7 +79,7 @@ The output of the DNN is then the inner product of the NPF and NPV:
 \hat{y}_{\Theta}(x)=\ip{\phi_{\Theta}(x),v_{\Theta}}=\sum_{p\in[P]}  \phi_{\Theta}(x,p) v_{\Theta}(p)
 \end{align}
 \end{proposition}
-\textbf{Subnetwork Interpretation of DNNs with ReLUs.} A path is active only if all the gates in the path are active. This gives a subnetwork interpretation, i.e., for a given input $x\in\R^{\din}$ only a subset gates and consequently only a subset of paths are active, and the input to output computation can be seen to be produced by this subnetwork. The following matrix captures the correlation of the active subnetworks for a given pair of inputs $x,x'\in\R^{\din}$.
+\textbf{Subnetwork Interpretation of DNNs with ReLUs.} A path is active only if all the gates in the path are active. This gives a subnetwork interpretation, i.e., for a given input $x\in\R^{\din}$ only a subset of the gates and consequently only a subset of the paths are active, and the input to output computation can be seen to be produced by this active subnetwork. The following matrix captures the correlation of the active subnetworks for a given pair of inputs $x,x'\in\R^{\din}$.
 \begin{definition}[Overlap of active sub-networks]\label{def:overlap} 
 The total number of `active' paths for both $x$ and $x'$ that pass through input node $i$ is defined to be:
 
@@ -139,7 +139,7 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 }
 \end{minipage}
 \end{minipage}
-\caption{\small{Shows the DGN on the left. \textbf{Training:} In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and then the feature network is frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed random gates, the feature network is initialised at random and frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed gates hard gating $G(q)=\mathbbm{1}_{\{q>0\}}$ is used. In the case of learnable gates both feature and value network are initialised at random and trained together with $\hat{y}_{DGN}$ as the output. Here, soft gating $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$ is used to allow gradient flow through feature network. On the right side is the CNN-GAP and its DGN used in \citep{npk}. In CNN-GAP, $C_1,C_2,C_3,C_4$ are convolutional layers, $FC_1,FC_2$ are fully connected layers. In CNN-GAP-DGN, $G_l, l=1,2,3,4$ are the gates of layers, the superscripts f, and v stand for feature and value network respectively.}}
+\caption{\small{Shows the DGN on the left. \textbf{Training:} In the case of fixed learnt gates, the feature network is pre-trained using $\hat{y}_f$ as the output, and then the feature network is frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed random gates, the feature network is initialised at random and frozen, and the value network is trained with $\hat{y}_{DGN}$ as the output. In the case of fixed gates hard gating $G(q)=\mathbbm{1}_{\{q>0\}}$ is used. For standalone training, both feature and value network are initialised at random and trained together with $\hat{y}_{DGN}$ as the output. Here, soft gating $G(q)=\frac{1}{1+\exp(-\beta\cdot q)}$ is used to allow gradient flow through feature network. On the right side is the CNN-GAP and its DGN used in \citep{npk}. In CNN-GAP, $C_1,C_2,C_3,C_4$ are convolutional layers, $FC_1,FC_2$ are fully connected layers. In CNN-GAP-DGN, $G_l, l=1,2,3,4$ are the gates of layers, the superscripts f, and v stand for feature and value network respectively.}}
 \label{fig:dgn}
 \end{figure}
 
@@ -147,7 +147,7 @@ Let $D\in\R^{\din}$ be a vector of non-negative entries  and for $u,u'\in\R^{\di
 %\subsubsection{Deep Gated Network: Separating Gates and Weights}
 \textbf{Deep Gated Network (DGN)} is a setup to separate the gates from the weights. Consider a DNN with ReLUs with weights $\Theta\in\R^{\dnet}$. The DGN \emph{corresponding} to this DNN (left diagram in \Cref{fig:dgn}) has two networks of \emph{identical architecture} (to the DNN) namely the `gating network' and the `weight network' with distinct weights $\Tf\in\R^{\dnet}$ and $\Tv\in\R^{\dnet}$.  
 %The main difference between the feature and value networks is in the activations. 
-The `gating network' has ReLUs which turn `on/off' based on their pre-activation signals, and the `weight network' has gated linear units (GaLUs) \citep{sss,npk}, which multiply their respective pre-activation inputs by the external gating signals provided by the `gating network'.  Since both the networks have identical architecture, the ReLUs and GaLUs in the respective networks have a one-to-one correspondence.  Gating network realises $\phi_{\Tf}(x)$ by turning `on/off' the corresponding GaLUs in the weight network. The weight network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.  The gating network is also called the feature network since it realises the neural path features, and the weight network is also called as the value network since it realises the neural path value. %Training of DGN is explained in \Cref{sec:gatelearning}.
+The `gating network' has ReLUs which turn `on/off' based on their pre-activation signals, and the `weight network' has gated linear units (GaLUs) \citep{sss,npk}, which multiply their respective pre-activation inputs by the external gating signals provided by the `gating network'.  Since both the networks have identical architecture, the ReLUs and GaLUs in the respective networks have a one-to-one correspondence.  Gating network realises $\phi_{\Tf}(x)$ by turning `on/off' the corresponding GaLUs in the weight network. The weight network realises $v_{\Tv}$ and computes the output $\hat{y}_{\text{DGN}}(x)=\ip{\phi_{\Tf}(x),v_{\Tv}}$.  The gating network is also called as the feature network since it realises the neural path features, and the weight network is also called as the value network since it realises the neural path value. %Training of DGN is explained in \Cref{sec:gatelearning}.
 
 %In the DGN, the external gating signal to the GaLU is derived from the pre-activation input of the corresponding ReLU. 
 
@@ -162,9 +162,9 @@ $\Tv_0\stackrel{\text{i.i.d}}\sim\text{Bernoulli}(\frac12)$ over $\{-{\sigma},+{
 %We point out that this statistical decoupling of weights and gates in \Cref{assmp:main} is unrealisable in a DNN with ReLU, however, this assumption can be trivially realised in a DGN. %Further, we are interested only in the `what?' ( and not `how?') question related to the gates in which case this assumptions is not a restriction.
 
 \begin{theorem}[Theorem 5.1 in \citep{npk}]
-\label{th:fcprev} Under \Cref{assmp:main} for FC-DGN : 
+\label{th:fcprev} Under \Cref{assmp:main} for a fully connected DGN : 
 \begin{align*}
-\text{NTK}(x,x') \stackrel{(a)}\rightarrow &d \cdot \sigma^{2(d-1)} \cdot \text{NPK}(x,x'), \quad\text{as}\,\, w\rightarrow \infty \\
+\text{NTK}(x,x')\,\, \stackrel{(a)}\rightarrow\,\, &d \cdot \sigma^{2(d-1)} \cdot \text{NPK}(x,x'), \quad\text{as}\,\, w\rightarrow \infty \\
 					     & = d \cdot \sigma^{2(d-1)}\cdot\ip{x,x'}\cdot \textbf{overlap}(x,x')
 \end{align*}
 \end{theorem} 
@@ -177,7 +177,7 @@ The fixed gates setting is an idealised setting, in that, it does not theoretica
 based on which it was concluded that learning in the gates (i.e., neural path features) is crucial for finite width CNN-GAP to outperform the infinite width CNTK-GAP.% this \textbf{explains the open question} in \Cref{sec:ntk}.
 %Since the fixed random (FR) gates performed poorly ($67.09\%$) than the best CNTK in \citep{arora2019exact} ($77.43\%$) and the fixed learnt (FL) gates performed better ($79.68\%$) than the best CNTK, 
 
-\textbf{Key Results.} Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. It was also shown that if the gates are not fixed but allowed to learn along with the weights the performance is \emph{marginally poor} compared to the DNN. This is shown as the \textbf{learnable gates} in \Cref{fig:dgn}. 
+\textbf{Note.} Since the fixed learnt gates ($79.68\%$) recover almost all the performance of the DNN ($80.32\%$), it follows that most crucial learning happens in the gates. It was also shown that the DGN can be trained standalone if the gates allowed to learn along with the weights; standalone DGN is only \emph{marginally poor} compared to the DNN as shown in \Cref{fig:dgn}. 
 %In other words, dual linearity is not a mere conceptualisation, but is analogous to a linear model in practice as well. That is, just like one can learn weight vector in a linear model given the features, one can learn the neural path value given the neural path features.
  \begin{comment}
 \begin{table}
