@@ -1,14 +1,14 @@
 \begin{tikzpicture}
 
-\node []  (fntext)at (5,1) {\tiny{Deep Gated Network}};
+\node []  (fntext)at (5,1+0.25) {\tiny{Deep Gated Network}};
 %Feature Network
 \node [draw,
 	minimum width=2cm,
 	minimum height=0.625cm,
-]  (fnbox)at (5,0.375) {};
-\node []  (fntext)at (5,0.5) {\tiny{Gating Network}};
+]  (fnbox)at (5,0.375+0.25) {};
+\node []  (fntext)at (5,0.5+0.25) {\tiny{Gating Network}};
 
-\node []  (fntext)at (5,0.25) {\tiny{DNN with ReLUs}};
+\node []  (fntext)at (5,0.25+0.25) {\tiny{DNN with ReLUs}};
 
 
 %Feature Network Input
@@ -42,7 +42,7 @@
 
 \draw[-stealth]  (fnbox.south)--(vnbox.north);
 
-\node []  (gates)at (5.25,-0.25) {\tiny{Gates}};
+\node []  (gates)at (5.75,-0.125) {\tiny{Gating Signal}};
 
 
 \end{tikzpicture}

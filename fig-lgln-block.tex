@@ -1,14 +1,14 @@
 \begin{tikzpicture}
 
-\node []  (fntext)at (5,1) {\tiny{Deep Linearly Gated Network}};
+\node []  (fntext)at (5,1+0.25) {\tiny{Deep Linearly Gated Network}};
 %Feature Network
 \node [draw,
 	minimum width=2cm,
 	minimum height=0.625cm,
-]  (fnbox)at (5,0.375) {};
-\node []  (fntext)at (5,0.5) {\tiny{Gating Network}};
+]  (fnbox)at (5,0.375+0.25) {};
+\node []  (fntext)at (5,0.5+0.25) {\tiny{Gating Network}};
 
-\node []  (fntext)at (5,0.25) {\tiny{\bf\color{red}{Deep Linear Network}}};
+\node []  (fntext)at (5,0.25+0.25) {\tiny{\bf\color{red}{Deep Linear Network}}};
 
 
 %Feature Network Input
@@ -40,9 +40,19 @@
 
 
 
-\draw[-stealth]  (fnbox.south)--(vnbox.north);
+\node []  (preacr)at (5.75,0.125) {\tiny{Pre-activations}};
 
-\node []  (gates)at (5.25,-0.25) {\tiny{Gates}};
+\node []  (gating)at (5.75,-0.375) {\tiny{Gating Signal}};
+
+\node []  (gates)at (5.0,-0.125) {\color{red}\tiny{Gates}};
+
+\node [draw,
+	minimum width=1cm,
+	minimum height=0.1cm,
+]  (gbox)at (5,-0.125) {};
+
+\draw[-stealth]  (gbox.south)--(vnbox.north);
+\draw[-stealth]  (fnbox.south)--(gbox.north);
 
 
 \end{tikzpicture}
