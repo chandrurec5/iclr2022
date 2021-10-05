@@ -163,7 +163,9 @@ $\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow},
 
 $\bullet$ For VGG-16-DLGN in \Cref{fig:c4gap} and DLGN-SF in \Cref{fig:shallow}, the $\max$-pooling were replaced by \emph{average} pooling so as to ensure that the feature network is entirely linear. For the comparison to be fair, we replaced the $\max$ pooling in VGG-16 reported in \Cref{fig:c4gap}. Batch normalisation layers were retained in VGG-16, VGG-16-DLGN and VGG-16-DLGN-SF.
 
-$\bullet$ All the VGG-16, Resnet-100 (and their DGN/DLGN) models in Table II of \Cref{fig:c4gap} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
+$\bullet$ DLGN of Resnet-110 was derived from Resnet-110 in a similar manner.
+
+$\bullet$ All the VGG-16, Resnet-110 (and their DGN/DLGN) models in Table II of \Cref{fig:c4gap} we used \emph{SGD} optimiser with momentum $0.9$ and the following learning rate schedule (as suggested in ``https://github.com/gahaalt/resnets-in-tensorflow2") : for iterations $[0, 400)$ learning rate was $0.01$,  for iterations $[400, 32000)$ the learning rate was $ 0.1$, for iterations $[32000, 48000)$ the learning rate was $0.01$, for iterations $[48000, 64000)$ the learning rate was $0.001$. The batch size was $128$. The models were trained till $32$ epochs.
 
 $\bullet$ The VGG-16-DLGN-SF in Table III of \Cref{fig:shallow} uses the same optimiser, batch size and learning rate schedule as the models in Table II of \Cref{fig:c4gap} as explained in the previous point.
 
